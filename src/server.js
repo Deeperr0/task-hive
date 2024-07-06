@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path"; // Import path module
 import admin from "firebase-admin";
 import cors from "cors";
 import { writeFileSync } from "fs";
@@ -58,6 +59,14 @@ app.post("/register", async (req, res) => {
   } else {
     res.status(400).send("Invalid or expired token");
   }
+});
+
+// Serve static files from the React app build directory
+app.use(express.static(path.join(__dirname, "..", "build")));
+
+// Handle all other routes by serving the React index.html file
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
 
 const PORT = process.env.PORT || 5000;
