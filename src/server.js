@@ -2,7 +2,6 @@ import express from "express";
 import path from "path";
 import admin from "firebase-admin";
 import cors from "cors";
-import { readFile } from "fs/promises";
 import { initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import crypto from "crypto";
@@ -13,13 +12,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const serviceAccountBase64 = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
 const serviceAccount = JSON.parse(
-  await readFile(
-    new URL(
-      "./taskhive-6599c-firebase-adminsdk-h16fi-f13859d1c4.json",
-      import.meta.url
-    )
-  )
+  Buffer.from(serviceAccountBase64, "base64").toString("utf8")
 );
 
 admin.initializeApp({
@@ -31,14 +26,14 @@ const registrationTokens = {}; // In-memory store for registration tokens
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "[REDACTED]";, // Your email
-    pass: "[REDACTED]", // Your email password or an app-specific password
+    user: process.env.EMAIL, // Your email
+    pass: process.env.EMAIL_PASSWORD, // Your email password or an app-specific password
   },
 });
 
 const sendEmail = (to, subject, text) => {
   const mailOptions = {
-    from: "[REDACTED]";,
+    from: process.env.EMAIL,
     to,
     subject,
     text,
@@ -62,7 +57,7 @@ const scheduleNotification = (task, interval) => {
       taskDocRef.get().then((doc) => {
         if (doc.exists && doc.data().status !== "Done") {
           sendEmail(
-            "[REDACTED]";,
+            process.env.EMAIL,
             `Task ${task.content} Status Update Required`,
             `The task "${task.content}" with priority "${task.priority}" needs an update.`
           );
