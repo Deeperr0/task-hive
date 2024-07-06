@@ -1,27 +1,25 @@
 import express from "express";
-import path from "path";
 import admin from "firebase-admin";
 import cors from "cors";
-import { initializeApp } from "firebase-admin/app";
-import { getAuth } from "firebase-admin/auth";
+import { writeFileSync } from "fs";
+import { readFile } from "fs/promises";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
-import cron from "node-cron";
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Decode base64 string and write to a JSON file
 const serviceAccountBase64 = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
-
-if (!serviceAccountBase64) {
-  throw new Error(
-    "GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is missing"
+if (serviceAccountBase64) {
+  const serviceAccount = Buffer.from(serviceAccountBase64, "base64").toString(
+    "utf-8"
   );
+  writeFileSync("/app/serviceAccountKey.json", serviceAccount);
 }
 
 const serviceAccount = JSON.parse(
-  Buffer.from(serviceAccountBase64, "base64").toString("utf8")
+  await readFile(new URL("file:///app/serviceAccountKey.json", import.meta.url))
 );
 
 admin.initializeApp({
@@ -29,54 +27,6 @@ admin.initializeApp({
 });
 
 const registrationTokens = {}; // In-memory store for registration tokens
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL, // Your email
-    pass: process.env.EMAIL_PASSWORD, // Your email password or an app-specific password
-  },
-});
-
-const sendEmail = (to, subject, text) => {
-  const mailOptions = {
-    from: process.env.EMAIL,
-    to,
-    subject,
-    text,
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log("Error sending email:", error);
-    } else {
-      console.log("Email sent:", info.response);
-    }
-  });
-};
-
-const scheduleNotification = (task, interval) => {
-  cron.schedule(
-    interval,
-    () => {
-      // Check if the task status has been updated
-      const taskDocRef = admin.firestore().doc(`tasks/${task.id}`);
-      taskDocRef.get().then((doc) => {
-        if (doc.exists && doc.data().status !== "Done") {
-          sendEmail(
-            process.env.EMAIL,
-            `Task ${task.content} Status Update Required`,
-            `The task "${task.content}" with priority "${task.priority}" needs an update.`
-          );
-        }
-      });
-    },
-    {
-      scheduled: true,
-      timezone: "Your/Timezone",
-    }
-  );
-};
 
 app.get("/users", async (req, res) => {
   try {
@@ -111,16 +61,6 @@ app.post("/register", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "build")));
-
-// The "catchall" handler: for any request that doesn't
-// match one above, send back index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
