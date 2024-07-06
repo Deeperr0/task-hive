@@ -1,10 +1,14 @@
 import express from "express";
-import path from "path"; // Import path module
+import path from "path";
+import { fileURLToPath } from "url";
 import admin from "firebase-admin";
 import cors from "cors";
 import { writeFileSync } from "fs";
 import { readFile } from "fs/promises";
 import crypto from "crypto";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
