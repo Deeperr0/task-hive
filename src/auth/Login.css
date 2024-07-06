@@ -10,6 +10,7 @@
   width: 30%;
   margin: 15vh auto;
   height: 50%;
+  max-height: 300px;
 }
 
 .login-container h2 {
@@ -40,4 +41,26 @@
 
 .login-container button:hover {
   background-color: #45a049;
+}
+
+@media screen and (max-width: 768px) {
+  .login-container {
+    width: 80%;
+  }
+
+  .login-container h2 {
+    font-size: 20px;
+  }
+
+  .login-container button {
+    font-size: 14px;
+  }
+
+  .login-container input {
+    font-size: 14px;
+  }
+
+  .login-title {
+    font-size: 18px;
+  }
 }
