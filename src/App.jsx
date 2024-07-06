@@ -8,6 +8,7 @@ import Home from "./home/Home";
 import Navbar from "./home/Navbar";
 import Register from "./auth/Register";
 
+import "./App.css";
 function App() {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);

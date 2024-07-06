@@ -30,7 +30,7 @@ export default function Navbar({ loggedIn, username }) {
                 <h1 className="user-letter">{username}</h1>
               </>
             ) : (
-              <FontAwesomeIcon icon={faUser} />
+              <></>
             )}
           </div>
         </div>
