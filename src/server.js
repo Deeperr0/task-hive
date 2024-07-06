@@ -13,6 +13,13 @@ app.use(cors());
 app.use(express.json());
 
 const serviceAccountBase64 = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
+
+if (!serviceAccountBase64) {
+  throw new Error(
+    "GOOGLE_APPLICATION_CREDENTIALS_BASE64 environment variable is missing"
+  );
+}
+
 const serviceAccount = JSON.parse(
   Buffer.from(serviceAccountBase64, "base64").toString("utf8")
 );
