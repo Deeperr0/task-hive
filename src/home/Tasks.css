@@ -1,0 +1,23 @@
+.tasks--type {
+  color: #0086c0;
+  font-weight: 600;
+  padding: 16px;
+}
+.done {
+  color: #33d391;
+}
+.task--header {
+  padding-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: rgba(48, 50, 78, 0.97);
+  border-radius: 8px 8px 0 0;
+}
+.tasks--list {
+  padding-bottom: 16px;
+  background-color: rgba(48, 50, 78, 0.97);
+  border-radius: 0 0 8px 8px;
+}
+.tasks--container {
+  border-radius: 8px;
+}
