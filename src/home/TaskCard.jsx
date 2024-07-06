@@ -97,16 +97,17 @@ export default function TaskCard(props) {
       : "";
 
   return (
-    <div className={`task--card `}>
+    <div className={`task--card`}>
       {props.role === "admin" ? (
         <input
           type="text"
           value={localContent}
           onChange={handleContentChange}
           placeholder="Task Content"
+          className="task--content"
         />
       ) : (
-        <p className="task--text">{localContent}</p>
+        <p className="task--text task--content">{localContent}</p>
       )}
       <p className="task--owner">
         {props.role === "admin" ? (
@@ -181,7 +182,6 @@ export default function TaskCard(props) {
           props.role !== "admin" && props.ownerUid !== props.currentUserUid
         }
       />
-
       <div className="buttons">
         <button onClick={handleUpdate} className="task--update">
           <FontAwesomeIcon icon={faCheck} />
