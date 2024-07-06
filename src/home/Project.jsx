@@ -47,7 +47,9 @@ export default function Project({ user, role }) {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/users"); // Adjust the URL if needed
+        const response = await fetch(
+          "https://task-hive-992e60cb78f3.herokuapp.com/users"
+        ); // Adjust the URL if needed
         const usersList = await response.json();
         console.log("Fetched users:", usersList); // Debugging: Log fetched users
         setUsers(usersList);

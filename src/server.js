@@ -40,6 +40,7 @@ app.get("/users", async (req, res) => {
       uid: userRecord.uid,
       email: userRecord.email,
     }));
+    console.log("Fetched users:", users); // Log fetched users
     res.status(200).send(users);
   } catch (error) {
     console.log("Error listing users:", error);
