@@ -13,7 +13,6 @@ import admin from "firebase-admin"; // Add this line to import firebase-admin
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import dotenv from "dotenv";
-import path from "path"; // Import path module
 
 dotenv.config();
 
@@ -124,10 +123,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, "dist")));
+app.use(express.static(path.join(__dirname, "../dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
 app.listen(port, () => {
