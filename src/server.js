@@ -13,7 +13,7 @@ import admin from "firebase-admin"; // Add this line to import firebase-admin
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import dotenv from "dotenv";
-import path from "path";
+import path from "path"; // Make sure to import path
 
 dotenv.config();
 
@@ -126,22 +126,26 @@ const __dirname = dirname(__filename);
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "../dist")));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/index.html"));
-});
-
 app.get("/users", async (req, res) => {
   try {
-    const listUsersResult = await admin.auth().listUsers();
-    const users = listUsersResult.users.map((userRecord) => ({
-      uid: userRecord.uid,
-      email: userRecord.email,
-    }));
-    res.status(200).send(users);
+    const usersList = [];
+    const listUsersResult = await admin.auth().listUsers(1000);
+    listUsersResult.users.forEach((userRecord) => {
+      usersList.push({
+        uid: userRecord.uid,
+        email: userRecord.email,
+        displayName: userRecord.displayName,
+      });
+    });
+    res.json(usersList);
   } catch (error) {
-    console.log("Error listing users:", error);
-    res.status(500).send("Error listing users");
+    console.error("Error listing users:", error);
+    res.status(500).json({ error: "Failed to list users" });
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
 app.listen(port, () => {
