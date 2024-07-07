@@ -130,6 +130,20 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
+app.get("/users", async (req, res) => {
+  try {
+    const listUsersResult = await admin.auth().listUsers();
+    const users = listUsersResult.users.map((userRecord) => ({
+      uid: userRecord.uid,
+      email: userRecord.email,
+    }));
+    res.status(200).send(users);
+  } catch (error) {
+    console.log("Error listing users:", error);
+    res.status(500).send("Error listing users");
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
