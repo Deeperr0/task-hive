@@ -65,11 +65,13 @@ export default function TaskCard(props) {
   }
 
   function handleUpdate() {
+    const now = new Date().toISOString();
     props.updateContent(props.id, localContent);
     props.updateDeadline(props.id, localDeadline);
     props.updatePriority(props.id, localPriority);
     props.updateOwner(props.id, localOwner);
     props.updateNotes(props.id, localNotes);
+    props.updateLastUpdated(props.id, now);
   }
 
   // Determine priority class
