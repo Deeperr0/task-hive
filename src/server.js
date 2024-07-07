@@ -32,11 +32,17 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
+// Decode the base64-encoded Firebase service account key
+const serviceAccount = JSON.parse(
+  Buffer.from(
+    process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64,
+    "base64"
+  ).toString("utf-8")
+);
+
 // Initialize Firebase Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert(
-    JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64)
-  ),
+  credential: admin.credential.cert(serviceAccount),
 });
 
 // Configure Nodemailer
