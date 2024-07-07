@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import dotenv from "dotenv";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
