@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import "./Register.css";
 
 export default function Register({ setUser }) {
   const [email, setEmail] = useState("");
@@ -33,14 +34,15 @@ export default function Register({ setUser }) {
   };
 
   return (
-    <form onSubmit={handleRegister}>
-      <h2>Register</h2>
+    <form onSubmit={handleRegister} className="register-container">
+      <h2 className="register-title">Register</h2>
       <input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
         required
+        autoFocus
       />
       <input
         type="password"
@@ -48,8 +50,12 @@ export default function Register({ setUser }) {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Password"
         required
+        minLength={6}
+        maxLength={20}
       />
-      <button type="submit">Register</button>
+      <button type="submit" className="register-button">
+        Register
+      </button>
     </form>
   );
 }
