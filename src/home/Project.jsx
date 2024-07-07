@@ -48,7 +48,7 @@ export default function Project({ user, role }) {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          "https://74e0-46-186-203-187.ngrok-free.app/users"
+          "https://6960-46-186-203-187.ngrok-free.app/users"
         ); // Adjust the URL if needed
         const usersList = await response.json();
         console.log("Fetched users:", usersList); // Debugging: Log fetched users
