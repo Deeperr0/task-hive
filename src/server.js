@@ -9,9 +9,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
-import dotenv from "dotenv";
-import path from "path";
+import admin from "firebase-admin"; // Add this line to import firebase-admin
 import { fileURLToPath } from "url";
+import { dirname } from "path";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -30,6 +31,13 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+
+// Initialize Firebase Admin SDK
+admin.initializeApp({
+  credential: admin.credential.cert(
+    JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64)
+  ),
+});
 
 // Configure Nodemailer
 const transporter = nodemailer.createTransport({
@@ -105,29 +113,14 @@ cron.schedule("0 * * * *", () => {
   checkTaskUpdates();
 });
 
-app.get("/users", async (req, res) => {
-  try {
-    const listUsersResult = await admin.auth().listUsers();
-    const users = listUsersResult.users.map((userRecord) => ({
-      uid: userRecord.uid,
-      email: userRecord.email,
-    }));
-    res.status(200).send(users);
-  } catch (error) {
-    console.log("Error listing users:", error);
-    res.status(500).send("Error listing users");
-  }
-});
-
-// Serve static files from the React app build directory
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const buildPath = path.join(__dirname, "..", "dist");
-app.use(express.static(buildPath));
+const __dirname = dirname(__filename);
 
-// Catch-all handler to serve the React app for any route
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "build")));
+
 app.get("*", (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html"));
+  res.sendFile(path.join(__dirname + "/build/index.html"));
 });
 
 app.listen(port, () => {
