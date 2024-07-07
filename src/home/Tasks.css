@@ -3,91 +3,50 @@
   font-weight: 600;
   padding: 16px;
 }
-
 .done {
   color: #33d391;
 }
-
-.tasks--container {
-  overflow-x: auto;
-  padding-bottom: 16px;
-}
-
-.tasks--table {
-  display: table;
-  width: 100%;
-  border-collapse: separate;
-}
-
 .task--header {
-  display: table-header-group;
+  padding-top: 16px;
+  padding-left: 16px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(150px, 1fr));
+  background-color: rgba(48, 50, 78, 0.97);
+  border-radius: 8px 8px 0 0;
+  overflow: visible;
+}
+.task--header > * {
+  padding: 8px;
   background-color: rgba(48, 50, 78, 0.97);
 }
-
-.task--header div {
-  display: table-cell;
-  padding: 8px;
-  color: white;
-  font-weight: bold;
-  position: sticky;
-  top: 0;
-}
-
-.tasks--list {
-  display: table-row-group;
-}
-
-.task--row {
-  display: table-row;
-}
-
-.task--card {
-  display: table-row;
-}
-
-.task--card > * {
-  display: table-cell;
-  background-color: rgba(48, 50, 78, 0.97);
-  color: #d5d8df;
-  padding: 8px;
-  border: 1px solid #d5d8df;
-}
-
-.task--card .task--text,
-.task--card input[type="text"] {
+.task--header > :first-child {
   position: sticky;
   left: 0;
+  z-index: 1;
+  width: auto;
+}
+.tasks--list {
+  padding-bottom: 16px;
   background-color: rgba(48, 50, 78, 0.97);
-  z-index: 2;
+  width: auto;
+  border-radius: 0 0 8px 8px;
+}
+.tasks--container {
+  border-radius: 8px;
 }
 
-.select-status,
-.select-priority {
-  width: 100%;
-}
-
-.option-status-done {
-  background-color: #d4edda;
-}
-.option-status-working {
-  background-color: #fff3cd;
-}
-.option-status-stuck {
-  background-color: #f8d7da;
-}
-.option-status-not-started {
-  background-color: #d1ecf1;
-}
-
-.option-priority-low {
-  background-color: #e0ffe0;
-}
-.option-priority-medium {
-  background-color: #fffbe0;
-}
-.option-priority-high {
-  background-color: #ffe0e0;
-}
-.option-priority-critical {
-  background-color: #ffb3b3;
+@media screen and (max-width: 768px) {
+  .tasks--table {
+    width: 100vw;
+    min-width: 1050px; /* Set a min-width to ensure it fits the whole content */
+  }
+  .tasks--container {
+    overflow-x: scroll;
+  }
+  .task--header > :first-child:sticky {
+    background-color: rgba(48, 50, 78, 0.97);
+  }
+  .task--card > :first-child:sticky {
+    background-color: rgba(48, 50, 78, 0.97);
+  }
 }

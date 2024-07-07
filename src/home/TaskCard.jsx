@@ -3,7 +3,6 @@ import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave, faCheck } from "@fortawesome/free-solid-svg-icons";
 
-// Debounce function to delay execution
 function debounce(func, wait) {
   let timeout;
   return function (...args) {
@@ -72,7 +71,6 @@ export default function TaskCard(props) {
     props.updateNotes(props.id, localNotes);
   }
 
-  // Determine priority class
   const priorityClass =
     localPriority === "Low"
       ? "task--priority-low"
@@ -84,7 +82,6 @@ export default function TaskCard(props) {
       ? "task--priority-critical"
       : "";
 
-  // Determine status class
   const statusClass =
     props.status === "Done"
       ? "task--status-done"
@@ -97,19 +94,19 @@ export default function TaskCard(props) {
       : "";
 
   return (
-    <div className={`task--card`}>
+    <div className="task--card task--row">
       {props.role === "admin" ? (
         <input
           type="text"
           value={localContent}
           onChange={handleContentChange}
           placeholder="Task Content"
-          className="task--content"
+          className="sticky task-column"
         />
       ) : (
-        <p className="task--text task--content">{localContent}</p>
+        <p className="task--text sticky task-column">{localContent}</p>
       )}
-      <p className="task--owner">
+      <p className="task--owner owner-column">
         {props.role === "admin" ? (
           <select value={localOwner} onChange={handleOwnerChange}>
             {props.users.map((user) => (
@@ -128,7 +125,7 @@ export default function TaskCard(props) {
         disabled={
           props.role !== "admin" && props.ownerUid !== props.currentUserUid
         }
-        className={`select-status ${statusClass}`}
+        className={`select-status ${statusClass} status-column`}
       >
         <option value="Done" className="option-status-done">
           Done
@@ -148,15 +145,16 @@ export default function TaskCard(props) {
           type="date"
           value={localDeadline}
           onChange={handleDeadlineChange}
+          className="deadline-column"
         />
       ) : (
-        <p>{localDeadline}</p>
+        <p className="deadline-column">{localDeadline}</p>
       )}
       {props.role === "admin" ? (
         <select
           value={localPriority}
           onChange={handlePriorityChange}
-          className={`select-priority ${priorityClass}`}
+          className={`select-priority ${priorityClass} priority-column`}
         >
           <option value="Low" className="option-priority-low">
             Low
@@ -172,7 +170,7 @@ export default function TaskCard(props) {
           </option>
         </select>
       ) : (
-        <p>{localPriority}</p>
+        <p className="priority-column">{localPriority}</p>
       )}
       <textarea
         value={localNotes}
@@ -181,8 +179,9 @@ export default function TaskCard(props) {
         disabled={
           props.role !== "admin" && props.ownerUid !== props.currentUserUid
         }
+        className="notes-column"
       />
-      <div className="buttons">
+      <div className="buttons buttons-column">
         <button onClick={handleUpdate} className="task--update">
           <FontAwesomeIcon icon={faCheck} />
         </button>

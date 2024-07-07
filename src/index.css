@@ -8,4 +8,9 @@ body {
   background-color: #181b34;
   color: white;
   height: 100vh;
+  overflow: hidden;
+  overflow-x: hidden;
+}
+html {
+  overflow-x: hidden;
 }

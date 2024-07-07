@@ -1,50 +1,123 @@
+/* TaskCard.css */
 .task--card {
-  display: table-row;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(150px, 1fr));
+  padding: 16px;
+  padding-bottom: 0;
+  padding-top: 0;
+  overflow: visible;
 }
 
 .task--card > * {
-  display: table-cell;
   background-color: rgba(48, 50, 78, 0.97);
   color: #d5d8df;
   padding: 8px;
   border: 1px solid #d5d8df;
 }
 
-.task--card .task--text,
-.task--card input[type="text"] {
+.sticky {
   position: sticky;
-  left: 0;
-  background-color: rgba(48, 50, 78, 0.97);
-  z-index: 2;
+  left: 0; /* Sticky position */
+  z-index: 1;
 }
-
-.select-status,
-.select-priority {
+.task--card select {
+  height: 100%;
   width: 100%;
 }
 
-.option-status-done {
-  background-color: #d4edda;
-}
-.option-status-working {
-  background-color: #fff3cd;
-}
-.option-status-stuck {
-  background-color: #f8d7da;
-}
-.option-status-not-started {
-  background-color: #d1ecf1;
+.task--owner {
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
-.option-priority-low {
-  background-color: #e0ffe0;
+.task--card option {
+  height: 100%;
 }
-.option-priority-medium {
-  background-color: #fffbe0;
+
+.buttons button {
+  background-color: red;
+  border: 0;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+  height: 40px;
+  color: white;
+  padding: 8px;
+  transition: background-color 0.3s ease-in-out;
+  margin: auto;
+  border: 0 !important;
 }
-.option-priority-high {
-  background-color: #ffe0e0;
+
+.task--delete:hover {
+  background-color: #b30000;
 }
-.option-priority-critical {
-  background-color: #ffb3b3;
+
+/* Priority Colors */
+.task--priority-low {
+  border-left: 5px solid green;
+}
+
+.task--priority-medium {
+  border-left: 5px solid yellow;
+}
+
+.task--priority-high {
+  border-left: 5px solid orange;
+}
+
+.task--priority-critical {
+  border-left: 5px solid red;
+}
+
+/* Status Colors for Options */
+.option-status-done,
+.task--status-done,
+.option-priority-low,
+.task--priority-low {
+  background-color: #33d391 !important;
+}
+
+.option-status-working,
+.task--status-working,
+.option-priority-medium,
+.task--priority-medium {
+  background-color: #fdbc64 !important;
+}
+
+.option-status-stuck,
+.task--status-stuck,
+.option-priority-high,
+.task--priority-high {
+  background-color: #e0394e !important;
+}
+
+.option-status-not-started,
+.task--status-not-started,
+.option-priority-critical,
+.task--priority-critical {
+  background-color: #563e3e !important;
+}
+
+/* Custom dropdown styling */
+.select-priority,
+.select-status {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d5d8df;
+  background-color: transparent;
+  color: #d5d8df;
+}
+
+.select-priority option,
+.select-status option {
+  color: #000; /* default color */
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border: 0;
+}
+.task--update {
+  background-color: #00c875 !important;
 }

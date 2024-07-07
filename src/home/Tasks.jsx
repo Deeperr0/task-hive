@@ -1,7 +1,23 @@
+import React, { useEffect } from "react";
 import Task from "./TaskCard";
 import "./Tasks.css";
 
 export default function Tasks(props) {
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector(".task--header");
+      if (header) {
+        const sticky = header.getBoundingClientRect().top <= 0;
+        header.classList.toggle("is-sticky", sticky);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div>
       <h3
@@ -12,12 +28,13 @@ export default function Tasks(props) {
       <div className="tasks--container">
         <div className="tasks--table">
           <div className="task--header">
-            <div>Task</div>
-            <div>Owner</div>
-            <div>Status</div>
-            <div>Deadline</div>
-            <div>Priority</div>
-            <div>Notes</div>
+            <div className="task-column">Task</div>
+            <div className="owner-column">Owner</div>
+            <div className="status-column">Status</div>
+            <div className="deadline-column">Deadline</div>
+            <div className="priority-column">Priority</div>
+            <div className="notes-column">Notes</div>
+            <div className="buttons-column"></div>
           </div>
           <div className="tasks--list">
             {props.tasksList.map((task) => (
@@ -26,7 +43,7 @@ export default function Tasks(props) {
                 id={task.id}
                 content={task.content}
                 owner={task.owner}
-                ownerUid={task.ownerUid} // Pass ownerUid to Task component
+                ownerUid={task.ownerUid}
                 status={task.status}
                 deadline={task.deadline}
                 priority={task.priority}
@@ -39,8 +56,8 @@ export default function Tasks(props) {
                 updateNotes={props.updateNotes}
                 deleteTask={props.deleteTask}
                 role={props.role}
-                users={props.users} // Pass users list to Task component
-                currentUserUid={props.currentUserUid} // Pass currentUserUid to Task component
+                users={props.users}
+                currentUserUid={props.currentUserUid}
               />
             ))}
           </div>
