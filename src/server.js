@@ -105,6 +105,20 @@ cron.schedule("0 * * * *", () => {
   checkTaskUpdates();
 });
 
+app.get("/users", async (req, res) => {
+  try {
+    const listUsersResult = await admin.auth().listUsers();
+    const users = listUsersResult.users.map((userRecord) => ({
+      uid: userRecord.uid,
+      email: userRecord.email,
+    }));
+    res.status(200).send(users);
+  } catch (error) {
+    console.log("Error listing users:", error);
+    res.status(500).send("Error listing users");
+  }
+});
+
 // Serve static files from the React app build directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

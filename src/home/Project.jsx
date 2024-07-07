@@ -47,7 +47,7 @@ export default function Project({ user, role }) {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/users"); // Adjust the URL if needed
+        const response = await fetch("/users"); // Adjust the URL if needed
         const usersList = await response.json();
         console.log("Fetched users:", usersList); // Debugging: Log fetched users
         setUsers(usersList);
