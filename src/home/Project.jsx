@@ -47,9 +47,7 @@ export default function Project({ user, role }) {
 
     const fetchUsers = async () => {
       try {
-        const response = await fetch(
-          "https://task-hive-992e60cb78f3.herokuapp.com/users"
-        ); // Adjust the URL if needed
+        const response = await fetch("http://localhost:5000/users"); // Adjust the URL if needed
         const usersList = await response.json();
         console.log("Fetched users:", usersList); // Debugging: Log fetched users
         setUsers(usersList);
@@ -76,6 +74,7 @@ export default function Project({ user, role }) {
       deadline: new Date().toISOString().split("T")[0],
       priority: "Normal",
       notes: "",
+      lastUpdated: new Date().toISOString(),
     };
     const docRef = await addDoc(collection(db, "tasks"), newTask);
     setTasks([...tasks, { ...newTask, id: docRef.id }]);
@@ -83,7 +82,10 @@ export default function Project({ user, role }) {
 
   const updateStatus = async (taskId, newStatus) => {
     const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, { status: newStatus });
+    await updateDoc(taskDocRef, {
+      status: newStatus,
+      lastUpdated: new Date().toISOString(),
+    });
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, status: newStatus } : task
@@ -93,7 +95,10 @@ export default function Project({ user, role }) {
 
   const updateDeadline = async (taskId, newDeadline) => {
     const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, { deadline: newDeadline });
+    await updateDoc(taskDocRef, {
+      deadline: newDeadline,
+      lastUpdated: new Date().toISOString(),
+    });
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, deadline: newDeadline } : task
@@ -103,7 +108,10 @@ export default function Project({ user, role }) {
 
   const updatePriority = async (taskId, newPriority) => {
     const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, { priority: newPriority });
+    await updateDoc(taskDocRef, {
+      priority: newPriority,
+      lastUpdated: new Date().toISOString(),
+    });
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, priority: newPriority } : task
@@ -113,7 +121,10 @@ export default function Project({ user, role }) {
 
   const updateContent = async (taskId, newContent) => {
     const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, { content: newContent });
+    await updateDoc(taskDocRef, {
+      content: newContent,
+      lastUpdated: new Date().toISOString(),
+    });
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, content: newContent } : task
@@ -125,7 +136,11 @@ export default function Project({ user, role }) {
     const user = users.find((u) => u.email === newOwnerEmail);
     if (user) {
       const taskDocRef = doc(db, "tasks", taskId);
-      await updateDoc(taskDocRef, { owner: newOwnerEmail, ownerUid: user.uid });
+      await updateDoc(taskDocRef, {
+        owner: newOwnerEmail,
+        ownerUid: user.uid,
+        lastUpdated: new Date().toISOString(),
+      });
       setTasks((prevTasks) =>
         prevTasks.map((task) =>
           task.id === taskId
@@ -140,7 +155,10 @@ export default function Project({ user, role }) {
 
   const updateNotes = async (taskId, newNotes) => {
     const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, { notes: newNotes });
+    await updateDoc(taskDocRef, {
+      notes: newNotes,
+      lastUpdated: new Date().toISOString(),
+    });
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, notes: newNotes } : task

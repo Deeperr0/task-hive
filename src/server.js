@@ -1,80 +1,108 @@
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-import admin from "firebase-admin";
-import cors from "cors";
-import { writeFileSync } from "fs";
-import { readFile } from "fs/promises";
-import crypto from "crypto";
+import cron from "node-cron";
+import nodemailer from "nodemailer";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import dotenv from "dotenv";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+dotenv.config();
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+const port = process.env.PORT || 3000;
 
-// Decode base64 string and write to a JSON file
-const serviceAccountBase64 = process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64;
-if (serviceAccountBase64) {
-  const serviceAccount = Buffer.from(serviceAccountBase64, "base64").toString(
-    "utf-8"
-  );
-  writeFileSync("/app/serviceAccountKey.json", serviceAccount);
-}
+// Initialize Firebase
+const firebaseConfig = {
+  apiKey: "[REDACTED]",
+  authDomain: "taskhive-6599c.firebaseapp.com",
+  projectId: "taskhive-6599c",
+  storageBucket: "taskhive-6599c.appspot.com",
+  messagingSenderId: "133342593921",
+  appId: "1:133342593921:web:1ce4fcb53dc89b5ee85e80",
+};
 
-const serviceAccount = JSON.parse(
-  await readFile(new URL("file:///app/serviceAccountKey.json", import.meta.url))
-);
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+// Configure Nodemailer
+const transporter = nodemailer.createTransport({
+  service: process.env.EMAIL_PROVIDER,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
-const registrationTokens = {}; // In-memory store for registration tokens
+// Function to send email
+const sendEmail = (subject, text) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: process.env.ADMIN_EMAIL,
+    subject: subject,
+    text: text,
+  };
 
-app.get("/users", async (req, res) => {
-  try {
-    const listUsersResult = await admin.auth().listUsers();
-    const users = listUsersResult.users.map((userRecord) => ({
-      uid: userRecord.uid,
-      email: userRecord.email,
-    }));
-    console.log("Fetched users:", users); // Log fetched users
-    res.status(200).send(users);
-  } catch (error) {
-    console.log("Error listing users:", error);
-    res.status(500).send("Error listing users");
-  }
-});
-
-app.post("/register", async (req, res) => {
-  const { token, email, password } = req.body;
-  const storedEmail = registrationTokens[token];
-
-  if (storedEmail && storedEmail === email) {
-    try {
-      const userRecord = await admin.auth().createUser({ email, password });
-      delete registrationTokens[token]; // Invalidate the token after successful registration
-      res.status(200).send(userRecord);
-    } catch (error) {
-      console.error("Error creating user:", error);
-      res.status(500).send("Error creating user");
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+    } else {
+      console.log("Email sent:", info.response);
     }
-  } else {
-    res.status(400).send("Invalid or expired token");
-  }
+  });
+};
+
+// Check for task updates based on urgency
+const checkTaskUpdates = async () => {
+  const tasksSnapshot = await getDocs(collection(db, "tasks"));
+  const now = new Date();
+  const tasks = [];
+
+  tasksSnapshot.forEach((doc) => {
+    tasks.push({ id: doc.id, ...doc.data() });
+  });
+
+  tasks.forEach((task) => {
+    const lastUpdated = new Date(task.lastUpdated);
+    let interval;
+
+    switch (task.priority) {
+      case "Critical":
+        interval = 1 * 60 * 60 * 1000; // 1 hour
+        break;
+      case "High":
+        interval = 3 * 60 * 60 * 1000; // 3 hours
+        break;
+      case "Normal":
+        interval = 24 * 60 * 60 * 1000; // 1 day
+        break;
+      case "Low":
+        interval = 7 * 24 * 60 * 60 * 1000; // 1 week
+        break;
+      default:
+        interval = 24 * 60 * 60 * 1000; // Default to 1 day
+        break;
+    }
+
+    if (now - lastUpdated > interval) {
+      sendEmail(
+        `Task Update Reminder for ${task.priority} Priority`,
+        `The task "${task.content}" has not been updated for ${task.priority} priority interval.`
+      );
+    }
+  });
+};
+
+// Schedule jobs based on urgency
+cron.schedule("0 * * * *", () => {
+  // Every hour
+  checkTaskUpdates();
 });
 
-// Serve static files from the React app build directory
-app.use(express.static(path.join(__dirname, "..", "dist")));
-
-// Handle all other routes by serving the React index.html file
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "dist", "index.html"));
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
