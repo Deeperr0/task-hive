@@ -43,10 +43,14 @@ export default function Login({ setUser }) {
           required
         />
         <button type="submit">Login</button>
+        <button
+          onClick={() => navigate("/reset-password")}
+          className="reset-password-btn"
+          type="button"
+        >
+          Reset Password
+        </button>
       </form>
-      <button onClick={() => navigate("/reset-password")}>
-        Reset Password
-      </button>
     </div>
   );
 }

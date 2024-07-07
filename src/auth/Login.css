@@ -1,6 +1,8 @@
 .login-title {
   font-weight: 400;
+  color: #ffffff;
 }
+
 .login-container {
   background-color: #2b2b5e;
   padding: 40px;
@@ -9,13 +11,18 @@
   text-align: center;
   width: 30%;
   margin: 15vh auto;
-  height: 50%;
+  min-height: 50%;
   max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-container h2 {
   margin-bottom: 20px;
   font-size: 24px;
+  color: #ffffff;
 }
 
 .login-container input {
@@ -42,6 +49,15 @@
 
 .login-container button:hover {
   background-color: #45a049;
+}
+
+.reset-password-btn {
+  background-color: #007bff !important;
+  margin-top: 10px;
+}
+
+.reset-password-btn:hover {
+  background-color: #0069d9 !important;
 }
 
 @media screen and (max-width: 768px) {
