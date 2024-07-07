@@ -152,9 +152,7 @@ app.get("*", (req, res) => {
 
 app.use(
   cors({
-    origin: "*", // Allow all origins (you can restrict this to your Netlify domain)
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: "https://task-hivee.netlify.app/", // Allow all origins (you can restrict this to your Netlify domain)
   })
 );
 app.listen(port, () => {
