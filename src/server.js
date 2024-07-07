@@ -152,7 +152,7 @@ app.get("*", (req, res) => {
 
 app.use(
   cors({
-    origin: "https://task-hivee.netlify.app/", // Replace with your actual Netlify URL
+    origin: "https://task-hivee.netlify.app/", 
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
