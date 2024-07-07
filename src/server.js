@@ -13,6 +13,7 @@ import admin from "firebase-admin"; // Add this line to import firebase-admin
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import dotenv from "dotenv";
+import path from "path";
 
 dotenv.config();
 
