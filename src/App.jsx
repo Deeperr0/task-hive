@@ -7,8 +7,10 @@ import Login from "./auth/Login";
 import Home from "./home/Home";
 import Navbar from "./home/Navbar";
 import Register from "./auth/Register";
+import ResetPassword from "./auth/ResetPassword";
 
 import "./App.css";
+
 function App() {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
@@ -52,6 +54,7 @@ function App() {
         />
         <Routes>
           <Route path="/register" element={<Register setUser={setUser} />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           {user ? (
             role ? (
               <Route path="/" element={<Home user={user} role={role} />} />

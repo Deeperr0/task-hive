@@ -1,11 +1,14 @@
+// Login.jsx
 import React, { useState } from "react";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom"; // Ensure you have react-router-dom installed and set up
 import "./Login.css";
 
 export default function Login({ setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -41,6 +44,9 @@ export default function Login({ setUser }) {
         />
         <button type="submit">Login</button>
       </form>
+      <button onClick={() => navigate("/reset-password")}>
+        Reset Password
+      </button>
     </div>
   );
 }

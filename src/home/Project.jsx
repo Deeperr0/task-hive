@@ -49,9 +49,11 @@ export default function Project({ user, role }) {
       try {
         const response = await fetch(
           "https://6960-46-186-203-187.ngrok-free.app/users"
-        ); // Adjust the URL if needed
-        const usersList = await response.json();
-        console.log("Fetched users:", usersList); // Debugging: Log fetched users
+        ); // Replace with your ngrok URL
+        const text = await response.text();
+        console.log("Response text:", text); // Log the raw response text
+        const usersList = JSON.parse(text);
+        console.log("Fetched users:", usersList);
         setUsers(usersList);
       } catch (error) {
         console.error("Error fetching users:", error);
