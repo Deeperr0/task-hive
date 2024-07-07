@@ -49,4 +49,7 @@
   .task--card > :first-child:sticky {
     background-color: rgba(48, 50, 78, 0.97);
   }
+  .tasks--table {
+    overflow: hidden;
+  }
 }
