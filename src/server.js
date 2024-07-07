@@ -15,6 +15,8 @@ import { dirname } from "path";
 import dotenv from "dotenv";
 import path from "path"; // Make sure to import path
 
+import cors from "cors";
+
 dotenv.config();
 
 const app = express();
@@ -147,6 +149,14 @@ app.get("/users", async (req, res) => {
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
+
+app.use(
+  cors({
+    origin: "https://task-hivee.netlify.app/", // Replace with your actual Netlify URL
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  })
+);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
