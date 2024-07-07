@@ -152,12 +152,11 @@ app.get("*", (req, res) => {
 
 app.use(
   cors({
-    origin: "https://task-hivee.netlify.app/", 
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
+    origin: "*", // Allow all origins (you can restrict this to your Netlify domain)
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
