@@ -10,15 +10,11 @@ import {
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import dotenv from "dotenv";
-import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
-
-// Enable CORS
-app.use(cors());
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -105,18 +101,6 @@ const checkTaskUpdates = async () => {
 cron.schedule("0 * * * *", () => {
   // Every hour
   checkTaskUpdates();
-});
-
-// Route to fetch users
-app.get('/users', async (req, res) => {
-  try {
-    const usersSnapshot = await getDocs(collection(db, 'users'));
-    const usersList = usersSnapshot.docs.map(doc => doc.data());
-    res.status(200).json(usersList);
-  } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
 });
 
 app.listen(port, () => {
