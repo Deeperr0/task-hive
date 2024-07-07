@@ -103,6 +103,17 @@ cron.schedule("0 * * * *", () => {
   checkTaskUpdates();
 });
 
+// Serve static files from the React app build directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const buildPath = path.join(__dirname, "..", "dist");
+app.use(express.static(buildPath));
+
+// Catch-all handler to serve the React app for any route
+app.get("*", (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
