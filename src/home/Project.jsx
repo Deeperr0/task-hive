@@ -48,7 +48,7 @@ export default function Project({ user, role }) {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          " https://17a5-46-186-203-187.ngrok-free.app/users"
+          "https://bd52-46-186-220-188.ngrok-free.app/users"
         ); // Replace with your ngrok URL
         const text = await response.text();
         console.log("Response text:", text); // Log the raw response text
