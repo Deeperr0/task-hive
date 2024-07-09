@@ -1,55 +1,56 @@
 .tasks--type {
-  color: #0086c0;
-  font-weight: 600;
-  padding: 16px;
+	color: #0086c0;
+	font-weight: 600;
+	padding: 16px;
 }
 .done {
-  color: #33d391;
+	color: #33d391;
 }
 .task--header {
-  padding-top: 16px;
-  padding-left: 16px;
-  display: grid;
-  grid-template-columns: repeat(7, minmax(150px, 1fr));
-  background-color: rgba(48, 50, 78, 0.97);
-  border-radius: 8px 8px 0 0;
-  overflow: visible;
+	padding-top: 16px;
+	padding-left: 16px;
+	display: grid;
+	grid-template-columns: repeat(7, minmax(150px, 1fr));
+	border-radius: 8px 8px 0 0;
+	overflow: visible;
 }
 .task--header > * {
-  padding: 8px;
-  background-color: rgba(48, 50, 78, 0.97);
+	padding: 8px;
 }
 .task--header > :first-child {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  width: auto;
+	position: sticky;
+	left: 0;
+	z-index: 1;
+	width: auto;
 }
 .tasks--list {
-  padding-bottom: 16px;
-  background-color: rgba(48, 50, 78, 0.97);
-  width: auto;
-  border-radius: 0 0 8px 8px;
+	padding-bottom: 16px;
+	width: auto;
+	border-radius: 0 0 8px 8px;
 }
 .tasks--container {
-  border-radius: 8px;
+	border-radius: 8px;
+	background-color: rgba(48, 50, 78, 0.97);
+	padding-right: 16px;
+}
+
+.task-type-container {
+	margin-bottom: 54px;
 }
 
 @media screen and (max-width: 768px) {
-  .tasks--table {
-    width: 100vw;
-    min-width: 1050px; /* Set a min-width to ensure it fits the whole content */
-  }
-  .tasks--container {
-    overflow-x: scroll;
-  }
-  .task--header > :first-child:sticky {
-    background-color: rgba(48, 50, 78, 0.97);
-  }
-  .task--card > :first-child:sticky {
-    background-color: rgba(48, 50, 78, 0.97);
-  }
-  .tasks--table {
-    overflow: hidden;
-  }
+	.tasks--table {
+		width: 100vw;
+		min-width: 1050px; /* Set a min-width to ensure it fits the whole content */
+		overflow: hidden;
+	}
+	.tasks--container {
+		overflow-x: scroll;
+	}
+	.task--header > :first-child:sticky {
+		background-color: rgba(48, 50, 78, 0.97);
+	}
+	.task--card > :first-child:sticky {
+		background-color: rgba(48, 50, 78, 0.97);
+	}
 }

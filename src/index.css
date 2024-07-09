@@ -1,16 +1,17 @@
 * {
-  font-family: "Poppins";
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+	font-family: "Poppins";
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	outline: none;
 }
-body {
-  background-color: #181b34;
-  color: white;
-  height: 100vh;
-  overflow: hidden;
-  overflow-x: hidden;
+#root {
+	background-color: #181b34;
+	color: white;
+	height: 100vh;
+	overflow-x: hidden;
+	padding-bottom: 54px;
 }
 html {
-  overflow-x: hidden;
+	overflow-x: hidden;
 }

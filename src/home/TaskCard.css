@@ -1,72 +1,90 @@
 /* TaskCard.css */
 .task--card {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(150px, 1fr));
-  padding: 16px;
-  padding-bottom: 0;
-  padding-top: 0;
-  overflow: visible;
+	display: grid;
+	grid-template-columns: repeat(7, minmax(150px, 1fr));
+	padding: 16px;
+	padding-bottom: 0;
+	padding-top: 0;
+	overflow: visible;
 }
 
 .task--card > * {
-  background-color: rgba(48, 50, 78, 0.97);
-  color: #d5d8df;
-  padding: 8px;
-  border: 1px solid #d5d8df;
+	background-color: rgba(48, 50, 78, 0.97);
+	color: #d5d8df;
+	padding: 8px;
+	border: 1px solid #d5d8df;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	font-size: 1rem;
+	line-height: 0.1;
+}
+
+.deadline-column {
+	line-height: 1;
+}
+
+.task--card > input,
+.task--card > select {
+	padding-top: 0;
+	padding-bottom: 0;
 }
 
 .sticky {
-  position: sticky;
-  left: 0; /* Sticky position */
-  z-index: 1;
+	position: sticky;
+	left: 0; /* Sticky position */
+	z-index: 1;
 }
 .task--card select {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 .task--owner {
-  width: 100%;
-  padding: 0;
-  margin: 0;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+.task--owner > * {
+	padding-left: 8px;
 }
 
 .task--card option {
-  height: 100%;
+	height: 100%;
 }
 
 .buttons button {
-  background-color: red;
-  border: 0;
-  border-radius: 50%;
-  aspect-ratio: 1/1;
-  height: 40px;
-  color: white;
-  padding: 8px;
-  transition: background-color 0.3s ease-in-out;
-  margin: auto;
-  border: 0 !important;
+	background-color: red;
+	border: 0;
+	border-radius: 50%;
+	aspect-ratio: 1/1;
+	height: 40px;
+	color: white;
+	padding: 8px;
+	transition: background-color 0.3s ease-in-out;
+	margin: auto;
+	border: 0 !important;
 }
 
 .task--delete:hover {
-  background-color: #b30000;
+	background-color: #b30000;
 }
 
 /* Priority Colors */
 .task--priority-low {
-  border-left: 5px solid green;
+	border-left: 5px solid green;
 }
 
 .task--priority-medium {
-  border-left: 5px solid yellow;
+	border-left: 5px solid yellow;
 }
 
 .task--priority-high {
-  border-left: 5px solid orange;
+	border-left: 5px solid orange;
 }
 
 .task--priority-critical {
-  border-left: 5px solid red;
+	border-left: 5px solid red;
 }
 
 /* Status Colors for Options */
@@ -74,50 +92,105 @@
 .task--status-done,
 .option-priority-low,
 .task--priority-low {
-  background-color: #33d391 !important;
+	background-color: #33d391 !important;
 }
 
 .option-status-working,
 .task--status-working,
 .option-priority-medium,
 .task--priority-medium {
-  background-color: #fdbc64 !important;
+	background-color: #fdbc64 !important;
 }
 
 .option-status-stuck,
 .task--status-stuck,
 .option-priority-high,
+.task--priority-critical,
 .task--priority-high {
-  background-color: #e0394e !important;
+	background-color: #e0394e !important;
 }
 
 .option-status-not-started,
 .task--status-not-started,
-.option-priority-critical,
-.task--priority-critical {
-  background-color: #563e3e !important;
+.option-priority-critical {
+	background-color: #563e3e !important;
 }
 
 /* Custom dropdown styling */
 .select-priority,
 .select-status {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #d5d8df;
-  background-color: transparent;
-  color: #d5d8df;
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #d5d8df;
+	color: #ffffff;
+}
+
+.select-priority {
+	background-color: #33d391;
 }
 
 .select-priority option,
 .select-status option {
-  color: #000; /* default color */
+	color: #000; /* default color */
 }
 .buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  border: 0;
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	border: 0;
 }
 .task--update {
-  background-color: #00c875 !important;
+	background-color: #00c875 !important;
+}
+.task--update:disabled {
+	background-color: #4b4b4b !important;
+}
+
+.notes-column {
+	resize: none;
+	display: flex;
+	align-items: center;
+	line-height: 1;
+	padding: auto 8px;
+	padding-bottom: 0;
+}
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	z-index: 10;
+	--bg-opacity: 0.5;
+}
+
+.hidden {
+	display: none;
+}
+.confirm-delete-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	background-color: #2b2b5e;
+	padding: 40px;
+	width: 80%;
+	margin: auto;
+	font-size: 0.75rem;
+}
+.confirm-delete-container p {
+	line-height: 1.15;
+	color: white;
+}
+.cancel-button,
+.delete-button {
+	border: 0;
+	border-radius: 8px;
+	padding: 8px 16px;
+	width: 60%;
+	font-size: 0.75rem;
+}
+.delete-button {
+	background-color: red;
+	color: white;
 }
