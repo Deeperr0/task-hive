@@ -1,18 +1,18 @@
-import React from "react";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import "./Navbar.css";
+import PropTypes from "prop-types";
 
 export default function Navbar({ loggedIn, username }) {
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
+	const handleLogout = async () => {
+		try {
+			await signOut(auth);
+		} catch (error) {
+			console.error("Error logging out:", error);
+		}
+	};
 
   return (
     <div className="nav--container">
@@ -38,3 +38,8 @@ export default function Navbar({ loggedIn, username }) {
     </div>
   );
 }
+
+Navbar.propTypes = {
+	loggedIn: PropTypes.bool,
+	username: PropTypes.string,
+};

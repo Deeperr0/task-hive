@@ -1,18 +1,29 @@
-.add-button {
-  background-color: #00c875;
-  border: 0;
-  border-radius: 4px;
-  color: white;
-  padding: 8px;
-  transition: background-color 0.3s ease-in-out;
+.add-button,
+.add-user {
+	background-color: #00c875;
+	border: 0;
+	border-radius: 4px;
+	color: white;
+	padding: 8px;
+	transition: background-color 0.3s ease-in-out;
 }
-.add-button:hover {
-  background-color: #00854d;
+.add-button:hover,
+.add-user:hover {
+	background-color: #00854d;
+}
+
+.add-buttons {
+	display: flex;
+	gap: 16px;
+	margin: 32px auto;
 }
 
 .project-title {
-  font-size: 24px;
-  font-weight: 400;
-  margin-top: 16px;
-  margin-bottom: 16px;
+	font-size: 24px;
+	font-weight: 400;
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
+.project {
+	margin-bottom: 16px;
 }
