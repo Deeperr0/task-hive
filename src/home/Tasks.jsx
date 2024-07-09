@@ -55,6 +55,8 @@ export default function Tasks(props) {
 								updateOwner={props.updateOwner}
 								updateNotes={props.updateNotes}
 								deleteTask={props.deleteTask}
+								updateLastUpdated={props.updateLastUpdated}
+								updateTask={props.updateTask}
 								role={props.role}
 								users={props.users}
 								currentUserUid={props.currentUserUid}

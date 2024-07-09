@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	collection,
 	getDocs,
@@ -13,12 +13,17 @@ import { db } from "../firebase";
 import Tasks from "./Tasks";
 import "./Project.css";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function Project({ user, role }) {
 	const [tasks, setTasks] = useState([]);
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [filteredTasks, setFilteredTasks] = useState([]);
+	const [priorityFilter, setPriorityFilter] = useState("");
+	const [statusFilter, setStatusFilter] = useState("");
 	const navigate = useNavigate();
+
 	useEffect(() => {
 		const fetchTasks = async () => {
 			try {
@@ -39,6 +44,7 @@ export default function Project({ user, role }) {
 					id: doc.id,
 				}));
 				setTasks(tasksList);
+				setFilteredTasks(tasksList);
 			} catch (error) {
 				console.error("Error fetching tasks:", error);
 			} finally {
@@ -65,6 +71,25 @@ export default function Project({ user, role }) {
 		fetchUsers();
 	}, [user, role]);
 
+	useEffect(() => {
+		const applyFilters = () => {
+			let filtered = tasks;
+			if (priorityFilter) {
+				filtered = filtered.filter(
+					(task) => task.priority.toLowerCase() === priorityFilter.toLowerCase()
+				);
+			}
+			if (statusFilter) {
+				filtered = filtered.filter(
+					(task) => task.status.toLowerCase() === statusFilter.toLowerCase()
+				);
+			}
+			setFilteredTasks(filtered);
+		};
+
+		applyFilters();
+	}, [priorityFilter, statusFilter, tasks]);
+
 	if (loading) {
 		return <p>Loading tasks...</p>;
 	}
@@ -77,7 +102,7 @@ export default function Project({ user, role }) {
 			ownerUid: user.uid,
 			status: "Not started",
 			deadline: new Date().toISOString().split("T")[0],
-			priority: "Normal",
+			priority: "Low",
 			notes: "",
 			lastUpdated: new Date().toISOString(),
 		};
@@ -196,9 +221,33 @@ export default function Project({ user, role }) {
 					</button>
 				</div>
 			)}
+			<div className="filters-container">
+				<h2 className="filters-title">Filters</h2>
+				<div className="filters">
+					<div>
+						<p>Priority</p>
+						<select onChange={(e) => setPriorityFilter(e.target.value)}>
+							<option value="">All</option>
+							<option value="Low">Low</option>
+							<option value="Medium">Medium</option>
+							<option value="High">High</option>
+							<option value="Critical">Critical</option>
+						</select>
+					</div>
+					<div>
+						<p>Status</p>
+						<select onChange={(e) => setStatusFilter(e.target.value)}>
+							<option value="">All</option>
+							<option value="Not started">Not started</option>
+							<option value="Working on it">Working on it</option>
+							<option value="Stuck">Stuck</option>
+						</select>
+					</div>
+				</div>
+			</div>
 			<Tasks
 				name="To do"
-				tasksList={tasks.filter((task) => task.status !== "Done")}
+				tasksList={filteredTasks.filter((task) => task.status !== "Done")}
 				updateStatus={updateStatus}
 				updateDeadline={updateDeadline}
 				updatePriority={updatePriority}
@@ -206,6 +255,16 @@ export default function Project({ user, role }) {
 				updateOwner={updateOwner}
 				updateNotes={updateNotes}
 				deleteTask={deleteTask}
+				updateLastUpdated={(taskId) => {
+					const taskDocRef = doc(db, "tasks", taskId);
+					return updateDoc(taskDocRef, {
+						lastUpdated: new Date().toISOString(),
+					});
+				}}
+				updateTask={(taskId, updates) => {
+					const taskDocRef = doc(db, "tasks", taskId);
+					return updateDoc(taskDocRef, updates);
+				}}
 				role={role}
 				users={users} // Pass users list to Tasks component
 				currentUserUid={user.uid} // Pass current user UID to Tasks component
@@ -220,6 +279,16 @@ export default function Project({ user, role }) {
 				updateOwner={updateOwner}
 				updateNotes={updateNotes}
 				deleteTask={deleteTask}
+				updateLastUpdated={(taskId) => {
+					const taskDocRef = doc(db, "tasks", taskId);
+					return updateDoc(taskDocRef, {
+						lastUpdated: new Date().toISOString(),
+					});
+				}}
+				updateTask={(taskId, updates) => {
+					const taskDocRef = doc(db, "tasks", taskId);
+					return updateDoc(taskDocRef, updates);
+				}}
 				role={role}
 				users={users} // Pass users list to Tasks component
 				currentUserUid={user.uid} // Pass current user UID to Tasks component
@@ -227,3 +296,8 @@ export default function Project({ user, role }) {
 		</div>
 	);
 }
+
+Project.propTypes = {
+	user: PropTypes.object.isRequired,
+	role: PropTypes.string.isRequired,
+};

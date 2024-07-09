@@ -12,7 +12,7 @@
 	background-color: rgba(48, 50, 78, 0.97);
 	color: #d5d8df;
 	padding: 8px;
-	border: 1px solid #d5d8df;
+	border: 1px solid rgba(212, 215, 223, 0.3);
 	margin: 0;
 	display: flex;
 	align-items: center;
@@ -70,29 +70,12 @@
 	background-color: #b30000;
 }
 
-/* Priority Colors */
-.task--priority-low {
-	border-left: 5px solid green;
-}
-
-.task--priority-medium {
-	border-left: 5px solid yellow;
-}
-
-.task--priority-high {
-	border-left: 5px solid orange;
-}
-
-.task--priority-critical {
-	border-left: 5px solid red;
-}
-
 /* Status Colors for Options */
 .option-status-done,
 .task--status-done,
 .option-priority-low,
 .task--priority-low {
-	background-color: #33d391 !important;
+	background-color: #129961 !important;
 }
 
 .option-status-working,
@@ -107,7 +90,7 @@
 .option-priority-high,
 .task--priority-critical,
 .task--priority-high {
-	background-color: #e0394e !important;
+	background-color: #ff0000 !important;
 }
 
 .option-status-not-started,
@@ -121,7 +104,6 @@
 .select-status {
 	width: 100%;
 	padding: 8px;
-	border: 1px solid #d5d8df;
 	color: #ffffff;
 }
 
@@ -144,6 +126,7 @@
 }
 .task--update:disabled {
 	background-color: #4b4b4b !important;
+	cursor: not-allowed;
 }
 
 .notes-column {
@@ -193,4 +176,11 @@
 .delete-button {
 	background-color: red;
 	color: white;
+}
+
+. .overdue {
+	background-color: red;
+}
+.today {
+	background-color: rgb(223, 111, 7) !important;
 }

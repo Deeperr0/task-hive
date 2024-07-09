@@ -73,13 +73,24 @@ export default function TaskCard(props) {
 
 	function handleUpdate() {
 		const now = new Date().toISOString();
-		setIsChanged(false);
 		props.updateContent(props.id, localContent);
 		props.updateDeadline(props.id, localDeadline);
 		props.updatePriority(props.id, localPriority);
 		props.updateOwner(props.id, localOwner);
 		props.updateNotes(props.id, localNotes);
 		props.updateLastUpdated(props.id, now);
+		setIsChanged(false);
+	}
+
+	function checkDeadline() {
+		let today = new Date().toISOString().split("T")[0];
+		if (today > localDeadline) {
+			return 1;
+		} else if (today === localDeadline) {
+			return 0;
+		} else {
+			return -1;
+		}
 	}
 
 	const priorityClass =
@@ -191,7 +202,13 @@ export default function TaskCard(props) {
 					type="date"
 					value={localDeadline}
 					onChange={handleDeadlineChange}
-					className="deadline-column"
+					className={
+						checkDeadline() === 1
+							? "deadline-column overdue"
+							: checkDeadline() === 0
+							? "deadline-column today"
+							: "deadline-column"
+					}
 				/>
 			) : (
 				<p className="deadline-column">{localDeadline}</p>
