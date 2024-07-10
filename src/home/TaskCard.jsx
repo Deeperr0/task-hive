@@ -12,9 +12,27 @@ function debounce(func, wait) {
 	};
 }
 
+function convertToUserTimezone(dateStr) {
+	const date = new Date(dateStr);
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	return `${year}-${month}-${day}`;
+}
+
+function formatDateToDisplay(dateStr) {
+	const date = new Date(dateStr);
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	return `${day}-${month}-${year}`;
+}
+
 export default function TaskCard(props) {
 	const [localContent, setLocalContent] = useState(props.content);
-	const [localDeadline, setLocalDeadline] = useState(props.deadline);
+	const [localDeadline, setLocalDeadline] = useState(
+		convertToUserTimezone(props.deadline)
+	);
 	const [localPriority, setLocalPriority] = useState(props.priority);
 	const [localOwner, setLocalOwner] = useState(props.owner);
 	const [localNotes, setLocalNotes] = useState(props.notes);
@@ -23,7 +41,7 @@ export default function TaskCard(props) {
 
 	useEffect(() => {
 		setLocalContent(props.content);
-		setLocalDeadline(props.deadline);
+		setLocalDeadline(convertToUserTimezone(props.deadline));
 		setLocalPriority(props.priority);
 		setLocalOwner(props.owner);
 		setLocalNotes(props.notes);
@@ -211,7 +229,17 @@ export default function TaskCard(props) {
 					}
 				/>
 			) : (
-				<p className="deadline-column">{localDeadline}</p>
+				<p
+					className={
+						checkDeadline() === 1
+							? "deadline-column overdue"
+							: checkDeadline() === 0
+							? "deadline-column today"
+							: "deadline-column"
+					}
+				>
+					{formatDateToDisplay(localDeadline)}
+				</p>
 			)}
 			{props.role === "admin" ? (
 				<select
@@ -245,7 +273,9 @@ export default function TaskCard(props) {
 					</option>
 				</select>
 			) : (
-				<p className="priority-column">{localPriority}</p>
+				<p className={`select-priority ${priorityClass} priority-column`}>
+					{localPriority}
+				</p>
 			)}
 			<textarea
 				value={localNotes}
@@ -290,7 +320,6 @@ TaskCard.propTypes = {
 	users: PropTypes.array.isRequired,
 	currentUserUid: PropTypes.string.isRequired,
 	deleteTask: PropTypes.func.isRequired,
-	updateTask: PropTypes.func.isRequired,
 	updateContent: PropTypes.func.isRequired,
 	updateDeadline: PropTypes.func.isRequired,
 	updatePriority: PropTypes.func.isRequired,

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Task from "./TaskCard";
 import "./Tasks.css";
+import PropTypes from "prop-types";
 
 export default function Tasks(props) {
 	useEffect(() => {
@@ -68,3 +69,20 @@ export default function Tasks(props) {
 		</div>
 	);
 }
+
+Tasks.propTypes = {
+	tasksList: PropTypes.arrayOf(PropTypes.object).isRequired,
+	name: PropTypes.string.isRequired,
+	role: PropTypes.string.isRequired,
+	users: PropTypes.array.isRequired,
+	currentUserUid: PropTypes.string.isRequired,
+	updateStatus: PropTypes.func.isRequired,
+	updateDeadline: PropTypes.func.isRequired,
+	updatePriority: PropTypes.func.isRequired,
+	updateContent: PropTypes.func.isRequired,
+	updateOwner: PropTypes.func.isRequired,
+	updateNotes: PropTypes.func.isRequired,
+	deleteTask: PropTypes.func.isRequired,
+	updateLastUpdated: PropTypes.func.isRequired,
+	updateTask: PropTypes.func.isRequired,
+};

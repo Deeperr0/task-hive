@@ -8,10 +8,15 @@
 #root {
 	background-color: #181b34;
 	color: white;
-	height: 100vh;
+	height: 100%;
 	overflow-x: hidden;
 	padding-bottom: 54px;
+	width: 100vw;
 }
 html {
 	overflow-x: hidden;
+}
+body {
+	padding-bottom: 54px;
+	background-color: #181b34;
 }

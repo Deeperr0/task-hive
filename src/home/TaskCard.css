@@ -1,7 +1,7 @@
 /* TaskCard.css */
 .task--card {
 	display: grid;
-	grid-template-columns: repeat(7, minmax(150px, 1fr));
+	grid-template-columns: repeat(7, minmax(170px, 270px));
 	padding: 16px;
 	padding-bottom: 0;
 	padding-top: 0;
@@ -22,6 +22,9 @@
 
 .deadline-column {
 	line-height: 1;
+	padding-right: 8px;
+	width: 100%;
+	justify-content: center;
 }
 
 .task--card > input,
@@ -44,6 +47,10 @@
 	width: 100%;
 	padding: 0;
 	margin: 0;
+}
+
+.task--owner select {
+	padding-left: 8px;
 }
 .task--owner > * {
 	padding-left: 8px;
@@ -178,7 +185,7 @@
 	color: white;
 }
 
-. .overdue {
+.overdue {
 	background-color: red;
 }
 .today {
