@@ -12,6 +12,17 @@ nav {
 	justify-content: center;
 	align-items: center;
 }
+.nav--left a {
+	text-decoration: none;
+	color: white;
+	font-weight: 500;
+	font-size: 16px;
+	margin-right: 16px;
+	transition: color 0.3s ease-in-out;
+}
+.nav--left a:hover {
+	color: #00c875;
+}
 .nav--right {
 	display: flex;
 	justify-content: center;
@@ -31,7 +42,8 @@ nav {
 	font-weight: 500;
 	margin-left: 16px;
 }
-.logout {
+.logout,
+.change-password {
 	margin-left: 16px;
 	background-color: transparent;
 	border: 0;
@@ -42,6 +54,10 @@ nav {
 	transition: background-color 0.3s ease-in-out;
 	padding: 8px 16px;
 	border-radius: 8px;
+}
+
+.change-password {
+	text-decoration: none;
 }
 .logout:hover {
 	background-color: #676879;
