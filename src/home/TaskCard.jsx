@@ -342,7 +342,9 @@ export default function TaskCard(props) {
 					value={localDeadline}
 					onChange={handleDeadlineChange}
 					className={
-						checkDeadline() === 1
+						props.status == "Done"
+							? "deadline-column"
+							: checkDeadline() === 1
 							? "deadline-column overdue"
 							: checkDeadline() === 0
 							? "deadline-column today"
