@@ -1,0 +1,109 @@
+ul {
+	list-style: none;
+}
+
+.side-menu-container {
+	background-color: rgba(48, 50, 78, 0.97);
+	padding: 16px;
+	border-radius: 8px;
+}
+
+.slide-menu-container * {
+	font-size: 16px;
+}
+.side-menu > li {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 12px;
+}
+
+hr {
+	margin-bottom: 16px;
+}
+
+.workspace-menu {
+	height: 30px;
+	display: flex;
+	gap: 5%;
+	margin-bottom: 16px;
+}
+.workspace-menu * {
+	font-size: 16px;
+}
+.workspace-menu select {
+	width: 75%;
+	background-color: transparent;
+	border: 0;
+	color: white;
+}
+.workspace-menu select option {
+	width: 75%;
+	background-color: rgba(48, 50, 78, 0.97);
+	border: 0;
+	color: white;
+}
+.workspace-menu > button {
+	width: 20%;
+	background-color: transparent;
+	display: flex;
+	align-items: center;
+	border: 0;
+	color: white;
+	justify-content: center;
+}
+
+.workspace-filter {
+	display: flex;
+	gap: 5%;
+	margin-right: 0.5rem;
+	margin-bottom: 1rem;
+	height: 40px;
+}
+.workspace-filter button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: green;
+	border: 0;
+	border-radius: 8px;
+	width: 20%;
+}
+
+.workspace-filter button > * {
+	height: 100%;
+	color: white;
+	font-weight: 400;
+}
+
+.search {
+	display: flex;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	width: 75%;
+}
+.search input {
+	background-color: transparent;
+	border: 0;
+	margin: 0;
+	width: 80%;
+}
+.search button {
+	background-color: transparent;
+	border: 0;
+	color: white;
+}
+.search button img {
+	width: 16px;
+	height: 16px;
+	color: white;
+}
+.workspace {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+.sub-workspace {
+	padding-left: 1.5rem;
+}
+.sub-workspace li {
+	margin: 8px 0;
+}

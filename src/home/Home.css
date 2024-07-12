@@ -1,4 +1,9 @@
 .home--container {
-  width: 85%;
-  margin: 0 auto;
+	width: 85%;
+	margin: 0 auto;
+	display: flex;
+	gap: 16px;
+}
+.home--left {
+	width: 25%;
 }
