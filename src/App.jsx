@@ -13,86 +13,64 @@ import "./App.css";
 import ChangePassword from "./auth/ChangePassword";
 
 function App() {
-	const [user, setUser] = useState(null);
-	const [role, setRole] = useState(null);
-	const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-			if (currentUser) {
-				console.log("User authenticated:", currentUser);
-				const userDocRef = doc(db, "users", currentUser.uid);
-				const userDoc = await getDoc(userDocRef);
-				if (userDoc.exists()) {
-					console.log("User role:", userDoc.data().role);
-					setRole(userDoc.data().role);
-				} else {
-					console.log("No such user document!");
-					setRole(null);
-				}
-			} else {
-				console.log("No user authenticated");
-				setRole(null);
-			}
-			setUser(currentUser);
-			setLoading(false);
-		});
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        console.log("User authenticated:", currentUser);
+        const userDocRef = doc(db, "users", currentUser.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          console.log("User role:", userDoc.data().role);
+          setRole(userDoc.data().role);
+        } else {
+          console.log("No such user document!");
+          setRole(null);
+        }
+      } else {
+        console.log("No user authenticated");
+        setRole(null);
+      }
+      setUser(currentUser);
+      console.log("user", currentUser);
+      setLoading(false);
+    });
 
-		return () => unsubscribe();
-	}, []);
+    return () => unsubscribe();
+  }, []);
 
-	if (loading) {
-		return <p>Loading...</p>;
-	}
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
-	return (
-		<Router>
-			{console.log(user)}
-			<div className="container">
-				<Navbar
-					loggedIn={!!user}
-					username={!!user ? user.email[0].toUpperCase() : ""}
-				/>
-				<Routes>
-					<Route
-						path="/register"
-						element={<Register setUser={setUser} />}
-					/>
-					<Route
-						path="/reset-password"
-						element={<ResetPassword />}
-					/>
-					{user ? (
-						role ? (
-							<Route
-								path="/"
-								element={
-									<Home
-										user={user}
-										role={role}
-									/>
-								}
-							/>
-						) : (
-							<Route
-								path="/"
-								element={<p>Loading role...</p>}
-							/>
-						)
-					) : (
-						<Route
-							path="/"
-							element={<Login setUser={setUser} />}
-						/>
-					)}
-					<Route
-						path="/change-password"
-						element={<ChangePassword />}
-					/>
-				</Routes>
-			</div>
-		</Router>
-	);
+  return (
+    <Router>
+      {console.log(user)}
+      <div className="container">
+        <Navbar
+          loggedIn={!!user}
+          username={!!user ? user.email[0].toUpperCase() : ""}
+        />
+        <Routes>
+          <Route path="/register" element={<Register setUser={setUser} />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          {user ? (
+            role ? (
+              <Route path="/" element={<Home user={user} role={role} />} />
+            ) : (
+              <Route path="/" element={<p>Loading role...</p>} />
+            )
+          ) : (
+            <Route path="/" element={<Login setUser={setUser} />} />
+          )}
+          <Route path="/change-password" element={<ChangePassword />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
