@@ -40,8 +40,8 @@ export default function Tasks(props) {
 					<div className="tasks--list">
 						{props.tasksList.map((task) => (
 							<Task
-								key={task.id}
-								id={task.id}
+								key={task.taskId}
+								taskId={task.taskId}
 								content={task.content}
 								owner={task.owner}
 								ownerUid={task.ownerUid}
@@ -49,14 +49,14 @@ export default function Tasks(props) {
 								deadline={task.deadline}
 								priority={task.priority}
 								notes={task.notes}
-								updateStatus={props.updateStatus}
-								updateDeadline={props.updateDeadline}
-								updatePriority={props.updatePriority}
-								updateContent={props.updateContent}
-								updateOwner={props.updateOwner}
-								updateNotes={props.updateNotes}
+								// updateStatus={props.updateStatus}
+								// updateDeadline={props.updateDeadline}
+								// updatePriority={props.updatePriority}
+								// updateContent={props.updateContent}
+								// updateOwner={props.updateOwner}
+								// updateNotes={props.updateNotes}
 								deleteTask={props.deleteTask}
-								updateLastUpdated={props.updateLastUpdated}
+								// updateLastUpdated={props.updateLastUpdated}
 								updateTask={props.updateTask}
 								role={props.role}
 								users={props.users}
@@ -76,13 +76,6 @@ Tasks.propTypes = {
 	role: PropTypes.string.isRequired,
 	users: PropTypes.array.isRequired,
 	currentUserUid: PropTypes.string.isRequired,
-	updateStatus: PropTypes.func.isRequired,
-	updateDeadline: PropTypes.func.isRequired,
-	updatePriority: PropTypes.func.isRequired,
-	updateContent: PropTypes.func.isRequired,
-	updateOwner: PropTypes.func.isRequired,
-	updateNotes: PropTypes.func.isRequired,
 	deleteTask: PropTypes.func.isRequired,
-	updateLastUpdated: PropTypes.func.isRequired,
 	updateTask: PropTypes.func.isRequired,
 };

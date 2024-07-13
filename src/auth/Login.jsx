@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"; // Ensure you have react-router-
 import "./Login.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import PropTypes from "prop-types";
 
 export default function Login({ setUser }) {
 	const [email, setEmail] = useState("");
@@ -80,3 +81,7 @@ export default function Login({ setUser }) {
 		</div>
 	);
 }
+
+Login.propTypes = {
+	setUser: PropTypes.func,
+};

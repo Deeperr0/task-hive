@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import {
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  query,
-  where,
+	collection,
+	getDocs,
+	addDoc,
+	updateDoc,
+	deleteDoc,
+	doc,
+	query,
+	where,
+	getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import Tasks from "./Tasks";
@@ -15,283 +16,218 @@ import "./Project.css";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export default function Project({ user, role }) {
-  const [tasks, setTasks] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [filteredTasks, setFilteredTasks] = useState([]);
-  const [priorityFilter, setPriorityFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const navigate = useNavigate();
+export default function Project({ user, role, currentTeam, userData }) {
+	const [tasks, setTasks] = useState([]);
+	const [users, setUsers] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [filteredTasks, setFilteredTasks] = useState([]);
+	const [priorityFilter, setPriorityFilter] = useState("");
+	const [statusFilter, setStatusFilter] = useState("");
+	const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        let tasksQuery;
-        if (role === "admin") {
-          console.log("Fetching tasks for admin");
-          tasksQuery = collection(db, "tasks");
-        } else {
-          console.log("Fetching tasks for user:", user.uid);
-          tasksQuery = query(
-            collection(db, "tasks"),
-            where("ownerUid", "==", user.uid)
-          );
-        }
-        const tasksSnapshot = await getDocs(tasksQuery);
-        const tasksList = tasksSnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setTasks(tasksList);
-        setFilteredTasks(tasksList);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+	useEffect(() => {
+		const userTasks =
+			userData.teams.find((team) => team.teamId === currentTeam)?.tasks || [];
+		setTasks(userTasks);
+		setFilteredTasks(userTasks); // Ensure filteredTasks is also set
+		setLoading(false);
+	}, [userData, currentTeam]);
 
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(
-          "https://luckily-resolved-lamb.ngrok-free.app/users"
-        );
-        const text = await response.text();
-        console.log("Response text:", text); // Log the raw response text
-        const usersList = JSON.parse(text);
-        console.log("Fetched users:", usersList);
-        setUsers(usersList);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
+	useEffect(() => {
+		const applyFilters = () => {
+			let filtered = tasks;
+			if (priorityFilter) {
+				filtered = filtered.filter(
+					(task) => task.priority.toLowerCase() === priorityFilter.toLowerCase()
+				);
+			}
+			if (statusFilter) {
+				filtered = filtered.filter(
+					(task) => task.status.toLowerCase() === statusFilter.toLowerCase()
+				);
+			}
+			setFilteredTasks(filtered);
+		};
 
-    fetchTasks();
-    fetchUsers();
-  }, [user, role]);
+		applyFilters();
+	}, [priorityFilter, statusFilter, tasks]);
 
-  useEffect(() => {
-    const applyFilters = () => {
-      let filtered = tasks;
-      if (priorityFilter) {
-        filtered = filtered.filter(
-          (task) => task.priority.toLowerCase() === priorityFilter.toLowerCase()
-        );
-      }
-      if (statusFilter) {
-        filtered = filtered.filter(
-          (task) => task.status.toLowerCase() === statusFilter.toLowerCase()
-        );
-      }
-      setFilteredTasks(filtered);
-    };
+	if (loading) {
+		return <p>Loading tasks...</p>;
+	}
 
-    applyFilters();
-  }, [priorityFilter, statusFilter, tasks]);
+	const addTask = async () => {
+		if (role !== "admin") return; // Ensure only admin can add tasks
 
-  if (loading) {
-    return <p>Loading tasks...</p>;
-  }
+		const newTask = {
+			taskId: `task-${Date.now()}`, // Generate a unique task ID
+			content: "New Task",
+			owner: user.email,
+			ownerUid: user.uid,
+			status: "Not started",
+			deadline: new Date().toISOString().split("T")[0],
+			priority: "Low",
+			notes: "",
+			lastUpdated: new Date().toISOString(),
+		};
 
-  const addTask = async () => {
-    if (role !== "admin") return; // Ensure only admin can add tasks
-    const newTask = {
-      content: "New Task",
-      owner: user.email,
-      ownerUid: user.uid,
-      status: "Not started",
-      deadline: new Date().toISOString().split("T")[0],
-      priority: "Low",
-      notes: "",
-      lastUpdated: new Date().toISOString(),
-    };
-    const docRef = await addDoc(collection(db, "tasks"), newTask);
-    setTasks([...tasks, { ...newTask, id: docRef.id }]);
-  };
+		try {
+			const userDocRef = doc(db, "users", user.uid);
+			const userDoc = await getDoc(userDocRef);
 
-  const updateStatus = async (taskId, newStatus) => {
-    const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, {
-      status: newStatus,
-      lastUpdated: new Date().toISOString(),
-    });
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, status: newStatus } : task
-      )
-    );
-  };
+			if (userDoc.exists()) {
+				const userData = userDoc.data();
+				const updatedTeams = userData.teams.map((team) => {
+					if (team.teamId === currentTeam) {
+						team.tasks.push(newTask);
+					}
+					return team;
+				});
 
-  const updateDeadline = async (taskId, newDeadline) => {
-    const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, {
-      deadline: newDeadline,
-      lastUpdated: new Date().toISOString(),
-    });
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, deadline: newDeadline } : task
-      )
-    );
-  };
+				await updateDoc(userDocRef, { teams: updatedTeams });
 
-  const updatePriority = async (taskId, newPriority) => {
-    const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, {
-      priority: newPriority,
-      lastUpdated: new Date().toISOString(),
-    });
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, priority: newPriority } : task
-      )
-    );
-  };
+				setTasks([...tasks, newTask]);
+				setFilteredTasks([...filteredTasks, newTask]);
+			} else {
+				console.log("No such document!");
+			}
+		} catch (error) {
+			console.error("Error adding task:", error);
+		}
+	};
 
-  const updateContent = async (taskId, newContent) => {
-    const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, {
-      content: newContent,
-      lastUpdated: new Date().toISOString(),
-    });
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, content: newContent } : task
-      )
-    );
-  };
+	const updateTask = async (taskId, updates) => {
+		try {
+			const userDocRef = doc(db, "users", user.uid);
+			const userDoc = await getDoc(userDocRef);
 
-  const updateOwner = async (taskId, newOwnerEmail) => {
-    const user = users.find((u) => u.email === newOwnerEmail);
-    if (user) {
-      const taskDocRef = doc(db, "tasks", taskId);
-      await updateDoc(taskDocRef, {
-        owner: newOwnerEmail,
-        ownerUid: user.uid,
-        lastUpdated: new Date().toISOString(),
-      });
-      setTasks((prevTasks) =>
-        prevTasks.map((task) =>
-          task.id === taskId
-            ? { ...task, owner: newOwnerEmail, ownerUid: user.uid }
-            : task
-        )
-      );
-    } else {
-      console.error("No user found with email:", newOwnerEmail);
-    }
-  };
+			if (userDoc.exists()) {
+				const userData = userDoc.data();
+				const updatedTeams = userData.teams.map((team) => {
+					if (team.teamId === currentTeam) {
+						const updatedTasks = team.tasks.map((task) => {
+							if (task.taskId === taskId) {
+								return { ...task, ...updates };
+							}
+							return task;
+						});
+						return { ...team, tasks: updatedTasks };
+					}
+					return team;
+				});
 
-  const updateNotes = async (taskId, newNotes) => {
-    const taskDocRef = doc(db, "tasks", taskId);
-    await updateDoc(taskDocRef, {
-      notes: newNotes,
-      lastUpdated: new Date().toISOString(),
-    });
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, notes: newNotes } : task
-      )
-    );
-  };
+				await updateDoc(userDocRef, { teams: updatedTeams });
 
-  const deleteTask = async (taskId) => {
-    const taskDocRef = doc(db, "tasks", taskId);
-    await deleteDoc(taskDocRef);
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-  };
+				setTasks(
+					updatedTeams.find((team) => team.teamId === currentTeam)?.tasks || []
+				);
+			} else {
+				console.log("No such document!");
+			}
+		} catch (error) {
+			console.error("Error updating task:", error);
+		}
+	};
 
-  return (
-    <div className="project">
-      <h2 className="project-title">Project Tasks</h2>
-      {role === "admin" && (
-        <div className="add-buttons">
-          <button onClick={addTask} className="add-button">
-            New task
-          </button>
-          <button className="add-user" onClick={() => navigate("/register")}>
-            Add user
-          </button>
-        </div>
-      )}
-      <div className="filters-container">
-        <h2 className="filters-title">Filters</h2>
-        <div className="filters">
-          <div>
-            <p>Priority</p>
-            <select onChange={(e) => setPriorityFilter(e.target.value)}>
-              <option value="">All</option>
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
-              <option value="Critical">Critical</option>
-            </select>
-          </div>
-          <div>
-            <p>Status</p>
-            <select onChange={(e) => setStatusFilter(e.target.value)}>
-              <option value="">All</option>
-              <option value="Not started">Not started</option>
-              <option value="Working on it">Working on it</option>
-              <option value="Stuck">Stuck</option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <Tasks
-        name="To do"
-        tasksList={filteredTasks.filter((task) => task.status !== "Done")}
-        updateStatus={updateStatus}
-        updateDeadline={updateDeadline}
-        updatePriority={updatePriority}
-        updateContent={updateContent}
-        updateOwner={updateOwner}
-        updateNotes={updateNotes}
-        deleteTask={deleteTask}
-        updateLastUpdated={(taskId) => {
-          const taskDocRef = doc(db, "tasks", taskId);
-          return updateDoc(taskDocRef, {
-            lastUpdated: new Date().toISOString(),
-          });
-        }}
-        updateTask={(taskId, updates) => {
-          const taskDocRef = doc(db, "tasks", taskId);
-          return updateDoc(taskDocRef, updates);
-        }}
-        role={role}
-        users={users} // Pass users list to Tasks component
-        currentUserUid={user.uid} // Pass current user UID to Tasks component
-      />
-      <Tasks
-        name="Done"
-        tasksList={tasks.filter((task) => task.status === "Done")}
-        updateStatus={updateStatus}
-        updateDeadline={updateDeadline}
-        updatePriority={updatePriority}
-        updateContent={updateContent}
-        updateOwner={updateOwner}
-        updateNotes={updateNotes}
-        deleteTask={deleteTask}
-        updateLastUpdated={(taskId) => {
-          const taskDocRef = doc(db, "tasks", taskId);
-          return updateDoc(taskDocRef, {
-            lastUpdated: new Date().toISOString(),
-          });
-        }}
-        updateTask={(taskId, updates) => {
-          const taskDocRef = doc(db, "tasks", taskId);
-          return updateDoc(taskDocRef, updates);
-        }}
-        role={role}
-        users={users} // Pass users list to Tasks component
-        currentUserUid={user.uid} // Pass current user UID to Tasks component
-      />
-    </div>
-  );
+	const updateStatus = async (taskId, newStatus) => {
+		await updateTask(taskId, {
+			status: newStatus,
+			lastUpdated: new Date().toISOString(),
+		});
+	};
+
+	const deleteTask = async (taskId) => {
+		try {
+			const taskDocRef = doc(db, "tasks", taskId);
+			await deleteDoc(taskDocRef);
+
+			setTasks((prevTasks) =>
+				prevTasks.filter((task) => task.taskId !== taskId)
+			);
+			setFilteredTasks((prevFilteredTasks) =>
+				prevFilteredTasks.filter((task) => task.taskId !== taskId)
+			);
+		} catch (error) {
+			console.error("Error deleting task:", error);
+		}
+	};
+
+	return (
+		<div className="project">
+			<h2 className="project-title">Project Tasks</h2>
+			{role === "admin" && (
+				<div className="add-buttons">
+					<button
+						onClick={addTask}
+						className="add-button"
+					>
+						New task
+					</button>
+					<button
+						className="add-user"
+						onClick={() => navigate("/register")}
+					>
+						Add user
+					</button>
+				</div>
+			)}
+			<div className="filters-container">
+				<h2 className="filters-title">Filters</h2>
+				<div className="filters">
+					<div>
+						<p>Priority</p>
+						<select onChange={(e) => setPriorityFilter(e.target.value)}>
+							<option value="">All</option>
+							<option value="Low">Low</option>
+							<option value="Medium">Medium</option>
+							<option value="High">High</option>
+							<option value="Critical">Critical</option>
+						</select>
+					</div>
+					<div>
+						<p>Status</p>
+						<select onChange={(e) => setStatusFilter(e.target.value)}>
+							<option value="">All</option>
+							<option value="Not started">Not started</option>
+							<option value="Working on it">Working on it</option>
+							<option value="Stuck">Stuck</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<Tasks
+				name="To do"
+				tasksList={tasks.filter((task) => task.status !== "Done")}
+				updateTask={updateTask} // Pass updateTask function
+				deleteTask={deleteTask}
+				role={role}
+				users={
+					userData.teams.find((team) => team.teamId === currentTeam)?.users ||
+					[]
+				} // Pass users list to Tasks component
+				currentUserUid={user.uid} // Pass current user UID to Tasks component
+				// updateStatus={updateStatus} // Pass updateStatus function
+			/>
+			<Tasks
+				name="Done"
+				tasksList={tasks.filter((task) => task.status === "Done")}
+				updateTask={updateTask} // Pass updateTask function
+				deleteTask={deleteTask}
+				role={role}
+				users={
+					userData.teams.find((team) => team.teamId === currentTeam)?.users ||
+					[]
+				} // Pass users list to Tasks component
+				currentUserUid={user.uid} // Pass current user UID to Tasks component
+				// updateStatus={updateStatus} // Pass updateStatus function
+			/>
+		</div>
+	);
 }
 
 Project.propTypes = {
-  user: PropTypes.object.isRequired,
-  role: PropTypes.string.isRequired,
+	user: PropTypes.object.isRequired,
+	role: PropTypes.string.isRequired,
+	userData: PropTypes.object.isRequired,
+	currentTeam: PropTypes.string.isRequired,
 };

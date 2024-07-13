@@ -49,19 +49,29 @@ export default function TaskCard(props) {
 
 	const debouncedUpdateStatus = useCallback(
 		debounce((taskId, newStatus) => {
-			props.updateStatus(taskId, newStatus);
+			props.updateTask(taskId, {
+				lastUpdated: new Date().toISOString(),
+				owner: localOwner,
+				ownerUid: props.ownerUid,
+				notes: localNotes,
+				priority: localPriority,
+				deadline: localDeadline,
+				content: localContent,
+				status: newStatus,
+				taskId: props.taskId,
+			});
 		}, 1000),
 		[]
 	);
 
 	function changeSelection(event) {
-		let taskId = props.id;
+		let taskId = props.taskId;
 		let newStatus = event.target.value;
 		debouncedUpdateStatus(taskId, newStatus);
 	}
 
 	function handleDelete() {
-		props.deleteTask(props.id);
+		props.deleteTask(props.taskId);
 	}
 
 	function handleContentChange(event) {
@@ -91,12 +101,15 @@ export default function TaskCard(props) {
 
 	function handleUpdate() {
 		const now = new Date().toISOString();
-		props.updateContent(props.id, localContent);
-		props.updateDeadline(props.id, localDeadline);
-		props.updatePriority(props.id, localPriority);
-		props.updateOwner(props.id, localOwner);
-		props.updateNotes(props.id, localNotes);
-		props.updateLastUpdated(props.id, now);
+		const updates = {
+			content: localContent,
+			deadline: localDeadline,
+			priority: localPriority,
+			owner: localOwner,
+			notes: localNotes,
+			lastUpdated: now,
+		};
+		props.updateTask(props.taskId, updates);
 		setIsChanged(false);
 	}
 
@@ -310,23 +323,19 @@ export default function TaskCard(props) {
 }
 
 TaskCard.propTypes = {
-	content: PropTypes.string.isRequired,
-	deadline: PropTypes.string.isRequired,
-	priority: PropTypes.string.isRequired,
-	owner: PropTypes.string.isRequired,
-	notes: PropTypes.string.isRequired,
-	status: PropTypes.string.isRequired,
-	id: PropTypes.string.isRequired,
-	role: PropTypes.string.isRequired,
-	ownerUid: PropTypes.string.isRequired,
-	users: PropTypes.array.isRequired,
-	currentUserUid: PropTypes.string.isRequired,
-	deleteTask: PropTypes.func.isRequired,
-	updateContent: PropTypes.func.isRequired,
-	updateDeadline: PropTypes.func.isRequired,
-	updatePriority: PropTypes.func.isRequired,
-	updateOwner: PropTypes.func.isRequired,
-	updateNotes: PropTypes.func.isRequired,
-	updateLastUpdated: PropTypes.func.isRequired,
-	updateStatus: PropTypes.func.isRequired,
+	task: PropTypes.object,
+	role: PropTypes.string,
+	users: PropTypes.array,
+	currentUserUid: PropTypes.string,
+	setConfirm: PropTypes.func,
+	deadline: PropTypes.string,
+	notes: PropTypes.string,
+	status: PropTypes.string,
+	priority: PropTypes.string,
+	owner: PropTypes.string,
+	updateTask: PropTypes.func,
+	deleteTask: PropTypes.func,
+	content: PropTypes.string,
+	ownerUid: PropTypes.string,
+	taskId: PropTypes.string,
 };
