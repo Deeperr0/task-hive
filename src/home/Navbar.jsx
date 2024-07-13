@@ -66,8 +66,21 @@ export default function Navbar({
         </div>
         <div className="nav--right">
           {user != undefined && (
+            <div className="nav--user-desktop">
+              <a href="/change-password" className="change-password">
+                Change password
+              </a>
+              <button onClick={handleLogout} className="logout">
+                Logout
+              </button>
+              <h1 className="user-letter">
+                {userData.firstName[0].toUpperCase()}
+              </h1>
+            </div>
+          )}
+          {user != undefined && (
             <h1
-              className="user-letter"
+              className="user-letter user-letter-mobile"
               onClick={() => setToggleUserMenu(!toggleUserMenu)}
             >
               {userData.firstName[0].toUpperCase()}

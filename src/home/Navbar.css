@@ -139,8 +139,28 @@ nav {
 hr {
   margin: 0;
 }
+
+.user-letter-mobile {
+  display: none;
+}
+.nav--user-desktop {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+}
+.nav--user-desktop > * {
+  flex-shrink: 1;
+}
+
 @media screen and (max-width: 768px) {
   .nav--menu {
     display: block;
+  }
+  .nav--user-desktop {
+    display: none;
+  }
+  .user-letter-mobile {
+    display: flex;
   }
 }
