@@ -55,7 +55,7 @@ function App() {
   if (loading) {
     return <p>Loading...</p>;
   }
-
+  console.log("user:", user);
   return (
     <Router>
       {console.log(user)}
@@ -64,7 +64,6 @@ function App() {
           loggedIn={Boolean(user)}
           user={user}
           userData={userData}
-          role={userData.role}
           setCurrentWorkSpace={setCurrentWorkSpace}
           currentWorkSpace={currentWorkSpace}
           setExpandWorkSpace={setExpandWorkSpace}
@@ -74,8 +73,8 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register setUser={setUser} />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          {user ? (
-            role ? (
+          {user != null ? (
+            userData.role ? (
               <Route
                 path="/"
                 element={

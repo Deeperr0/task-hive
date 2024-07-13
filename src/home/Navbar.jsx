@@ -16,7 +16,6 @@ export default function Navbar({
   loggedIn,
   user,
   userData,
-  role,
   teams,
   currentWorkSpace,
   setCurrentWorkSpace,
