@@ -8,7 +8,7 @@ nav {
   background-color: 292f4c;
   padding-right: 2.5%;
 }
-.nav--left {
+.nav--logo {
   display: flex;
   align-items: center;
 }
@@ -17,7 +17,7 @@ nav {
   justify-content: center;
   align-items: center;
 }
-.nav--left a {
+.nav--logo a {
   text-decoration: none;
   color: white;
   font-weight: 500;
@@ -25,7 +25,7 @@ nav {
   margin-right: 16px;
   transition: color 0.3s ease-in-out;
 }
-.nav--left a:hover {
+.nav--logo a:hover {
   color: #00c875;
 }
 .nav--right {
@@ -48,7 +48,8 @@ nav {
   margin-left: 16px;
 }
 .logout,
-.change-password {
+.change-password,
+.profile {
   margin-left: 16px;
   background-color: transparent;
   border: 0;
@@ -59,11 +60,87 @@ nav {
   transition: background-color 0.3s ease-in-out;
   padding: 8px 16px;
   border-radius: 8px;
+  text-align: left;
 }
 
-.change-password {
+.change-password,
+.profile {
   text-decoration: none;
+}
+.logout {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1rem;
+  align-items: center;
 }
 .logout:hover {
   background-color: #676879;
+}
+
+.nav--side-menu,
+.nav--user-menu {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  background-color: rgba(48, 50, 78, 1);
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 20;
+  padding-top: 4rem;
+  justify-content: space-between;
+  padding-right: 1rem;
+}
+.hidden,
+.nav--menu {
+  display: none;
+}
+.nav--close {
+  font-size: 2rem;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+.user-menu-container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.user-menu-container > .nav--close {
+  width: 90%;
+  justify-content: end;
+  margin: 0 auto;
+}
+
+.user-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 90%;
+  text-align: left;
+  margin: 0 auto;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  margin-left: -1rem;
+}
+.user-info > h2 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+.nav--user-menu {
+  padding-right: 0;
+}
+
+hr {
+  margin: 0;
+}
+@media screen and (max-width: 768px) {
+  .nav--menu {
+    display: block;
+  }
 }

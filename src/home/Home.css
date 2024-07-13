@@ -12,3 +12,12 @@
 .home--right {
   width: 75%;
 }
+
+@media screen and (max-width: 768px) {
+  .home--left {
+    display: none;
+  }
+  .home--right {
+    width: 100%;
+  }
+}
