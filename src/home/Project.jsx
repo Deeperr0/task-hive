@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 
 export default function Project({ user, role, currentTeam, userData }) {
 	const [tasks, setTasks] = useState([]);
-	const [users, setUsers] = useState([]);
+	// const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [filteredTasks, setFilteredTasks] = useState([]);
 	const [priorityFilter, setPriorityFilter] = useState("");
@@ -34,7 +34,7 @@ export default function Project({ user, role, currentTeam, userData }) {
 	}, [userData, currentTeam]);
 
 	useEffect(() => {
-		const applyFilters = () => {
+		function applyFilters() {
 			let filtered = tasks;
 			if (priorityFilter) {
 				filtered = filtered.filter(
@@ -47,7 +47,7 @@ export default function Project({ user, role, currentTeam, userData }) {
 				);
 			}
 			setFilteredTasks(filtered);
-		};
+		}
 
 		applyFilters();
 	}, [priorityFilter, statusFilter, tasks]);
@@ -56,7 +56,7 @@ export default function Project({ user, role, currentTeam, userData }) {
 		return <p>Loading tasks...</p>;
 	}
 
-	const addTask = async () => {
+	async function addTask() {
 		if (role !== "admin") return; // Ensure only admin can add tasks
 
 		const newTask = {
@@ -94,9 +94,9 @@ export default function Project({ user, role, currentTeam, userData }) {
 		} catch (error) {
 			console.error("Error adding task:", error);
 		}
-	};
+	}
 
-	const updateTask = async (taskId, updates) => {
+	async function updateTask(taskId, updates) {
 		try {
 			const userDocRef = doc(db, "users", user.uid);
 			const userDoc = await getDoc(userDocRef);
@@ -127,16 +127,16 @@ export default function Project({ user, role, currentTeam, userData }) {
 		} catch (error) {
 			console.error("Error updating task:", error);
 		}
-	};
+	}
 
-	const updateStatus = async (taskId, newStatus) => {
-		await updateTask(taskId, {
-			status: newStatus,
-			lastUpdated: new Date().toISOString(),
-		});
-	};
+	// async function updateStatus(taskId, newStatus) {
+	// 	await updateTask(taskId, {
+	// 		status: newStatus,
+	// 		lastUpdated: new Date().toISOString(),
+	// 	});
+	// }
 
-	const deleteTask = async (taskId) => {
+	async function deleteTask(taskId) {
 		try {
 			const taskDocRef = doc(db, "tasks", taskId);
 			await deleteDoc(taskDocRef);
@@ -150,7 +150,7 @@ export default function Project({ user, role, currentTeam, userData }) {
 		} catch (error) {
 			console.error("Error deleting task:", error);
 		}
-	};
+	}
 
 	return (
 		<div className="project">

@@ -129,3 +129,10 @@
 		font-size: 18px;
 	}
 }
+
+.no-account {
+	color: white;
+}
+.login-container a {
+	color: rgb(0, 124, 0);
+}

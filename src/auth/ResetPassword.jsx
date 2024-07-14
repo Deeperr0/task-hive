@@ -9,7 +9,7 @@ export default function ResetPassword() {
 	const [message, setMessage] = useState("");
 	const navigate = useNavigate();
 
-	const handleResetPassword = async (event) => {
+	async function handleResetPassword(event) {
 		event.preventDefault();
 		try {
 			await sendPasswordResetEmail(auth, email);
@@ -20,7 +20,7 @@ export default function ResetPassword() {
 			console.error("Error sending password reset email:", error);
 			setMessage("Error sending password reset email.");
 		}
-	};
+	}
 
 	useEffect(() => {
 		if (

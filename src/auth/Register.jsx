@@ -15,11 +15,11 @@ export default function Register({ setUser }) {
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
+	// const [showPassword, setShowPassword] = useState(false);
 	const [username, setUsername] = useState("");
 	const navigate = useNavigate();
 
-	const handleRegister = async (event) => {
+	async function handleRegister(event) {
 		event.preventDefault();
 		try {
 			const userCredential = await createUserWithEmailAndPassword(
@@ -67,7 +67,7 @@ export default function Register({ setUser }) {
 					"Email already in use. Please try again with a different email.";
 			}
 		}
-	};
+	}
 
 	return (
 		<div className="register-container">

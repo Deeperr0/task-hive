@@ -1,3 +1,4 @@
+import { Loader } from "./Loader";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, db } from "./firebase";
@@ -13,92 +14,105 @@ import ChangePassword from "./auth/ChangePassword";
 import "./App.css";
 
 function App() {
-  // Track if a user is logged in and stores the user's object from firebase auth
-  const [user, setUser] = useState(null);
-  // Track user's role (To be removed later)
-  const [role, setRole] = useState(null);
-  // Tracks page loading
-  const [loading, setLoading] = useState(true);
-  // Stores user data
-  const [userData, setUserData] = useState({});
-  const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
-  const [expandWorkSpace, setExpandWorkSpace] = useState(false);
-  const [teams, setTeams] = useState([]);
+	const [user, setUser] = useState(null);
+	// const [role, setRole] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [userData, setUserData] = useState({});
+	const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
+	const [expandWorkSpace, setExpandWorkSpace] = useState(false);
+	const [teams, setTeams] = useState([]);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        console.log("User authenticated:", currentUser);
-        const userDocRef = doc(db, "users", currentUser.uid);
-        const userDoc = await getDoc(userDocRef);
-        if (userDoc.exists()) {
-          const data = userDoc.data();
-          setUserData(data);
-          setRole(data.role);
-          setTeams(data.teams || []);
-          setCurrentWorkSpace(data.teams ? data.teams[0].teamId : null);
-        } else {
-          console.log("No such user document!");
-          setUserData(null);
-        }
-      } else {
-        console.log("No user authenticated");
-        setUserData(null);
-      }
-      setUser(currentUser);
-      setLoading(false);
-    });
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+			if (currentUser) {
+				console.log("User authenticated:", currentUser);
+				const userDocRef = doc(db, "users", currentUser.uid);
+				const userDoc = await getDoc(userDocRef);
+				if (userDoc.exists()) {
+					const data = userDoc.data();
+					setUserData(data);
+					setTeams(data.teams || []);
+					setCurrentWorkSpace(data.teams[0].teamId);
+				} else {
+					console.log("No such user document!");
+					setUserData(null);
+				}
+			} else {
+				console.log("No user authenticated");
+				setUserData(null);
+			}
+			setUser(currentUser);
+			setLoading(false);
+		});
 
-    return () => unsubscribe();
-  }, []);
+		return () => unsubscribe();
+	}, []);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-  return (
-    <Router>
-      <div className="container">
-        <Navbar
-          loggedIn={Boolean(user)}
-          user={user}
-          userData={userData}
-          setCurrentWorkSpace={setCurrentWorkSpace}
-          currentWorkSpace={currentWorkSpace}
-          setExpandWorkSpace={setExpandWorkSpace}
-          expandWorkSpace={expandWorkSpace}
-          teams={teams}
-        />
-        <Routes>
-          <Route path="/register" element={<Register setUser={setUser} />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          {user != null ? (
-            role ? (
-              <Route
-                path="/"
-                element={
-                  <Home
-                    user={user}
-                    userData={userData}
-                    role={role}
-                    setCurrentWorkSpace={setCurrentWorkSpace}
-                    currentWorkSpace={currentWorkSpace}
-                    setExpandWorkSpace={setExpandWorkSpace}
-                    expandWorkSpace={expandWorkSpace}
-                    teams={teams}
-                  />
-                }
-              />
-            ) : (
-              <Route path="/" element={<p>Loading role...</p>} />
-            )
-          ) : (
-            <Route path="/" element={<Login setUser={setUser} />} />
-          )}
-          <Route path="/change-password" element={<ChangePassword />} />
-        </Routes>
-      </div>
-    </Router>
-  );
+	if (loading) {
+		return (
+			<div id="loader-container">
+				<Loader />
+			</div>
+		);
+	}
+	return (
+		<Router>
+			<div className="container">
+				<Navbar
+					user={user}
+					userData={userData}
+					setCurrentWorkSpace={setCurrentWorkSpace}
+					currentWorkSpace={currentWorkSpace}
+					setExpandWorkSpace={setExpandWorkSpace}
+					expandWorkSpace={expandWorkSpace}
+					teams={teams}
+				/>
+				<Routes>
+					<Route
+						path="/register"
+						element={<Register setUser={setUser} />}
+					/>
+					<Route
+						path="/reset-password"
+						element={<ResetPassword />}
+					/>
+					{user != null ? (
+						userData.role ? (
+							<Route
+								path="/"
+								element={
+									<Home
+										user={user}
+										userData={userData}
+										role={userData.role}
+										setCurrentWorkSpace={setCurrentWorkSpace}
+										currentWorkSpace={currentWorkSpace}
+										setExpandWorkSpace={setExpandWorkSpace}
+										expandWorkSpace={expandWorkSpace}
+										teams={teams}
+									/>
+								}
+							/>
+						) : (
+							<Route
+								path="/"
+								element={<Loader />}
+							/>
+						)
+					) : (
+						<Route
+							path="/"
+							element={<Login setUser={setUser} />}
+						/>
+					)}
+					<Route
+						path="/change-password"
+						element={<ChangePassword />}
+					/>
+				</Routes>
+			</div>
+		</Router>
+	);
 }
 
 export default App;

@@ -8,7 +8,7 @@ export default function ChangePassword() {
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 
-	const handleChangePassword = async (event) => {
+	async function handleChangePassword(event) {
 		event.preventDefault();
 		try {
 			await updatePassword(auth.currentUser, newPassword);
@@ -20,7 +20,7 @@ export default function ChangePassword() {
 			console.error("Error changing password:", error.message);
 			setError(error.message);
 		}
-	};
+	}
 
 	return (
 		<div>
