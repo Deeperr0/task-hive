@@ -50,14 +50,7 @@ export default function Tasks(props) {
 									deadline={task.deadline}
 									priority={task.priority}
 									notes={task.notes}
-									// updateStatus={props.updateStatus}
-									// updateDeadline={props.updateDeadline}
-									// updatePriority={props.updatePriority}
-									// updateContent={props.updateContent}
-									// updateOwner={props.updateOwner}
-									// updateNotes={props.updateNotes}
 									deleteTask={props.deleteTask}
-									// updateLastUpdated={props.updateLastUpdated}
 									updateTask={props.updateTask}
 									role={props.role}
 									users={props.users}

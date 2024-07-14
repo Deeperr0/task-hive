@@ -16,7 +16,13 @@ import "./Project.css";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
-export default function Project({ user, role, currentTeam, userData }) {
+export default function Project({
+	user,
+	role,
+	currentTeam,
+	userData,
+	usersList,
+}) {
 	const [tasks, setTasks] = useState([]);
 	// const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -207,6 +213,8 @@ export default function Project({ user, role, currentTeam, userData }) {
 				} // Pass users list to Tasks component
 				currentUserUid={user.uid} // Pass current user UID to Tasks component
 				// updateStatus={updateStatus} // Pass updateStatus function
+				usersList={usersList}
+				userData={userData}
 			/>
 			<Tasks
 				name="Done"
@@ -219,7 +227,8 @@ export default function Project({ user, role, currentTeam, userData }) {
 					[]
 				} // Pass users list to Tasks component
 				currentUserUid={user.uid} // Pass current user UID to Tasks component
-				// updateStatus={updateStatus} // Pass updateStatus function
+				usersList={usersList}
+				userData={userData}
 			/>
 		</div>
 	);
@@ -230,4 +239,5 @@ Project.propTypes = {
 	role: PropTypes.string.isRequired,
 	userData: PropTypes.object.isRequired,
 	currentTeam: PropTypes.string.isRequired,
+	usersList: PropTypes.array.isRequired,
 };

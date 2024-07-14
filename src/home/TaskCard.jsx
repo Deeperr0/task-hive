@@ -1,8 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
+import { UserDataContext, UsersListContext } from "../App";
 
 function debounce(func, wait) {
 	let timeout;
@@ -39,6 +40,9 @@ export default function TaskCard(props) {
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirm, setConfirm] = useState(false);
 
+	const { usersList, setUsersList } = useContext(UsersListContext);
+	const { userData, setUserData } = useContext(UserDataContext);
+	console.log(userData.teams.filter((team) => team.teamId === props.teamId));
 	useEffect(() => {
 		setLocalContent(props.content);
 		setLocalDeadline(convertToUserTimezone(props.deadline));

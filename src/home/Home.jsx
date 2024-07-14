@@ -12,6 +12,7 @@ export default function Home({
 	setCurrentWorkSpace,
 	expandWorkSpace,
 	setExpandWorkSpace,
+	usersList,
 }) {
 	return (
 		<div className="home--container">
@@ -31,6 +32,7 @@ export default function Home({
 					role={role}
 					userData={userData}
 					currentTeam={currentWorkSpace}
+					usersList={usersList}
 				/>
 			</div>
 		</div>
@@ -46,4 +48,5 @@ Home.propTypes = {
 	setCurrentWorkSpace: PropTypes.func,
 	expandWorkSpace: PropTypes.bool,
 	setExpandWorkSpace: PropTypes.func,
+	usersList: PropTypes.array,
 };
