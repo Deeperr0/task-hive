@@ -1,132 +1,132 @@
 .register-title {
-  font-weight: 400;
+	font-weight: 400;
 }
 .register-container {
-  background-color: #2b2b5e;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 25%;
-  margin: 15vh auto;
-  height: 45%;
-  max-height: 75%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	background-color: #2b2b5e;
+	padding: 40px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	width: 25%;
+	margin: 15vh auto;
+	height: 45%;
+	max-height: 75%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .register-container h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
+	margin-bottom: 20px;
+	font-size: 24px;
 }
 
 .register-form {
-  height: 100%;
-  width: 90%;
-  margin-top: 16px;
+	height: 100%;
+	width: 90%;
+	margin-top: 16px;
 }
 
 .register-container input,
 .password-field-register {
-  width: 100%;
-  padding: 10px;
-  margin: 10px auto;
-  border: 1px solid #444;
-  border-radius: 4px;
-  background-color: #333;
-  color: #fff;
-  outline: none;
-  height: 20%;
+	width: 100%;
+	padding: 10px;
+	margin: 10px auto;
+	border: 1px solid #444;
+	border-radius: 4px;
+	background-color: #333;
+	color: #fff;
+	outline: none;
+	height: 20%;
 }
 
 .register-container button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 4px;
-  background-color: #4caf50;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 16px;
+	width: 100%;
+	padding: 10px;
+	border: none;
+	border-radius: 4px;
+	background-color: #4caf50;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+	margin-top: 16px;
 }
 
 .register-container button:hover {
-  background-color: #45a049;
+	background-color: #45a049;
 }
 
 .password-field-register {
-  display: flex;
-  align-items: center;
-  background-color: #333;
-  padding: 0;
-  overflow: hidden;
+	display: flex;
+	align-items: center;
+	background-color: #333;
+	padding: 0;
+	overflow: hidden;
 }
 
 .password-field-register input {
-  margin: 0;
-  border: 0;
-  height: 100%;
-  background-color: #333;
+	margin: 0;
+	border: 0;
+	height: 100%;
+	background-color: #333;
 }
 
 .password-field-register input:autofill {
-  margin: 0;
-  border: 0;
-  height: 100%;
-  background-color: #333 !important;
+	margin: 0;
+	border: 0;
+	height: 100%;
+	background-color: #333 !important;
 }
 
 .show-password {
-  margin: 0 !important;
-  border-radius: 0;
-  background-color: transparent !important;
-  width: 20% !important;
-  padding: 0 !important;
-  height: 100% !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	margin: 0 !important;
+	border-radius: 0;
+	background-color: transparent !important;
+	width: 20% !important;
+	padding: 0 !important;
+	height: 100% !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .register-status {
-  margin-top: 16px;
+	margin-top: 16px;
 }
 
 .name-fields-container {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .name-fields-container input {
-  width: 47.5%;
-  margin: 10px 0;
+	width: 47.5%;
+	margin: 10px 0;
 }
 
 @media screen and (max-width: 768px) {
-  .register-container {
-    width: 80%;
-    padding: 8px;
-    padding-top: 32px;
-  }
-  .register-form {
-    width: 90%;
-  }
-  .register-container h2 {
-    font-size: 20px;
-    margin: 0;
-  }
+	.register-container {
+		width: 80%;
+		padding: 8px;
+		padding-top: 32px;
+	}
+	.register-form {
+		width: 90%;
+	}
+	.register-container h2 {
+		font-size: 20px;
+		margin: 0;
+	}
 
-  .register-container button {
-    font-size: 14px;
-  }
+	.register-container button {
+		font-size: 14px;
+	}
 
-  .register-form input {
-    font-size: 14px;
-  }
+	.register-form input {
+		font-size: 14px;
+	}
 
-  .register-title {
-    font-size: 18px;
-  }
+	.register-title {
+		font-size: 18px;
+	}
 }

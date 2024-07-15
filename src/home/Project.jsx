@@ -63,7 +63,6 @@ export default function Project({
 		return <Loader />;
 	}
 
-	//TODO: MAKE IT SO ADDING A TASK IN A TEAM ADDS IT IN OTHER MEMBER'S VERSION OF THE TEAM AS WELL
 	async function addTask() {
 		if (role !== "admin") return; // Ensure only admin can add tasks
 
@@ -80,25 +79,42 @@ export default function Project({
 		};
 
 		try {
-			const userDocRef = doc(db, "users", user.uid);
-			const userDoc = await getDoc(userDocRef);
+			console.log(usersList);
+			console.log("Current team:", currentTeam);
 
-			if (userDoc.exists()) {
-				const userData = userDoc.data();
-				const updatedTeams = userData.teams.map((team) => {
-					if (team.teamId === currentTeam) {
-						team.tasks.push(newTask);
+			await Promise.all(
+				usersList.map(async (userItem) => {
+					if (userItem.teams.some((team) => team.teamId === currentTeam)) {
+						const q = query(
+							collection(db, "users"),
+							where("username", "==", userItem.username)
+						);
+						const qSnapshot = await getDocs(q);
+						const userDoc = qSnapshot.docs[0]; // Assuming there's only one user with this username
+
+						if (userDoc) {
+							const userData = userDoc.data();
+							const updatedTeams = userData.teams.map((team) => {
+								if (team.teamId === currentTeam) {
+									team.tasks.push(newTask);
+								}
+								return team;
+							});
+
+							const userDocRef = doc(db, "users", userDoc.id);
+							await updateDoc(userDocRef, { teams: updatedTeams });
+
+							if (userItem.uid === user.uid) {
+								setTasks((prevTasks) => [...prevTasks, newTask]);
+								setFilteredTasks((prevFilteredTasks) => [
+									...prevFilteredTasks,
+									newTask,
+								]);
+							}
+						}
 					}
-					return team;
-				});
-
-				await updateDoc(userDocRef, { teams: updatedTeams });
-
-				setTasks([...tasks, newTask]);
-				setFilteredTasks([...filteredTasks, newTask]);
-			} else {
-				console.log("No such document!");
-			}
+				})
+			);
 		} catch (error) {
 			console.error("Error adding task:", error);
 		}
@@ -106,32 +122,44 @@ export default function Project({
 
 	async function updateTask(taskId, updates) {
 		try {
-			const userDocRef = doc(db, "users", user.uid);
-			const userDoc = await getDoc(userDocRef);
+			await Promise.all(
+				usersList.map(async (userItem) => {
+					if (userItem.teams.some((team) => team.teamId === currentTeam)) {
+						const q = query(
+							collection(db, "users"),
+							where("username", "==", userItem.username)
+						);
+						const qSnapshot = await getDocs(q);
+						const userDoc = qSnapshot.docs[0]; // Assuming there's only one user with this username
 
-			if (userDoc.exists()) {
-				const userData = userDoc.data();
-				const updatedTeams = userData.teams.map((team) => {
-					if (team.teamId === currentTeam) {
-						const updatedTasks = team.tasks.map((task) => {
-							if (task.taskId === taskId) {
-								return { ...task, ...updates };
+						if (userDoc) {
+							const userData = userDoc.data();
+							const updatedTeams = userData.teams.map((team) => {
+								if (team.teamId === currentTeam) {
+									const updatedTasks = team.tasks.map((task) => {
+										if (task.taskId === taskId) {
+											return { ...task, ...updates };
+										}
+										return task;
+									});
+									return { ...team, tasks: updatedTasks };
+								}
+								return team;
+							});
+
+							const userDocRef = doc(db, "users", userDoc.id);
+							await updateDoc(userDocRef, { teams: updatedTeams });
+
+							if (userItem.uid === user.uid) {
+								setTasks(
+									updatedTeams.find((team) => team.teamId === currentTeam)
+										?.tasks || []
+								);
 							}
-							return task;
-						});
-						return { ...team, tasks: updatedTasks };
+						}
 					}
-					return team;
-				});
-
-				await updateDoc(userDocRef, { teams: updatedTeams });
-
-				setTasks(
-					updatedTeams.find((team) => team.teamId === currentTeam)?.tasks || []
-				);
-			} else {
-				console.log("No such document!");
-			}
+				})
+			);
 		} catch (error) {
 			console.error("Error updating task:", error);
 		}
@@ -204,6 +232,9 @@ export default function Project({
 					</div>
 				</div>
 			</div>
+			{
+				//TODO: MAKE IT SO THAT ONLY THE ADMIN SEES ALL THE TASKS
+			}
 			<Tasks
 				name="To do"
 				tasksList={tasks.filter((task) => task.status !== "Done")}
