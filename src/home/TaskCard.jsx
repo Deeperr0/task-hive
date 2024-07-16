@@ -194,9 +194,6 @@ export default function TaskCard(props) {
       <select
         onChange={changeSelection}
         value={props.status}
-        disabled={
-          props.role !== "admin" && props.ownerUid !== props.currentUserUid
-        }
         className={`select-status ${statusClass} status-column`}
       >
         <option value="Done" className="option-status-done">
@@ -268,9 +265,6 @@ export default function TaskCard(props) {
         value={localNotes}
         onChange={handleNotesChange}
         placeholder="Notes"
-        disabled={
-          props.role !== "admin" && props.ownerUid !== props.currentUserUid
-        }
         className="notes-column"
       />
       <div className="buttons buttons-column">
