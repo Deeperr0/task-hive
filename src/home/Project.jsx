@@ -32,6 +32,7 @@ export default function Project({
 	const [priorityFilter, setPriorityFilter] = useState("");
 	const [statusFilter, setStatusFilter] = useState("");
 	const [userToAdd, setUserToAdd] = useState("");
+	const [chosenRole, setChosenRole] = useState("");
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -238,8 +239,8 @@ export default function Project({
 		}
 	}
 
-	//TODO:MAKE IT SO THAT THE ADMIN CAN ADD A USER TO A TEAM
-	async function addUser() {
+	//TODO:MAKE IT SO THAT THE ADMIN CAN CHOOSE ROLE OF ADDED USER
+	async function addUser(chosenRole) {
 		const userOneRef = doc(db, "users", user.uid);
 		const userOne = await getDoc(userOneRef);
 		const userOneData = userOne.data();
@@ -263,6 +264,7 @@ export default function Project({
 			uid: user2.id,
 			email: user2.data().email,
 		});
+		currentTeamObj.role = chosenRole;
 		console.log(currentTeamObj);
 		const updatedTeamMembers = currentTeamObj.teamMembers;
 		// Update current team object with new members
@@ -327,7 +329,11 @@ export default function Project({
 						value={userToAdd}
 						onChange={(e) => setUserToAdd(e.target.value)}
 					/>
-					<button onClick={addUser}>Add</button>
+					<select onChange={(e) => setChosenRole(e.target.value)}>
+						<option value="admin">Admin</option>
+						<option value="user">User</option>
+					</select>
+					<button onClick={() => addUser(chosenRole)}>Add</button>
 				</div>
 			</div>
 			<h2 className="project-title">Project Tasks</h2>
