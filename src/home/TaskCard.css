@@ -51,6 +51,8 @@
 
 .task--owner select {
   padding-left: 8px;
+  border-radius: 0;
+  border: 0;
 }
 .task--owner > * {
   padding-left: 8px;

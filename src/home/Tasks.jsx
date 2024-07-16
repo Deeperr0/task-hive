@@ -18,7 +18,6 @@ export default function Tasks(props) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
   return (
     <div className="task-type-container">
       <h3
@@ -39,24 +38,26 @@ export default function Tasks(props) {
           </div>
           {props.tasksList.length != 0 && (
             <div className="tasks--list">
-              {props.tasksList.map((task) => (
-                <Task
-                  key={task.taskId}
-                  taskId={task.taskId}
-                  content={task.content}
-                  owner={task.owner}
-                  ownerUid={task.ownerUid}
-                  status={task.status}
-                  deadline={task.deadline}
-                  priority={task.priority}
-                  notes={task.notes}
-                  deleteTask={props.deleteTask}
-                  updateTask={props.updateTask}
-                  role={props.role}
-                  users={props.users}
-                  currentUserUid={props.currentUserUid}
-                />
-              ))}
+              {props.tasksList
+                .filter((task) => task.owner === props.userData.username)
+                .map((task) => (
+                  <Task
+                    key={task.taskId}
+                    taskId={task.taskId}
+                    content={task.content}
+                    owner={task.owner}
+                    ownerUid={task.ownerUid}
+                    status={task.status}
+                    deadline={task.deadline}
+                    priority={task.priority}
+                    notes={task.notes}
+                    deleteTask={props.deleteTask}
+                    updateTask={props.updateTask}
+                    role={props.role}
+                    users={props.users}
+                    currentUserUid={props.currentUserUid}
+                  />
+                ))}
             </div>
           )}
         </div>
