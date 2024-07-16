@@ -1,89 +1,88 @@
 /* TaskCard.css */
 .task--card {
-  display: grid;
-  grid-template-columns: 170px 140px 150px 170px 100px 170px 140px;
-  padding: 1rem;
-  padding-bottom: 0;
-  padding-top: 0;
-  overflow: visible;
+	display: grid;
+	grid-template-columns: 170px 140px 150px 170px 100px 170px 140px;
+	padding: 1rem;
+	padding-bottom: 0;
+	padding-top: 0;
+	overflow: visible;
 }
 
 .task--card > * {
-  background-color: rgba(48, 50, 78, 0.97);
-  color: #d5d8df;
-  padding: 8px;
-  border: 1px solid rgba(212, 215, 223, 0.3);
-  margin: 0;
-  display: flex;
-  align-items: center;
-  font-size: 0.875rem;
-  line-height: 0.1;
+	background-color: rgba(48, 50, 78, 0.97);
+	color: #d5d8df;
+	padding: 8px;
+	border: 1px solid rgba(212, 215, 223, 0.3);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	font-size: 0.875rem;
+	line-height: 0.1;
 }
 
 .deadline-column {
-  line-height: 1;
-  padding-right: 8px;
-  width: 100%;
-  justify-content: center;
+	line-height: 1;
+	padding-right: 8px;
+	width: 100%;
+	justify-content: center;
 }
 
 .task--card > input,
 .task--card > select {
-  padding-top: 0;
-  padding-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
 }
 
 .sticky {
-  position: sticky;
-  left: 0; /* Sticky position */
-  z-index: 1;
+	position: sticky;
+	left: 0; /* Sticky position */
+	z-index: 1;
 }
 .task--card select {
-  height: 100%;
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 .task--owner {
-  width: 100%;
-  padding: 0;
-  margin: 0;
+	width: 100%;
+	padding: 0;
+	margin: 0;
 }
 
 .task--owner select {
-  padding-left: 8px;
-  border-radius: 0;
-  border: 0;
+	padding-left: 8px;
+	border-radius: 0;
+	border: 0;
 }
 .task--owner > * {
-  padding-left: 8px;
+	padding-left: 8px;
+	margin: 0;
 }
-
+.task--owner-text {
+	color: #d5d8df;
+}
 .task--card option {
-  height: 100%;
-}
-
-.task--owner {
-  padding-left: 8px;
+	height: 100%;
 }
 
 .buttons button {
-  background-color: red;
-  border: 0;
-  border-radius: 50%;
-  aspect-ratio: 1/1;
-  height: 40px;
-  color: white;
-  padding: 8px;
-  transition: background-color 0.3s ease-in-out;
-  margin: auto;
-  border: 0 !important;
+	background-color: red;
+	border: 0;
+	border-radius: 50%;
+	aspect-ratio: 1/1;
+	height: 40px;
+	color: white;
+	padding: 8px;
+	transition: background-color 0.3s ease-in-out;
+	margin: auto;
+	border: 0 !important;
 }
 .buttons-column {
-  padding: 0;
+	padding: 0;
 }
 
 .task--delete:hover {
-  background-color: #b30000;
+	background-color: #b30000;
 }
 
 /* Status Colors for Options */
@@ -91,14 +90,14 @@
 .task--status-done,
 .option-priority-low,
 .task--priority-low {
-  background-color: #129961 !important;
+	background-color: #129961 !important;
 }
 
 .option-status-working,
 .task--status-working,
 .option-priority-medium,
 .task--priority-medium {
-  background-color: #fdbc64 !important;
+	background-color: #fdbc64 !important;
 }
 
 .option-status-stuck,
@@ -106,97 +105,97 @@
 .option-priority-high,
 .task--priority-critical,
 .task--priority-high {
-  background-color: #ff0000 !important;
+	background-color: #ff0000 !important;
 }
 
 .option-status-not-started,
 .task--status-not-started,
 .option-priority-critical {
-  background-color: #563e3e !important;
+	background-color: #563e3e !important;
 }
 
 /* Custom dropdown styling */
 .select-priority,
 .select-status {
-  width: 100%;
-  padding: 8px;
-  color: #ffffff;
+	width: 100%;
+	padding: 8px;
+	color: #ffffff;
 }
 
 .select-priority {
-  background-color: #33d391;
+	background-color: #33d391;
 }
 
 .select-priority option,
 .select-status option {
-  color: #000; /* default color */
+	color: #000; /* default color */
 }
 .buttons {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  border: 0;
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	border: 0;
 }
 .task--update {
-  background-color: #00c875 !important;
+	background-color: #00c875 !important;
 }
 .task--update:disabled {
-  background-color: #4b4b4b !important;
-  cursor: not-allowed;
+	background-color: #4b4b4b !important;
+	cursor: not-allowed;
 }
 
 .notes-column {
-  resize: none;
-  display: flex;
-  align-items: center;
-  line-height: 1;
-  padding: auto 8px;
-  padding-bottom: 0;
+	resize: none;
+	display: flex;
+	align-items: center;
+	line-height: 1;
+	padding: auto 8px;
+	padding-bottom: 0;
 }
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  z-index: 10;
-  --bg-opacity: 0.5;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100vw;
+	z-index: 10;
+	--bg-opacity: 0.5;
 }
 
 .hidden {
-  display: none;
+	display: none;
 }
 .confirm-delete-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  background-color: #2b2b5e;
-  padding: 40px;
-  width: 80%;
-  margin: auto;
-  font-size: 0.75rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+	background-color: #2b2b5e;
+	padding: 40px;
+	width: 80%;
+	margin: auto;
+	font-size: 0.75rem;
 }
 .confirm-delete-container p {
-  line-height: 1.15;
-  color: white;
+	line-height: 1.15;
+	color: white;
 }
 .cancel-button,
 .delete-button {
-  border: 0;
-  border-radius: 8px;
-  padding: 8px 16px;
-  width: 60%;
-  font-size: 0.75rem;
+	border: 0;
+	border-radius: 8px;
+	padding: 8px 16px;
+	width: 60%;
+	font-size: 0.75rem;
 }
 .delete-button {
-  background-color: red;
-  color: white;
+	background-color: red;
+	color: white;
 }
 
 .overdue {
-  background-color: red;
+	background-color: red;
 }
 .today {
-  background-color: rgb(223, 111, 7) !important;
+	background-color: rgb(223, 111, 7) !important;
 }
