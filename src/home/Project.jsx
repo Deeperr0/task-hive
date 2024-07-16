@@ -30,6 +30,7 @@ export default function Project({
 	const [priorityFilter, setPriorityFilter] = useState("");
 	const [statusFilter, setStatusFilter] = useState("");
 	const [userToAdd, setUserToAdd] = useState("");
+	const [chosenRole, setChosenRole] = useState("");
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -237,27 +238,85 @@ export default function Project({
 		}
 	}
 
-	function addUser() {
-		if (usersList.filter((user) => user.email === userToAdd).length > 0) {
-			setUserToAdd("");
-			const q = query(collection(db, "users"), where("email", "==", userToAdd));
-			getDocs(q).then((querySnapshot) => {
-				querySnapshot.forEach((doc) => {
-					const userData = doc.data();
-					const updatedTeams = userData.teams.map((team) => {
-						if (team.teamId === currentTeam) {
-							team.teamMembers.push(user);
-						}
-						return team;
-					});
-					const userDocRef = doc(db, "users", doc.id);
-					updateDoc(userDocRef, { teams: updatedTeams });
-				});
-			});
-		} else {
-			navigate("/register");
+	//TODO:MAKE IT SO THAT THE ADMIN CAN CHOOSE ROLE OF ADDED USER
+	async function addUser(chosenRole) {
+		const userOneRef = doc(db, "users", user.uid);
+		const userOne = await getDoc(userOneRef);
+		const userOneData = userOne.data();
+		const currentTeamObj = userOneData.teams.find(
+			(team) => team.teamId === currentTeam
+		);
+		const q = query(collection(db, "users"), where("email", "==", userToAdd));
+		const querySnapshot = await getDocs(q);
+		const user2 = querySnapshot.docs[0];
+		console.log(user2.data());
+		if (
+			userData.teams
+				.filter((team) => team.teamId === currentTeam)[0]
+				.teamMembers.filter((member) => member.email === user2.data().email)
+				.length > 0
+		) {
+			return;
 		}
+		currentTeamObj.teamMembers.push({
+			username: user2.data().username,
+			uid: user2.id,
+			email: user2.data().email,
+		});
+		currentTeamObj.role = chosenRole;
+		console.log(currentTeamObj);
+		const updatedTeamMembers = currentTeamObj.teamMembers;
+		// Update current team object with new members
+		const updatedTeams = userOneData.teams.map((team) => {
+			if (team.teamId === currentTeam) {
+				return { ...team, teamMembers: updatedTeamMembers };
+			}
+			return team;
+		});
+		await updateDoc(userOneRef, { teams: updatedTeams });
+		const user2Ref = doc(db, "users", user2.id);
+		await updateDoc(user2Ref, { teams: arrayUnion(currentTeamObj) });
+		// const currentTeamObj = userData.teams.find(
+		//   (team) => team.teamId === currentTeam
+		// );
+		// try {
+		//   // Check if the user exists in Firestore
+		//   const q = query(collection(db, "users"), where("email", "==", userToAdd));
+		//   const querySnapshot = await getDocs(q);
+		//   if (querySnapshot.empty) {
+		//     navigate("/register"); // User not found, navigate to register page or handle accordingly
+		//     return;
+		//   }
+		//   querySnapshot.forEach(async (doc) => {
+		//     console.log(doc.data());
+		//     const userData = doc.data();
+		//     const userId = doc.id;
+		//     // Update current team in the user's document
+		//     const updatedUserTeams = [...userData.teams, currentTeamObj];
+		//     const userDocRef = doc(db, "users", userId); // Corrected: use doc()
+		//     await updateDoc(userDocRef, { teams: updatedUserTeams });
+		//     // Update current user's teams with the added user
+		//     const updatedCurrentTeams = usersList.map((userItem) => {
+		//       if (userItem.email === userToAdd) {
+		//         // Corrected: compare with userToAdd
+		//         // Add user to current team's members
+		//         currentTeamObj.teamMembers.push(userData.email);
+		//         // Add current team to the user's teams
+		//         userItem.teams.push(currentTeamObj);
+		//       }
+		//       return userItem;
+		//     });
+		//     // Update Firestore with the modified current user's teams
+		//     const currentUserDocRef = doc(db, "users", user.uid); // Corrected: use doc()
+		//     await updateDoc(currentUserDocRef, { teams: updatedCurrentTeams });
+		//     // Clear userToAdd state after successful addition
+		//     setUserToAdd("");
+		//   });
+		// } catch (error) {
+		//   console.error("Error adding user:", error);
+		// }
 	}
+
 	return (
 		<div className="project">
 			<div className="add-user-container hidden">
@@ -269,7 +328,11 @@ export default function Project({
 						value={userToAdd}
 						onChange={(e) => setUserToAdd(e.target.value)}
 					/>
-					<button onClick={addUser}>Add</button>
+					<select onChange={(e) => setChosenRole(e.target.value)}>
+						<option value="admin">Admin</option>
+						<option value="user">User</option>
+					</select>
+					<button onClick={() => addUser(chosenRole)}>Add</button>
 				</div>
 			</div>
 			<h2 className="project-title">Project Tasks</h2>
