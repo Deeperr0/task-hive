@@ -194,14 +194,43 @@ export default function Project({
 
 	async function deleteTask(taskId) {
 		try {
-			const taskDocRef = doc(db, "tasks", taskId);
-			await deleteDoc(taskDocRef);
+			await Promise.all(
+				usersList.map(async (userItem) => {
+					if (userItem.teams.some((team) => team.teamId === currentTeam)) {
+						const q = query(
+							collection(db, "users"),
+							where("username", "==", userItem.username)
+						);
+						const qSnapshot = await getDocs(q);
+						const userDoc = qSnapshot.docs[0]; // Assuming there's only one user with this username
 
-			setTasks((prevTasks) =>
-				prevTasks.filter((task) => task.taskId !== taskId)
-			);
-			setFilteredTasks((prevFilteredTasks) =>
-				prevFilteredTasks.filter((task) => task.taskId !== taskId)
+						if (userDoc) {
+							const userData = userDoc.data();
+							const updatedTeams = userData.teams.map((team) => {
+								if (team.teamId === currentTeam) {
+									const updatedTasks = team.tasks.filter(
+										(task) => task.taskId !== taskId
+									);
+									return { ...team, tasks: updatedTasks };
+								}
+								return team;
+							});
+
+							const userDocRef = doc(db, "users", userDoc.id);
+							await updateDoc(userDocRef, { teams: updatedTeams });
+
+							// Update local state if the current user is affected
+							if (userItem.email === user.email) {
+								setTasks(
+									updatedTeams.find((team) => team.teamId === currentTeam)
+										?.tasks || []
+								);
+								const filtered = applyCurrentFilters(updatedTeams);
+								setFilteredTasks(filtered);
+							}
+						}
+					}
+				})
 			);
 		} catch (error) {
 			console.error("Error deleting task:", error);
