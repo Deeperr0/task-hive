@@ -17,10 +17,14 @@ import "./Project.css";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Loader } from "../Loader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export default function Project({
 	user,
+	//TODO: TAKE ROLE FROM CURRENT TEAM OBJECT INSTEAD OF IT BEING ITS OWN PROP
 	role,
+	//TODO: POSSIBLY MAKE IT INTO A TEAM OBJECT INSTEAD OF JUST A STRING
 	currentTeam,
 	userData,
 	usersList,
@@ -320,20 +324,33 @@ export default function Project({
 
 	return (
 		<div className="project">
-			<div className="add-user-container hidden">
-				<h2 className="add-user-title">Add User</h2>
-				<div className="add-user-inputs">
-					<input
-						type="text"
-						placeholder="Enter user email"
-						value={userToAdd}
-						onChange={(e) => setUserToAdd(e.target.value)}
-					/>
-					<select onChange={(e) => setChosenRole(e.target.value)}>
-						<option value="admin">Admin</option>
-						<option value="user">User</option>
-					</select>
-					<button onClick={() => addUser(chosenRole)}>Add</button>
+			<div className="add-user-overlay hidden">
+				<div className="add-user-container">
+					<div className="add-user-close">
+						<FontAwesomeIcon
+							icon={faArrowLeft}
+							onClick={() =>
+								document
+									.querySelector(".add-user-overlay")
+									.classList.add("hidden")
+							}
+						/>
+					</div>
+
+					<h2 className="add-user-title">Add User</h2>
+					<div className="add-user-inputs">
+						<input
+							type="text"
+							placeholder="Enter user email"
+							value={userToAdd}
+							onChange={(e) => setUserToAdd(e.target.value)}
+						/>
+						<select onChange={(e) => setChosenRole(e.target.value)}>
+							<option value="admin">Admin</option>
+							<option value="user">User</option>
+						</select>
+						<button onClick={() => addUser(chosenRole)}>Add</button>
+					</div>
 				</div>
 			</div>
 			<h2 className="project-title">Project Tasks</h2>
@@ -350,7 +367,7 @@ export default function Project({
 						className="add-user"
 						onClick={() =>
 							document
-								.querySelector(".add-user-container")
+								.querySelector(".add-user-overlay")
 								.classList.remove("hidden")
 						}
 					>

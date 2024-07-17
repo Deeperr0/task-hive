@@ -43,3 +43,53 @@
 	background-color: rgba(48, 50, 78, 0.97);
 	color: white;
 }
+
+.add-user-overlay {
+	background-color: rgba(48, 50, 78, 0.6);
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.add-user-container {
+	background-color: rgba(48, 50, 78, 0.97);
+	padding: 54px;
+	display: flex;
+	flex-direction: column;
+	border-radius: 8px;
+	text-align: center;
+}
+.add-user-inputs {
+	margin-top: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+.add-user-inputs select {
+	height: 45px;
+	font-weight: 500;
+}
+.add-user-inputs input {
+	height: 45px;
+	margin: 0;
+}
+.add-user-inputs button {
+	background-color: #00c875;
+	transition: background-color 0.3s ease-in-out;
+	border: 0;
+	border-radius: 4px;
+	color: white;
+}
+.add-user-inputs button:hover {
+	background-color: #00854d;
+}
+.add-user-close {
+	text-align: left;
+	font-size: 24px;
+}

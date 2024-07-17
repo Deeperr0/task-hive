@@ -33,7 +33,8 @@ export default function Navbar({
 			console.error("Error logging out:", error);
 		}
 	}
-
+	
+	//TODO: MAKE IT SO THAT THIS IS IN HOME NOT IN NAV
 	return (
 		<div className="nav--container">
 			<nav>
