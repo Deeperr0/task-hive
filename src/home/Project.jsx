@@ -18,15 +18,16 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Loader } from "../Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function Project({
 	user,
 	//TODO: TAKE ROLE FROM CURRENT TEAM OBJECT INSTEAD OF IT BEING ITS OWN PROP
 	role,
-	//TODO: POSSIBLY MAKE IT INTO A TEAM OBJECT INSTEAD OF JUST A STRING
+	//TODO: POSSIBLY MAKE IT INTO A TEAM OBJECT INSTEAD OF JUST A STRING STORING THE ID
 	currentTeam,
 	userData,
+	//TODO: POSSIBLY MAKE IT SO userData IS EXTRACTED FROM HERE INSTEAD OF HAVING ITS OWN PROP
 	usersList,
 }) {
 	const [tasks, setTasks] = useState([]);
@@ -44,7 +45,7 @@ export default function Project({
 			userData.teams.find((team) => team.teamId === currentTeam).tasks || [];
 		console.log(userTasks);
 		setTasks(userTasks);
-		setFilteredTasks(userTasks); // Ensure filteredTasks is also set
+		setFilteredTasks(userTasks);
 		setLoading(false);
 	}, [currentTeam]);
 
@@ -243,7 +244,6 @@ export default function Project({
 		}
 	}
 
-	//TODO:MAKE IT SO THAT THE ADMIN CAN CHOOSE ROLE OF ADDED USER
 	async function addUser(chosenRole) {
 		const userOneRef = doc(db, "users", user.uid);
 		const userOne = await getDoc(userOneRef);
@@ -402,7 +402,11 @@ export default function Project({
 			{}
 			<Tasks
 				name="To do"
-				tasksList={tasks.filter((task) => task.status != "Done")}
+				tasksList={
+					role == "admin"
+						? tasks.filter((task) => task.status != "Done")
+						: tasks.filter((task) => task.owner == userData.username)
+				}
 				updateTask={updateTask} // Pass updateTask function
 				deleteTask={deleteTask}
 				role={userData.teams.find((team) => team.teamId === currentTeam).role}

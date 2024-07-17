@@ -15,7 +15,6 @@ import { RoleContext } from "./App";
 import { useContext } from "react";
 
 export default function SideMenu(props) {
-	const { role, setRole } = useContext(RoleContext);
 	return (
 		<div className="side-menu-container">
 			<ul className="side-menu">

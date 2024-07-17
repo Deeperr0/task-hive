@@ -3,7 +3,12 @@ import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
-import { UserDataContext, UsersListContext, WorkSpaceContext } from "../App";
+import {
+	RoleContext,
+	UserDataContext,
+	UsersListContext,
+	WorkSpaceContext,
+} from "../App";
 
 function debounce(func, wait) {
 	let timeout;
@@ -29,55 +34,67 @@ function formatDateToDisplay(dateStr) {
 	return `${day}-${month}-${year}`;
 }
 
-export default function TaskCard(props) {
-	const [localContent, setLocalContent] = useState(props.content);
+export default function TaskCard({
+	ownerUid,
+	taskId,
+	content,
+	owner,
+	status,
+	deadline,
+	priority,
+	notes,
+	deleteTask,
+	updateTask,
+}) {
+	const [localContent, setLocalContent] = useState(content);
 	const [localDeadline, setLocalDeadline] = useState(
-		convertToUserTimezone(props.deadline)
+		convertToUserTimezone(deadline)
 	);
-	const [localPriority, setLocalPriority] = useState(props.priority);
-	const [localOwner, setLocalOwner] = useState(props.owner);
-	const [localNotes, setLocalNotes] = useState(props.notes);
+	const [localPriority, setLocalPriority] = useState(priority);
+	const [localOwner, setLocalOwner] = useState(owner);
+	const [localNotes, setLocalNotes] = useState(notes);
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirm, setConfirm] = useState(false);
+	const { role, setRole } = useContext(RoleContext);
 
-	const { usersList, setUsersList } = useContext(UsersListContext);
+	// const { usersList, setUsersList } = useContext(UsersListContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 
 	useEffect(() => {
-		setLocalContent(props.content);
-		setLocalDeadline(convertToUserTimezone(props.deadline));
-		setLocalPriority(props.priority);
-		setLocalOwner(props.owner);
-		setLocalNotes(props.notes);
-	}, [props.content, props.deadline, props.priority, props.owner, props.notes]);
+		setLocalContent(content);
+		setLocalDeadline(convertToUserTimezone(deadline));
+		setLocalPriority(priority);
+		setLocalOwner(owner);
+		setLocalNotes(notes);
+	}, [content, deadline, priority, owner, notes, role]);
 
 	const debouncedUpdateStatus = useCallback(
 		debounce((taskId, newStatus) => {
-			props.updateTask(taskId, {
+			updateTask(taskId, {
 				lastUpdated: new Date().toISOString(),
 				owner: localOwner,
-				ownerUid: props.ownerUid,
+				ownerUid: ownerUid,
 				notes: localNotes,
 				priority: localPriority,
 				deadline: localDeadline,
 				content: localContent,
 				status: newStatus,
-				taskId: props.taskId,
+				taskId: taskId,
 			});
 		}, 1000),
 		[]
 	);
 
 	function changeSelection(event) {
-		let taskId = props.taskId;
+		let taskId = taskId;
 		let newStatus = event.target.value;
 		debouncedUpdateStatus(taskId, newStatus);
 	}
 
 	function handleDelete() {
-		props.deleteTask(props.taskId);
+		deleteTask(taskId);
 	}
 
 	function handleContentChange(event) {
@@ -115,7 +132,7 @@ export default function TaskCard(props) {
 			notes: localNotes,
 			lastUpdated: now,
 		};
-		props.updateTask(props.taskId, updates);
+		updateTask(taskId, updates);
 		setIsChanged(false);
 	}
 
@@ -142,13 +159,13 @@ export default function TaskCard(props) {
 			: "";
 
 	const statusClass =
-		props.status === "Done"
+		status === "Done"
 			? "task--status-done"
-			: props.status === "Working on it"
+			: status === "Working on it"
 			? "task--status-working"
-			: props.status === "Stuck"
+			: status === "Stuck"
 			? "task--status-stuck"
-			: props.status === "Not started"
+			: status === "Not started"
 			? "task--status-not-started"
 			: "";
 
@@ -171,7 +188,7 @@ export default function TaskCard(props) {
 					</button>
 				</div>
 			</div>
-			{props.role === "admin" ? (
+			{role === "admin" ? (
 				<input
 					type="text"
 					value={localContent}
@@ -183,7 +200,7 @@ export default function TaskCard(props) {
 				<p className="task--text sticky task-column">{localContent}</p>
 			)}
 			<p className="task--owner owner-column">
-				{props.role === "admin" ? (
+				{role === "admin" ? (
 					<select
 						value={localOwner}
 						onChange={handleOwnerChange}
@@ -205,7 +222,7 @@ export default function TaskCard(props) {
 			</p>
 			<select
 				onChange={changeSelection}
-				value={props.status}
+				value={status}
 				className={`select-status ${statusClass} status-column`}
 			>
 				<option
@@ -233,13 +250,13 @@ export default function TaskCard(props) {
 					Not started
 				</option>
 			</select>
-			{props.role === "admin" ? (
+			{role === "admin" ? (
 				<input
 					type="date"
 					value={localDeadline}
 					onChange={handleDeadlineChange}
 					className={
-						props.status == "Done"
+						status == "Done"
 							? "deadline-column"
 							: checkDeadline() === 1
 							? "deadline-column overdue"
@@ -261,7 +278,7 @@ export default function TaskCard(props) {
 					{formatDateToDisplay(localDeadline)}
 				</p>
 			)}
-			{props.role === "admin" ? (
+			{role === "admin" ? (
 				<select
 					value={localPriority}
 					onChange={handlePriorityChange}
@@ -311,7 +328,7 @@ export default function TaskCard(props) {
 				>
 					<FontAwesomeIcon icon={faSave} />
 				</button>
-				{props.role === "admin" && (
+				{role === "admin" && (
 					<button
 						onClick={() => setConfirm(true)}
 						className="task--delete"

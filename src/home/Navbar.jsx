@@ -33,34 +33,38 @@ export default function Navbar({
 			console.error("Error logging out:", error);
 		}
 	}
-	
+
 	//TODO: MAKE IT SO THAT THIS IS IN HOME NOT IN NAV
 	return (
 		<div className="nav--container">
 			<nav>
-				<div className="nav--menu">
-					<div onClick={() => setToggleMenu(true)}>
-						<FontAwesomeIcon icon={faBars} />
-					</div>
-					<div
-						className={toggleMenu ? "nav--side-menu" : "nav--side-menu hidden"}
-					>
-						<SideMenu
-							user={user}
-							setCurrentWorkSpace={setCurrentWorkSpace}
-							currentWorkSpace={currentWorkSpace}
-							setExpandWorkSpace={setExpandWorkSpace}
-							expandWorkSpace={expandWorkSpace}
-							teams={teams}
-						/>
+				{user && (
+					<div className="nav--menu">
+						<div onClick={() => setToggleMenu(true)}>
+							<FontAwesomeIcon icon={faBars} />
+						</div>
 						<div
-							className="nav--close"
-							onClick={() => setToggleMenu(false)}
+							className={
+								toggleMenu ? "nav--side-menu" : "nav--side-menu hidden"
+							}
 						>
-							<FontAwesomeIcon icon={faClose} />
+							<SideMenu
+								user={user}
+								setCurrentWorkSpace={setCurrentWorkSpace}
+								currentWorkSpace={currentWorkSpace}
+								setExpandWorkSpace={setExpandWorkSpace}
+								expandWorkSpace={expandWorkSpace}
+								teams={teams}
+							/>
+							<div
+								className="nav--close"
+								onClick={() => setToggleMenu(false)}
+							>
+								<FontAwesomeIcon icon={faClose} />
+							</div>
 						</div>
 					</div>
-				</div>
+				)}
 				<div className="nav--logo">
 					<a href="/">
 						<h1>TaskHive</h1>

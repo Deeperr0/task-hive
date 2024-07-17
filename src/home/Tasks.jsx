@@ -1,9 +1,18 @@
-import { useEffect } from "react";
-import Task from "./TaskCard";
+import { useContext, useEffect } from "react";
+import TaskCard from "./TaskCard";
 import "./Tasks.css";
 import PropTypes from "prop-types";
+import { RoleContext } from "../App";
 
-export default function Tasks(props) {
+export default function Tasks({
+	name,
+	tasksList,
+	users,
+	deleteTask,
+	updateTask,
+	currentUserUid,
+}) {
+	const { role, setRole } = useContext(RoleContext);
 	useEffect(() => {
 		function handleScroll() {
 			const header = document.querySelector(".task--header");
@@ -20,10 +29,8 @@ export default function Tasks(props) {
 	}, []);
 	return (
 		<div className="task-type-container">
-			<h3
-				className={props.name === "Done" ? "tasks--type done" : "tasks--type"}
-			>
-				{props.name}
+			<h3 className={name === "Done" ? "tasks--type done" : "tasks--type"}>
+				{name}
 			</h3>
 			<div className="tasks--container">
 				<div className="tasks--table">
@@ -36,10 +43,10 @@ export default function Tasks(props) {
 						<div className="notes-column">Notes</div>
 						<div className="buttons-column"></div>
 					</div>
-					{props.tasksList.length != 0 && (
+					{tasksList.length != 0 && (
 						<div className="tasks--list">
-							{props.tasksList.map((task) => (
-								<Task
+							{tasksList.map((task) => (
+								<TaskCard
 									key={task.taskId}
 									taskId={task.taskId}
 									content={task.content}
@@ -49,11 +56,11 @@ export default function Tasks(props) {
 									deadline={task.deadline}
 									priority={task.priority}
 									notes={task.notes}
-									deleteTask={props.deleteTask}
-									updateTask={props.updateTask}
-									role={props.role}
-									users={props.users}
-									currentUserUid={props.currentUserUid}
+									deleteTask={deleteTask}
+									updateTask={updateTask}
+									role={role}
+									users={users}
+									currentUserUid={currentUserUid}
 								/>
 							))}
 						</div>
@@ -67,7 +74,6 @@ export default function Tasks(props) {
 Tasks.propTypes = {
 	tasksList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	name: PropTypes.string.isRequired,
-	role: PropTypes.string.isRequired,
 	users: PropTypes.array.isRequired,
 	currentUserUid: PropTypes.string.isRequired,
 	deleteTask: PropTypes.func.isRequired,

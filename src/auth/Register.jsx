@@ -52,7 +52,7 @@ export default function Register({ setUser, usersList }) {
 					{
 						teamName: "My Team",
 						teamId,
-						teamMembers: {},
+						teamMembers: [{}],
 						tasks: [{}],
 						role: "admin",
 						lastUpdated: new Date().toISOString(),

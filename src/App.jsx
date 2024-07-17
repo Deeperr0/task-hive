@@ -24,7 +24,6 @@ function App() {
 	const [user, setUser] = useState(null);
 
 	// Stores the role of the logged in user
-	//TODO: MAKE IT SO CHANGING THE CURRENT TEAM ALSO CHANGES THE ROLE
 	const [role, setRole] = useState(null);
 
 	const [loading, setLoading] = useState(true);
@@ -138,7 +137,8 @@ function App() {
 										currentWorkSpace={currentWorkSpace}
 										setExpandWorkSpace={setExpandWorkSpace}
 										expandWorkSpace={expandWorkSpace}
-										teams={userData.teams}
+										//TODO: CHECK ON WHY THIS IS WORKING WEIRDLY
+										teams={user ? userData.teams : []}
 									/>
 									<Routes>
 										<Route
