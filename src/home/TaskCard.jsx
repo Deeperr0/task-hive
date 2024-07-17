@@ -3,6 +3,12 @@ import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
+import {
+	RoleContext,
+	UserDataContext,
+	UsersListContext,
+	WorkSpaceContext,
+} from "../App";
 
 // Debounce function to delay execution
 function debounce(func, wait) {
@@ -29,40 +35,67 @@ function formatDateToDisplay(dateStr) {
 	return `${day}-${month}-${year}`;
 }
 
-export default function TaskCard(props) {
-	const [localContent, setLocalContent] = useState(props.content);
+export default function TaskCard({
+	ownerUid,
+	taskId,
+	content,
+	owner,
+	status,
+	deadline,
+	priority,
+	notes,
+	deleteTask,
+	updateTask,
+}) {
+	const [localContent, setLocalContent] = useState(content);
 	const [localDeadline, setLocalDeadline] = useState(
-		convertToUserTimezone(props.deadline)
+		convertToUserTimezone(deadline)
 	);
-	const [localPriority, setLocalPriority] = useState(props.priority);
-	const [localOwner, setLocalOwner] = useState(props.owner);
-	const [localNotes, setLocalNotes] = useState(props.notes);
+	const [localPriority, setLocalPriority] = useState(priority);
+	const [localOwner, setLocalOwner] = useState(owner);
+	const [localNotes, setLocalNotes] = useState(notes);
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirm, setConfirm] = useState(false);
+	const { role, setRole } = useContext(RoleContext);
+
+	// const { usersList, setUsersList } = useContext(UsersListContext);
+	const { userData, setUserData } = useContext(UserDataContext);
+	const { currentWorkSpace, setCurrentWorkSpace } =
+		useContext(WorkSpaceContext);
 
 	useEffect(() => {
-		setLocalContent(props.content);
-		setLocalDeadline(convertToUserTimezone(props.deadline));
-		setLocalPriority(props.priority);
-		setLocalOwner(props.owner);
-		setLocalNotes(props.notes);
-	}, [props.content, props.deadline, props.priority, props.owner, props.notes]);
+		setLocalContent(content);
+		setLocalDeadline(convertToUserTimezone(deadline));
+		setLocalPriority(priority);
+		setLocalOwner(owner);
+		setLocalNotes(notes);
+	}, [content, deadline, priority, owner, notes, role]);
 
 	const debouncedUpdateStatus = useCallback(
 		debounce((taskId, newStatus) => {
-			props.updateStatus(taskId, newStatus);
+			updateTask(taskId, {
+				lastUpdated: new Date().toISOString(),
+				owner: localOwner,
+				ownerUid: ownerUid,
+				notes: localNotes,
+				priority: localPriority,
+				deadline: localDeadline,
+				content: localContent,
+				status: newStatus,
+				taskId: taskId,
+			});
 		}, 1000),
 		[]
 	);
 
 	function changeSelection(event) {
-		let taskId = props.id;
+		let taskId = taskId;
 		let newStatus = event.target.value;
 		debouncedUpdateStatus(taskId, newStatus);
 	}
 
 	function handleDelete() {
-		props.deleteTask(props.id);
+		deleteTask(taskId);
 	}
 
 	function handleContentChange(event) {
@@ -92,12 +125,15 @@ export default function TaskCard(props) {
 
 	function handleUpdate() {
 		const now = new Date().toISOString();
-		props.updateContent(props.id, localContent);
-		props.updateDeadline(props.id, localDeadline);
-		props.updatePriority(props.id, localPriority);
-		props.updateOwner(props.id, localOwner);
-		props.updateNotes(props.id, localNotes);
-		props.updateLastUpdated(props.id, now);
+		const updates = {
+			content: localContent,
+			deadline: localDeadline,
+			priority: localPriority,
+			owner: localOwner,
+			notes: localNotes,
+			lastUpdated: now,
+		};
+		updateTask(taskId, updates);
 		setIsChanged(false);
 	}
 
@@ -112,17 +148,17 @@ export default function TaskCard(props) {
 		}
 	}
 
-  // Determine priority class
-  const priorityClass =
-    localPriority === "Low"
-      ? "task--priority-low"
-      : localPriority === "Medium"
-      ? "task--priority-medium"
-      : localPriority === "High"
-      ? "task--priority-high"
-      : localPriority === "Critical"
-      ? "task--priority-critical"
-      : "";
+	// Determine priority class
+	const priorityClass =
+		localPriority === "Low"
+			? "task--priority-low"
+			: localPriority === "Medium"
+			? "task--priority-medium"
+			: localPriority === "High"
+			? "task--priority-high"
+			: localPriority === "Critical"
+			? "task--priority-critical"
+			: "";
 	const priorityClass =
 		localPriority === "Low"
 			? "task--priority-low"
@@ -134,126 +170,17 @@ export default function TaskCard(props) {
 			? "task--priority-critical"
 			: "";
 
-  // Determine status class
-  const statusClass =
-    props.status === "Done"
-      ? "task--status-done"
-      : props.status === "Working on it"
-      ? "task--status-working"
-      : props.status === "Stuck"
-      ? "task--status-stuck"
-      : props.status === "Not started"
-      ? "task--status-not-started"
-      : "";
 	const statusClass =
-		props.status === "Done"
+		status === "Done"
 			? "task--status-done"
-			: props.status === "Working on it"
+			: status === "Working on it"
 			? "task--status-working"
-			: props.status === "Stuck"
+			: status === "Stuck"
 			? "task--status-stuck"
-			: props.status === "Not started"
+			: status === "Not started"
 			? "task--status-not-started"
 			: "";
 
-  return (
-    <div className={`task--card `}>
-      {props.role === "admin" ? (
-        <input
-          type="text"
-          value={localContent}
-          onChange={handleContentChange}
-          placeholder="Task Content"
-        />
-      ) : (
-        <p className="task--text">{localContent}</p>
-      )}
-      <p className="task--owner">
-        {props.role === "admin" ? (
-          <select value={localOwner} onChange={handleOwnerChange}>
-            {props.users.map((user) => (
-              <option key={user.uid} value={user.email}>
-                {user.email.split("@")[0]}
-              </option>
-            ))}
-          </select>
-        ) : (
-          localOwner
-        )}
-      </p>
-      <select
-        onChange={changeSelection}
-        value={props.status}
-        disabled={
-          props.role !== "admin" && props.ownerUid !== props.currentUserUid
-        }
-        className={`select-status ${statusClass}`}
-      >
-        <option value="Done" className="option-status-done">
-          Done
-        </option>
-        <option value="Working on it" className="option-status-working">
-          Working on it
-        </option>
-        <option value="Stuck" className="option-status-stuck">
-          Stuck
-        </option>
-        <option value="Not started" className="option-status-not-started">
-          Not started
-        </option>
-      </select>
-      {props.role === "admin" ? (
-        <input
-          type="date"
-          value={localDeadline}
-          onChange={handleDeadlineChange}
-        />
-      ) : (
-        <p>{localDeadline}</p>
-      )}
-      {props.role === "admin" ? (
-        <select
-          value={localPriority}
-          onChange={handlePriorityChange}
-          className={`select-priority ${priorityClass}`}
-        >
-          <option value="Low" className="option-priority-low">
-            Low
-          </option>
-          <option value="Medium" className="option-priority-medium">
-            Medium
-          </option>
-          <option value="High" className="option-priority-high">
-            High
-          </option>
-          <option value="Critical" className="option-priority-critical">
-            Critical
-          </option>
-        </select>
-      ) : (
-        <p>{localPriority}</p>
-      )}
-      <textarea
-        value={localNotes}
-        onChange={handleNotesChange}
-        placeholder="Notes"
-        disabled={
-          props.role !== "admin" && props.ownerUid !== props.currentUserUid
-        }
-      />
-
-      <div className="buttons">
-        <button onClick={handleUpdate} className="task--update">
-          <FontAwesomeIcon icon={faCheck} />
-        </button>
-        {props.role === "admin" && (
-          <button onClick={handleDelete} className="task--delete">
-            <FontAwesomeIcon icon={faTrash} />
-          </button>
-        )}
-      </div>
-    </div>
-  );
 	return (
 		<div className="task--card task--row">
 			<div className={confirm ? "overlay" : "overlay hidden"}>
@@ -273,7 +200,7 @@ export default function TaskCard(props) {
 					</button>
 				</div>
 			</div>
-			{props.role === "admin" ? (
+			{role === "admin" ? (
 				<input
 					type="text"
 					value={localContent}
@@ -285,7 +212,7 @@ export default function TaskCard(props) {
 				<p className="task--text sticky task-column">{localContent}</p>
 			)}
 			<p className="task--owner owner-column">
-				{props.role === "admin" ? (
+				{role === "admin" ? (
 					<select
 						value={localOwner}
 						onChange={handleOwnerChange}
@@ -305,10 +232,7 @@ export default function TaskCard(props) {
 			</p>
 			<select
 				onChange={changeSelection}
-				value={props.status}
-				disabled={
-					props.role !== "admin" && props.ownerUid !== props.currentUserUid
-				}
+				value={status}
 				className={`select-status ${statusClass} status-column`}
 			>
 				<option
@@ -336,13 +260,13 @@ export default function TaskCard(props) {
 					Not started
 				</option>
 			</select>
-			{props.role === "admin" ? (
+			{role === "admin" ? (
 				<input
 					type="date"
 					value={localDeadline}
 					onChange={handleDeadlineChange}
 					className={
-						props.status == "Done"
+						status == "Done"
 							? "deadline-column"
 							: checkDeadline() === 1
 							? "deadline-column overdue"
@@ -364,7 +288,7 @@ export default function TaskCard(props) {
 					{formatDateToDisplay(localDeadline)}
 				</p>
 			)}
-			{props.role === "admin" ? (
+			{role === "admin" ? (
 				<select
 					value={localPriority}
 					onChange={handlePriorityChange}
@@ -417,7 +341,7 @@ export default function TaskCard(props) {
 				>
 					<FontAwesomeIcon icon={faSave} />
 				</button>
-				{props.role === "admin" && (
+				{role === "admin" && (
 					<button
 						onClick={() => setConfirm(true)}
 						className="task--delete"
