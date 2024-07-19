@@ -49,17 +49,9 @@ export default function Tasks({
 							{tasksList.map((task) => (
 								<TaskCard
 									key={task.taskId}
-									taskId={task.taskId}
-									content={task.content}
-									owner={task.owner}
-									ownerUid={task.ownerUid}
-									status={task.status}
-									deadline={task.deadline}
-									priority={task.priority}
-									notes={task.notes}
+									taskObj={task}
 									deleteTask={deleteTask}
 									updateTask={updateTask}
-									role={role}
 									users={users}
 									currentUserUid={currentUserUid}
 								/>
