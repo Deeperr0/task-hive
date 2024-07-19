@@ -1,15 +1,12 @@
-import Project from "./Project";
+import Project from "../Project";
 import "./Home.css";
 import PropTypes from "prop-types";
 import SideMenu from "../SideMenu";
 
 export default function Home({
 	user,
-	role,
 	userData,
 	teams,
-	currentWorkSpace,
-	setCurrentWorkSpace,
 	expandWorkSpace,
 	setExpandWorkSpace,
 	usersList,
@@ -19,8 +16,6 @@ export default function Home({
 			<div className="home--left">
 				<SideMenu
 					user={user}
-					setCurrentWorkSpace={setCurrentWorkSpace}
-					currentWorkSpace={currentWorkSpace}
 					setExpandWorkSpace={setExpandWorkSpace}
 					expandWorkSpace={expandWorkSpace}
 					teams={teams}
@@ -29,9 +24,7 @@ export default function Home({
 			<div className="home--right">
 				<Project
 					user={user}
-					role={role}
 					userData={userData}
-					currentTeam={currentWorkSpace}
 					usersList={usersList}
 				/>
 			</div>
@@ -41,11 +34,8 @@ export default function Home({
 
 Home.propTypes = {
 	user: PropTypes.object,
-	role: PropTypes.string,
 	userData: PropTypes.object,
 	teams: PropTypes.array,
-	currentWorkSpace: PropTypes.string,
-	setCurrentWorkSpace: PropTypes.func,
 	expandWorkSpace: PropTypes.bool,
 	setExpandWorkSpace: PropTypes.func,
 	usersList: PropTypes.array,

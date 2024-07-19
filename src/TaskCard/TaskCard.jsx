@@ -3,7 +3,7 @@ import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
-import { RoleContext, UserDataContext, WorkSpaceContext } from "../App";
+import { WorkSpaceContext } from "../App";
 
 function debounce(func, wait) {
 	let timeout;
@@ -29,12 +29,7 @@ function formatDateToDisplay(dateStr) {
 	return `${day}-${month}-${year}`;
 }
 
-export default function TaskCard({
-	taskObj,
-	deleteTask,
-	updateTask,
-	ownerUid,
-}) {
+export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 	const [localContent, setLocalContent] = useState(taskObj.content);
 	const [localDeadline, setLocalDeadline] = useState(
 		convertToUserTimezone(taskObj.deadline)
@@ -44,10 +39,9 @@ export default function TaskCard({
 	const [localNotes, setLocalNotes] = useState(taskObj.notes);
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirm, setConfirm] = useState(false);
-	const { role, setRole } = useContext(RoleContext);
+	const [localStatus, setLocalStatus] = useState(taskObj.status);
 
 	// const { usersList, setUsersList } = useContext(UsersListContext);
-	const { userData, setUserData } = useContext(UserDataContext);
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 
@@ -63,7 +57,6 @@ export default function TaskCard({
 		taskObj.priority,
 		taskObj.owner,
 		taskObj.notes,
-		role,
 	]);
 
 	const debouncedUpdateStatus = useCallback(
@@ -71,7 +64,7 @@ export default function TaskCard({
 			updateTask(taskId, {
 				lastUpdated: new Date().toISOString(),
 				owner: localOwner,
-				ownerUid: ownerUid,
+				ownerUid: taskObj.ownerUid,
 				notes: localNotes,
 				priority: localPriority,
 				deadline: localDeadline,
@@ -79,18 +72,19 @@ export default function TaskCard({
 				status: newStatus,
 				taskId: taskId,
 			});
+			setLocalStatus(newStatus);
 		}, 1000),
 		[]
 	);
 
 	function changeSelection(event) {
-		let taskId = taskId;
 		let newStatus = event.target.value;
-		debouncedUpdateStatus(taskId, newStatus);
+		debouncedUpdateStatus(taskObj.taskId, newStatus);
 	}
 
 	function handleDelete() {
 		deleteTask(taskObj.taskId);
+		setConfirm(false);
 	}
 
 	function handleContentChange(event) {
@@ -155,13 +149,13 @@ export default function TaskCard({
 			: "";
 
 	const statusClass =
-		status === "Done"
+		localStatus === "Done"
 			? "task--status-done"
-			: status === "Working on it"
+			: localStatus === "Working on it"
 			? "task--status-working"
-			: status === "Stuck"
+			: localStatus === "Stuck"
 			? "task--status-stuck"
-			: status === "Not started"
+			: localStatus === "Not started"
 			? "task--status-not-started"
 			: "";
 
@@ -184,7 +178,7 @@ export default function TaskCard({
 					</button>
 				</div>
 			</div>
-			{role === "admin" ? (
+			{currentWorkSpace.role === "admin" ? (
 				<input
 					type="text"
 					value={localContent}
@@ -196,29 +190,27 @@ export default function TaskCard({
 				<p className="task--text sticky task-column">{localContent}</p>
 			)}
 			<p className="task--owner owner-column">
-				{role === "admin" ? (
+				{currentWorkSpace.role === "admin" ? (
 					<select
 						value={localOwner}
 						onChange={handleOwnerChange}
 					>
-						{userData.teams
-							.filter((team) => team.teamId === currentWorkSpace)[0]
-							.teamMembers.map((user) => (
-								<option
-									key={user.uid}
-									value={user.username}
-								>
-									{user.username}
-								</option>
-							))}
+						{currentWorkSpace.teamMembers.map((user) => (
+							<option
+								key={user.uid}
+								value={user.username}
+							>
+								{user.username}
+							</option>
+						))}
 					</select>
 				) : (
 					<p className="task--owner-text">{localOwner}</p>
 				)}
 			</p>
 			<select
-				onChange={changeSelection}
-				value={status}
+				onChange={(e) => changeSelection(e)}
+				value={localStatus}
 				className={`select-status ${statusClass} status-column`}
 			>
 				<option
@@ -246,13 +238,13 @@ export default function TaskCard({
 					Not started
 				</option>
 			</select>
-			{role === "admin" ? (
+			{currentWorkSpace.role === "admin" ? (
 				<input
 					type="date"
 					value={localDeadline}
 					onChange={handleDeadlineChange}
 					className={
-						status == "Done"
+						taskObj.status == "Done"
 							? "deadline-column"
 							: checkDeadline() === 1
 							? "deadline-column overdue"
@@ -274,7 +266,7 @@ export default function TaskCard({
 					{formatDateToDisplay(localDeadline)}
 				</p>
 			)}
-			{role === "admin" ? (
+			{currentWorkSpace.role === "admin" ? (
 				<select
 					value={localPriority}
 					onChange={handlePriorityChange}
@@ -324,7 +316,7 @@ export default function TaskCard({
 				>
 					<FontAwesomeIcon icon={faSave} />
 				</button>
-				{role === "admin" && (
+				{currentWorkSpace.role === "admin" && (
 					<button
 						onClick={() => setConfirm(true)}
 						className="task--delete"
@@ -339,10 +331,6 @@ export default function TaskCard({
 
 TaskCard.propTypes = {
 	taskObj: PropTypes.object,
-	role: PropTypes.string,
-	currentUserUid: PropTypes.string,
-	setConfirm: PropTypes.func,
 	updateTask: PropTypes.func,
 	deleteTask: PropTypes.func,
-	ownerUid: PropTypes.string,
 };

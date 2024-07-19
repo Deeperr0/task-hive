@@ -1,18 +1,9 @@
-import { useContext, useEffect } from "react";
-import TaskCard from "./TaskCard";
+import { useEffect } from "react";
+import TaskCard from "../TaskCard";
 import "./Tasks.css";
 import PropTypes from "prop-types";
-import { RoleContext } from "../App";
 
-export default function Tasks({
-	name,
-	tasksList,
-	users,
-	deleteTask,
-	updateTask,
-	currentUserUid,
-}) {
-	const { role, setRole } = useContext(RoleContext);
+export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 	useEffect(() => {
 		function handleScroll() {
 			const header = document.querySelector(".task--header");
@@ -51,8 +42,6 @@ export default function Tasks({
 									taskObj={task}
 									deleteTask={deleteTask}
 									updateTask={updateTask}
-									users={users}
-									currentUserUid={currentUserUid}
 								/>
 							))}
 						</div>
@@ -66,8 +55,6 @@ export default function Tasks({
 Tasks.propTypes = {
 	tasksList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	name: PropTypes.string.isRequired,
-	users: PropTypes.array.isRequired,
-	currentUserUid: PropTypes.string.isRequired,
 	deleteTask: PropTypes.func.isRequired,
 	updateTask: PropTypes.func.isRequired,
 };

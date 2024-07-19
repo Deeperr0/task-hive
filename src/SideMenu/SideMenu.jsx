@@ -9,12 +9,18 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./SideMenu.css";
-import filterIcon from "./Filter-outline.svg";
+import filterIcon from "../Filter-outline.svg";
 import PropTypes from "prop-types";
-import { RoleContext } from "./App";
 import { useContext } from "react";
+import { WorkSpaceContext } from "../App";
 
-export default function SideMenu(props) {
+export default function SideMenu({
+	teams,
+	expandWorkSpace,
+	setExpandWorkSpace,
+}) {
+	const { currentWorkSpace, setCurrentWorkSpace } =
+		useContext(WorkSpaceContext);
 	return (
 		<div className="side-menu-container">
 			<ul className="side-menu">
@@ -31,10 +37,12 @@ export default function SideMenu(props) {
 			<div className="workspace-menu">
 				<select
 					onChange={(e) => {
-						props.setCurrentWorkSpace(e.target.value);
+						setCurrentWorkSpace(
+							teams.filter((team) => team.teamId === e.target.value)[0]
+						);
 					}}
 				>
-					{props.teams.map((workspace) => (
+					{teams.map((workspace) => (
 						<option
 							value={workspace.teamId}
 							key={workspace.teamId}
@@ -60,19 +68,19 @@ export default function SideMenu(props) {
 			</div>
 			<div className="workspace-sub-menu">
 				<div className="workspace">
-					{props.expandWorkSpace ? (
+					{expandWorkSpace ? (
 						<FontAwesomeIcon icon={faCaretDown} />
 					) : (
 						<FontAwesomeIcon icon={faCaretRight} />
 					)}
-					{props.teams.map(
+					{teams.map(
 						(workspace) =>
-							workspace.teamId == props.currentWorkSpace && (
+							workspace.teamId == currentWorkSpace.teamId && (
 								<div
 									key={workspace.teamId}
-									className={props.expandWorkSpace ? "active" : ""}
+									className={expandWorkSpace ? "active" : ""}
 									onClick={() => {
-										props.setExpandWorkSpace(!props.expandWorkSpace);
+										setExpandWorkSpace(!expandWorkSpace);
 									}}
 								>
 									{workspace.teamName}
@@ -87,10 +95,7 @@ export default function SideMenu(props) {
 
 SideMenu.propTypes = {
 	user: PropTypes.object,
-	role: PropTypes.string,
 	teams: PropTypes.array,
-	currentWorkSpace: PropTypes.string,
-	setCurrentWorkSpace: PropTypes.func,
 	expandWorkSpace: PropTypes.bool,
 	setExpandWorkSpace: PropTypes.func,
 };

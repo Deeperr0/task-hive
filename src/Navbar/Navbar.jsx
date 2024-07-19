@@ -16,8 +16,6 @@ export default function Navbar({
 	user,
 	userData,
 	teams,
-	currentWorkSpace,
-	setCurrentWorkSpace,
 	expandWorkSpace,
 	setExpandWorkSpace,
 }) {
@@ -33,8 +31,7 @@ export default function Navbar({
 			console.error("Error logging out:", error);
 		}
 	}
-
-	//TODO: MAKE IT SO THAT THIS IS IN HOME NOT IN NAV
+	// Side menu in Mobile
 	return (
 		<div className="nav--container">
 			<nav>
@@ -50,8 +47,6 @@ export default function Navbar({
 						>
 							<SideMenu
 								user={user}
-								setCurrentWorkSpace={setCurrentWorkSpace}
-								currentWorkSpace={currentWorkSpace}
 								setExpandWorkSpace={setExpandWorkSpace}
 								expandWorkSpace={expandWorkSpace}
 								teams={teams}
@@ -160,7 +155,7 @@ Navbar.propTypes = {
 	user: PropTypes.object,
 	userData: PropTypes.object,
 	teams: PropTypes.array,
-	currentWorkSpace: PropTypes.string,
+	currentWorkSpace: PropTypes.object,
 	setCurrentWorkSpace: PropTypes.func,
 	expandWorkSpace: PropTypes.bool,
 	setExpandWorkSpace: PropTypes.func,

@@ -52,8 +52,14 @@ export default function Register({ setUser, usersList }) {
 					{
 						teamName: "My Team",
 						teamId,
-						teamMembers: [{}],
-						tasks: [{}],
+						teamMembers: [
+							{
+								username,
+								uid: user.uid,
+								email,
+							},
+						],
+						tasks: [],
 						role: "admin",
 						lastUpdated: new Date().toISOString(),
 						created: new Date().toISOString(),

@@ -25,13 +25,19 @@ export default function ResetPassword() {
 	useEffect(() => {
 		if (
 			message ===
-			"Password reset email sent. Please check your inbox. You will be redirected to the login page in 5 seconds."
+			`Password reset email sent. Please check your inbox. You will be redirected to the login page in 5 seconds.`
 		) {
-			const timer = setTimeout(() => {
-				navigate("/");
-			}, 5000);
-
-			return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+			let timerText = 5;
+			const timerInterval = setInterval(() => {
+				timerText--;
+				setMessage(
+					`Password reset email sent. Please check your inbox. You will be redirected to the login page in ${timerText} seconds.`
+				);
+				if (timerText === 0) {
+					clearInterval(timerInterval);
+					navigate("/");
+				}
+			}, 1000);
 		}
 	}, [message, navigate]);
 

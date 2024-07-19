@@ -28,6 +28,12 @@
 	margin-bottom: 54px;
 } */
 
+.project--container {
+	display: flex;
+	align-items: center;
+	gap: 54px;
+}
+
 .filters {
 	display: flex;
 	gap: 16px;

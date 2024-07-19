@@ -1,0 +1,171 @@
+.nav--container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 95%;
+	padding-top: 2.5rem;
+	padding-bottom: 2rem;
+	padding-right: 2.5%;
+}
+
+.nav--side-menu,
+.nav--user-menu {
+	position: absolute;
+	display: flex;
+	width: 100%;
+	background-color: rgba(48, 50, 78, 1);
+	top: 0;
+	left: 0;
+	height: 100vh;
+	z-index: 20;
+	padding-top: 4rem;
+	justify-content: space-between;
+	padding-right: 1rem;
+}
+
+.nav--close {
+	font-size: 2rem;
+	width: 10%;
+	display: flex;
+	justify-content: center;
+}
+
+.nav--logo {
+	display: flex;
+	align-items: center;
+}
+
+.nav--logo a {
+	text-decoration: none;
+	color: white;
+	font-weight: 500;
+	font-size: 16px;
+	margin-right: 16px;
+	transition: color 0.3s ease-in-out;
+}
+.nav--logo a:hover {
+	color: #00c875;
+}
+.nav--right {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.nav--user-menu {
+	padding-right: 0;
+}
+
+.user-letter {
+	background-color: green;
+	border-radius: 50%;
+	width: 40px;
+	aspect-ratio: 1/1;
+	padding: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-size: 24px;
+	font-weight: 500;
+	margin-left: 16px;
+}
+.logout,
+.change-password,
+.profile {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin-left: 16px;
+	background-color: transparent;
+	border: 0;
+	color: white;
+	font-weight: 500;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease-in-out;
+	padding: 8px 16px;
+	border-radius: 8px;
+	text-align: left;
+}
+
+.change-password,
+.profile {
+	text-decoration: none;
+}
+
+.logout:hover,
+.change-password:hover {
+	background-color: #343543;
+}
+
+.hidden,
+.nav--menu {
+	display: none;
+}
+
+.user-menu-container {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.user-menu-container > .nav--close {
+	width: 90%;
+	justify-content: end;
+	margin: 0 auto;
+}
+
+.user-menu {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 90%;
+	text-align: left;
+	margin: 0 auto;
+}
+.user-info {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-bottom: 1rem;
+	margin-left: -1rem;
+}
+.user-info > h2 {
+	font-size: 1rem;
+	font-weight: 500;
+}
+
+hr {
+	margin: 0;
+}
+
+.user-letter-mobile {
+	display: none;
+}
+.nav--user-desktop {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	align-items: center;
+}
+.nav--user-desktop > * {
+	flex-shrink: 1;
+}
+
+@media screen and (max-width: 768px) {
+	.nav--menu {
+		display: block;
+	}
+	.nav--user-desktop {
+		display: none;
+	}
+	.user-letter-mobile {
+		display: flex;
+	}
+}

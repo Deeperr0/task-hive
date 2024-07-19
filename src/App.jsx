@@ -1,12 +1,12 @@
-import { Loader } from "./Loader";
+import Loader from "./Loader";
 import { createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, db } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Login from "./auth/Login";
-import Home from "./home/Home";
-import Navbar from "./home/Navbar";
+import Home from "./Home";
+import Navbar from "./Navbar";
 import Register from "./auth/Register";
 import ResetPassword from "./auth/ResetPassword";
 import ChangePassword from "./auth/ChangePassword";
@@ -30,7 +30,6 @@ function App() {
 
 	const [userData, setUserData] = useState({});
 
-	//TODO: MAYBE PUT THE CURRENT TEAM IN THE LOCAL STATE INSTEAD OF JUST THE TEAM'S ID
 	const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
 
 	//TODO: MOVE THIS STATE TO BE A LOCAL STATE FOR THE SIDE MENU
@@ -81,7 +80,6 @@ function App() {
 		async function getUsersList() {
 			const querySnapshot = await getDocs(collection(db, "users"));
 			const users = querySnapshot.docs.map((doc) => doc.data());
-			console.log("Users list:", users);
 			setUsersList(users);
 		}
 		getUsersList();
@@ -94,8 +92,7 @@ function App() {
 					const data = userDoc.data();
 					setUserData(data);
 					// setTeams(data.teams);
-					console.log("Teams", data.teams);
-					setCurrentWorkSpace(data.teams[0].teamId);
+					setCurrentWorkSpace(data.teams[0]);
 					setRole(data.teams[0].role);
 				} else {
 					setUserData(null);
