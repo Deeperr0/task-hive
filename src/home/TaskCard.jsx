@@ -3,12 +3,7 @@ import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
-import {
-	RoleContext,
-	UserDataContext,
-	UsersListContext,
-	WorkSpaceContext,
-} from "../App";
+import { RoleContext, UserDataContext, WorkSpaceContext } from "../App";
 
 function debounce(func, wait) {
 	let timeout;
@@ -35,24 +30,18 @@ function formatDateToDisplay(dateStr) {
 }
 
 export default function TaskCard({
-	ownerUid,
-	taskId,
-	content,
-	owner,
-	status,
-	deadline,
-	priority,
-	notes,
+	taskObj,
 	deleteTask,
 	updateTask,
+	ownerUid,
 }) {
-	const [localContent, setLocalContent] = useState(content);
+	const [localContent, setLocalContent] = useState(taskObj.content);
 	const [localDeadline, setLocalDeadline] = useState(
-		convertToUserTimezone(deadline)
+		convertToUserTimezone(taskObj.deadline)
 	);
-	const [localPriority, setLocalPriority] = useState(priority);
-	const [localOwner, setLocalOwner] = useState(owner);
-	const [localNotes, setLocalNotes] = useState(notes);
+	const [localPriority, setLocalPriority] = useState(taskObj.priority);
+	const [localOwner, setLocalOwner] = useState(taskObj.owner);
+	const [localNotes, setLocalNotes] = useState(taskObj.notes);
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirm, setConfirm] = useState(false);
 	const { role, setRole } = useContext(RoleContext);
@@ -63,12 +52,19 @@ export default function TaskCard({
 		useContext(WorkSpaceContext);
 
 	useEffect(() => {
-		setLocalContent(content);
-		setLocalDeadline(convertToUserTimezone(deadline));
-		setLocalPriority(priority);
-		setLocalOwner(owner);
-		setLocalNotes(notes);
-	}, [content, deadline, priority, owner, notes, role]);
+		setLocalContent(taskObj.content);
+		setLocalDeadline(convertToUserTimezone(taskObj.deadline));
+		setLocalPriority(taskObj.priority);
+		setLocalOwner(taskObj.owner);
+		setLocalNotes(taskObj.notes);
+	}, [
+		taskObj.content,
+		taskObj.deadline,
+		taskObj.priority,
+		taskObj.owner,
+		taskObj.notes,
+		role,
+	]);
 
 	const debouncedUpdateStatus = useCallback(
 		debounce((taskId, newStatus) => {
@@ -94,7 +90,7 @@ export default function TaskCard({
 	}
 
 	function handleDelete() {
-		deleteTask(taskId);
+		deleteTask(taskObj.taskId);
 	}
 
 	function handleContentChange(event) {
@@ -132,7 +128,7 @@ export default function TaskCard({
 			notes: localNotes,
 			lastUpdated: now,
 		};
-		updateTask(taskId, updates);
+		updateTask(taskObj.taskId, updates);
 		setIsChanged(false);
 	}
 
@@ -342,19 +338,11 @@ export default function TaskCard({
 }
 
 TaskCard.propTypes = {
-	task: PropTypes.object,
+	taskObj: PropTypes.object,
 	role: PropTypes.string,
-	users: PropTypes.array,
 	currentUserUid: PropTypes.string,
 	setConfirm: PropTypes.func,
-	deadline: PropTypes.string,
-	notes: PropTypes.string,
-	status: PropTypes.string,
-	priority: PropTypes.string,
-	owner: PropTypes.string,
 	updateTask: PropTypes.func,
 	deleteTask: PropTypes.func,
-	content: PropTypes.string,
 	ownerUid: PropTypes.string,
-	taskId: PropTypes.string,
 };
