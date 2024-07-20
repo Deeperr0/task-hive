@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import { useState, useEffect, useCallback, useContext, useRef } from "react";
 import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
@@ -31,7 +31,6 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirm, setConfirm] = useState(false);
 	const [localStatus, setLocalStatus] = useState(taskObj.status);
-
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 
@@ -48,6 +47,59 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 		taskObj.owner,
 		taskObj.notes,
 	]);
+
+	const stickyRef = useRef(null);
+	const parentRef = useRef(null);
+	const [isPinned, setIsPinned] = useState(false);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				// Check if the element is horizontally pinned
+				setIsPinned(entry.intersectionRatio < 1);
+			},
+			{
+				root: null, // Use the viewport as the container
+				rootMargin: "0px", // No margin around the root
+				threshold: [1], // Fully visible
+			}
+		);
+
+		const currentElement = stickyRef.current;
+		if (currentElement) {
+			observer.observe(currentElement);
+		}
+
+		return () => {
+			if (currentElement) {
+				observer.unobserve(currentElement);
+			}
+		};
+	}, []);
+
+	// function checkStickyElement() {
+	// 	const stickyElement = document.querySelector(".sticky");
+	// 	const observer = new IntersectionObserver(
+	// 		(entries) => {
+	// 			entries.forEach((entry) => {
+	// 				if (entry.intersectionRatio < 1) {
+	// 					// Element has become pinned
+	// 					stickyElement.style.backgroundColor = "lightgreen";
+	// 					console.log("Sticky element is pinned");
+	// 				} else {
+	// 					// Element is not pinned
+	// 					stickyElement.style.backgroundColor = "yellow";
+	// 					console.log("Sticky element is not pinned");
+	// 				}
+	// 			});
+	// 		},
+	// 		{
+	// 			threshold: [1], // Trigger when the element is fully in view
+	// 		}
+	// 	);
+
+	// 	observer.observe(stickyElement);
+	// }
 
 	const debouncedUpdateStatus = useCallback(
 		debounce((taskId, newStatus) => {
@@ -150,10 +202,15 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 			: "";
 
 	return (
-		<div className="task--card task--row">
+		<div
+			className="task--card task--row"
+			ref={parentRef}
+		>
 			{confirm && (
 				<Overlay>
-					<p>Are you sure you want to delete this task?</p>
+					<p className="delete-prompt">
+						Are you sure you want to delete this task?
+					</p>
 					<button
 						onClick={handleDelete}
 						className="delete-button"
@@ -168,16 +225,30 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					</button>
 				</Overlay>
 			)}
+			<div className="strip sticky" />
+
 			{currentWorkSpace.role === "admin" ? (
 				<input
 					type="text"
 					value={localContent}
 					onChange={handleContentChange}
 					placeholder="Task Content"
-					className="sticky task-column"
+					className={
+						isPinned ? "task-column-sticky is-pinned" : " task-column-sticky"
+					}
+					ref={stickyRef}
 				/>
 			) : (
-				<p className="task--text sticky task-column">{localContent}</p>
+				<p
+					className={
+						isPinned
+							? "task--text sticky task-column is-pinned"
+							: "task--text sticky task-column"
+					}
+					ref={stickyRef}
+				>
+					{localContent}
+				</p>
 			)}
 			<p className="task--owner owner-column">
 				{currentWorkSpace.role === "admin" ? (

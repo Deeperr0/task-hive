@@ -26,7 +26,8 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 			<div className="tasks--container">
 				<div className="tasks--table">
 					<div className="task--header">
-						<div className="task-column">Task</div>
+						<div className="strip sticky" />
+						<div className="task-column-sticky">Task</div>
 						<div className="owner-column">Owner</div>
 						<div className="status-column">Status</div>
 						<div className="deadline-column">Deadline</div>
@@ -34,6 +35,7 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 						<div className="notes-column">Notes</div>
 						<div className="buttons-column"></div>
 					</div>
+
 					{tasksList.length != 0 && (
 						<div className="tasks--list">
 							{tasksList.map((task) => (

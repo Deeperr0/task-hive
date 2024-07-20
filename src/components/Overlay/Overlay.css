@@ -29,8 +29,10 @@
 	width: 85%;
 }
 .overlay--content p {
-	margin-bottom: 16px;
+	margin-top: 0;
 	color: white;
+	line-height: 1.5rem;
+	flex-shrink: 0;
 }
 
 @media screen and (max-width: 768px) {
