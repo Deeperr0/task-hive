@@ -10,13 +10,14 @@ import {
 	arrayUnion,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import Tasks from "../Tasks";
+import Tasks from "../SideMenu/Tasks";
 import "./Project.css";
 import PropTypes from "prop-types";
 import Loader from "../Loader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { WorkSpaceContext } from "../App";
+import Overlay from "../Overlay/Overlay";
 
 export default function Project({ user, userData, usersList }) {
 	const { currentWorkSpace, setCurrentWorkSpace } =
@@ -27,6 +28,7 @@ export default function Project({ user, userData, usersList }) {
 	const [statusFilter, setStatusFilter] = useState("");
 	const [userToAdd, setUserToAdd] = useState("");
 	const [chosenRole, setChosenRole] = useState("");
+	const [toggleAddUser, setToggleAddUser] = useState(false);
 
 	useEffect(() => {
 		setLoading(false);
@@ -241,16 +243,12 @@ export default function Project({ user, userData, usersList }) {
 
 	return (
 		<div className="project">
-			<div className="add-user-overlay hidden">
-				<div className="add-user-container">
+			{toggleAddUser && (
+				<Overlay>
 					<div className="add-user-close">
 						<FontAwesomeIcon
 							icon={faArrowLeft}
-							onClick={() =>
-								document
-									.querySelector(".add-user-overlay")
-									.classList.add("hidden")
-							}
+							onClick={() => setToggleAddUser(false)}
 						/>
 					</div>
 
@@ -268,54 +266,47 @@ export default function Project({ user, userData, usersList }) {
 						</select>
 						<button onClick={() => addUser(chosenRole)}>Add</button>
 					</div>
+				</Overlay>
+			)}
+
+			<h2 className="project-title">Project Tasks</h2>
+			{currentWorkSpace.role === "admin" && (
+				<div className="add-buttons">
+					<button
+						onClick={addTask}
+						className="add-button"
+					>
+						New task
+					</button>
+					<button
+						className="add-user"
+						onClick={() => setToggleAddUser(true)}
+					>
+						Add user
+					</button>
 				</div>
-			</div>
-			<div className="project--container">
-				<div>
-					<h2 className="project-title">Project Tasks</h2>
-					{currentWorkSpace.role === "admin" && (
-						<div className="add-buttons">
-							<button
-								onClick={addTask}
-								className="add-button"
-							>
-								New task
-							</button>
-							<button
-								className="add-user"
-								onClick={() =>
-									document
-										.querySelector(".add-user-overlay")
-										.classList.remove("hidden")
-								}
-							>
-								Add user
-							</button>
-						</div>
-					)}
-				</div>
-				<div className="filters-container">
-					<h2 className="filters-title">Filters</h2>
-					<div className="filters">
-						<div>
-							<p>Priority</p>
-							<select onChange={(e) => setPriorityFilter(e.target.value)}>
-								<option value="">All</option>
-								<option value="Low">Low</option>
-								<option value="Medium">Medium</option>
-								<option value="High">High</option>
-								<option value="Critical">Critical</option>
-							</select>
-						</div>
-						<div>
-							<p>Status</p>
-							<select onChange={(e) => setStatusFilter(e.target.value)}>
-								<option value="">All</option>
-								<option value="Not started">Not started</option>
-								<option value="Working on it">Working on it</option>
-								<option value="Stuck">Stuck</option>
-							</select>
-						</div>
+			)}
+			<div className="filters-container">
+				<h2 className="filters-title">Filters: </h2>
+				<div className="filters">
+					<div>
+						<p>Priority</p>
+						<select onChange={(e) => setPriorityFilter(e.target.value)}>
+							<option value="">All</option>
+							<option value="Low">Low</option>
+							<option value="Medium">Medium</option>
+							<option value="High">High</option>
+							<option value="Critical">Critical</option>
+						</select>
+					</div>
+					<div>
+						<p>Status</p>
+						<select onChange={(e) => setStatusFilter(e.target.value)}>
+							<option value="">All</option>
+							<option value="Not started">Not started</option>
+							<option value="Working on it">Working on it</option>
+							<option value="Stuck">Stuck</option>
+						</select>
 					</div>
 				</div>
 			</div>

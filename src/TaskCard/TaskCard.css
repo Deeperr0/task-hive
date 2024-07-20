@@ -152,15 +152,6 @@
 	padding: auto 8px;
 	padding-bottom: 0;
 }
-.overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100vh;
-	width: 100vw;
-	z-index: 10;
-	--bg-opacity: 0.5;
-}
 
 .hidden {
 	display: none;

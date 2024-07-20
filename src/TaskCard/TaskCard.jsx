@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import { WorkSpaceContext } from "../App";
+import Overlay from "../Overlay/Overlay";
 
 function debounce(func, wait) {
 	let timeout;
@@ -161,8 +162,8 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 
 	return (
 		<div className="task--card task--row">
-			<div className={confirm ? "overlay" : "overlay hidden"}>
-				<div className="confirm-delete-container">
+			{confirm && (
+				<Overlay>
 					<p>Are you sure you want to delete this task?</p>
 					<button
 						onClick={handleDelete}
@@ -176,8 +177,8 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					>
 						Cancel
 					</button>
-				</div>
-			</div>
+				</Overlay>
+			)}
 			{currentWorkSpace.role === "admin" ? (
 				<input
 					type="text"

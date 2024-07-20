@@ -28,16 +28,20 @@
 	margin-bottom: 54px;
 } */
 
-.project--container {
+.filters-container {
 	display: flex;
 	align-items: center;
-	gap: 54px;
+	gap: 16px;
 }
 
 .filters {
 	display: flex;
 	gap: 16px;
-	margin: 16px auto;
+	margin: 16px 0;
+}
+
+.filters-title {
+	font-weight: 400;
 }
 
 .filters p {
@@ -48,29 +52,9 @@
 	height: 2rem;
 	background-color: rgba(48, 50, 78, 0.97);
 	color: white;
+	padding-left: 6px;
 }
 
-.add-user-overlay {
-	background-color: rgba(48, 50, 78, 0.6);
-	height: 100vh;
-	width: 100vw;
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 100;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.add-user-container {
-	background-color: rgba(48, 50, 78, 0.97);
-	padding: 54px;
-	display: flex;
-	flex-direction: column;
-	border-radius: 8px;
-	text-align: center;
-}
 .add-user-inputs {
 	margin-top: 16px;
 	display: flex;
@@ -96,6 +80,9 @@
 	background-color: #00854d;
 }
 .add-user-close {
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
 	text-align: left;
 	font-size: 24px;
 }
