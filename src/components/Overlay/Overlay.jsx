@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import "./Overlay.css";
 export default function Overlay({ children }) {
 	return (
-		<div className="overlay">
+		<div id="overlay">
 			<div className="overlay--container">
 				<div className="overlay--content">{children}</div>
 			</div>

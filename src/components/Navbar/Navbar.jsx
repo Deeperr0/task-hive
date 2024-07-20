@@ -1,4 +1,4 @@
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
 import "./Navbar.css";
 import PropTypes from "prop-types";
@@ -12,13 +12,7 @@ import {
 import { useState } from "react";
 import SideMenu from "../SideMenu";
 
-export default function Navbar({
-	user,
-	userData,
-	teams,
-	expandWorkSpace,
-	setExpandWorkSpace,
-}) {
+export default function Navbar({ user, userData, teams }) {
 	const navigate = useNavigate();
 	const [toggleMenu, setToggleMenu] = useState(false);
 	const [toggleUserMenu, setToggleUserMenu] = useState(false);
@@ -47,8 +41,6 @@ export default function Navbar({
 						>
 							<SideMenu
 								user={user}
-								setExpandWorkSpace={setExpandWorkSpace}
-								expandWorkSpace={expandWorkSpace}
 								teams={teams}
 							/>
 							<div
@@ -157,6 +149,4 @@ Navbar.propTypes = {
 	teams: PropTypes.array,
 	currentWorkSpace: PropTypes.object,
 	setCurrentWorkSpace: PropTypes.func,
-	expandWorkSpace: PropTypes.bool,
-	setExpandWorkSpace: PropTypes.func,
 };

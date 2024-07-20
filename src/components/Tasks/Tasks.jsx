@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import TaskCard from "../../TaskCard";
+import TaskCard from "../TaskCard";
 import "./Tasks.css";
 import PropTypes from "prop-types";
 

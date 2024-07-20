@@ -9,16 +9,13 @@ import {
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./SideMenu.css";
-import filterIcon from "../Filter-outline.svg";
+import filterIcon from "../../Filter-outline.svg";
 import PropTypes from "prop-types";
-import { useContext } from "react";
-import { WorkSpaceContext } from "../App";
+import { useContext, useState } from "react";
+import { WorkSpaceContext } from "../../App";
 
-export default function SideMenu({
-	teams,
-	expandWorkSpace,
-	setExpandWorkSpace,
-}) {
+export default function SideMenu({ teams }) {
+	const [expandWorkSpace, setExpandWorkSpace] = useState(false);
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 	return (

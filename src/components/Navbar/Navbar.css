@@ -58,10 +58,6 @@ nav {
 	align-items: center;
 }
 
-.nav--user-menu {
-	padding-right: 0;
-}
-
 .user-letter {
 	background-color: green;
 	border-radius: 50%;
@@ -161,6 +157,9 @@ hr {
 @media screen and (max-width: 768px) {
 	.nav--menu {
 		display: block;
+	}
+	.nav--user-menu {
+		padding-right: 0;
 	}
 	.nav--user-desktop {
 		display: none;

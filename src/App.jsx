@@ -1,12 +1,12 @@
-import Loader from "./Loader";
+import Loader from "./components/Loader";
 import { createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, db } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Login from "./auth/Login";
-import Home from "./Home";
-import Navbar from "./Navbar";
+import Home from "./components/Home";
+import Navbar from "./components/Navbar";
 import Register from "./auth/Register";
 import ResetPassword from "./auth/ResetPassword";
 import ChangePassword from "./auth/ChangePassword";
@@ -31,9 +31,6 @@ function App() {
 	const [userData, setUserData] = useState({});
 
 	const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
-
-	//TODO: MOVE THIS STATE TO BE A LOCAL STATE FOR THE SIDE MENU
-	const [expandWorkSpace, setExpandWorkSpace] = useState(false);
 
 	// Stores the list of team objects the logged in user is a part of
 	// Can use userData.teams instead of using it as a state
@@ -132,8 +129,6 @@ function App() {
 										userData={userData}
 										setCurrentWorkSpace={setCurrentWorkSpace}
 										currentWorkSpace={currentWorkSpace}
-										setExpandWorkSpace={setExpandWorkSpace}
-										expandWorkSpace={expandWorkSpace}
 										//TODO: CHECK ON WHY THIS IS WORKING WEIRDLY
 										teams={user ? userData.teams : []}
 									/>
@@ -162,8 +157,6 @@ function App() {
 															role={role}
 															setCurrentWorkSpace={setCurrentWorkSpace}
 															currentWorkSpace={currentWorkSpace}
-															setExpandWorkSpace={setExpandWorkSpace}
-															expandWorkSpace={expandWorkSpace}
 															teams={userData.teams}
 															usersList={usersList}
 														/>

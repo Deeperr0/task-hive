@@ -8,7 +8,7 @@ ul {
 	border-radius: 8px;
 }
 
-.slide-menu-container * {
+.side-menu-container * {
 	font-size: 16px;
 }
 .side-menu > li {
@@ -106,10 +106,4 @@ hr {
 	display: flex;
 	gap: 8px;
 	align-items: center;
-}
-.sub-workspace {
-	padding-left: 1.5rem;
-}
-.sub-workspace li {
-	margin: 8px 0;
 }

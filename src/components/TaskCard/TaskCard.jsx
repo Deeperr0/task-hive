@@ -3,8 +3,8 @@ import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
-import { WorkSpaceContext } from "../App";
-import Overlay from "../Overlay/Overlay";
+import { WorkSpaceContext } from "../../App";
+import Overlay from "../Overlay";
 
 function debounce(func, wait) {
 	let timeout;
@@ -12,14 +12,6 @@ function debounce(func, wait) {
 		clearTimeout(timeout);
 		timeout = setTimeout(() => func.apply(this, args), wait);
 	};
-}
-
-function convertToUserTimezone(dateStr) {
-	const date = new Date(dateStr);
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, "0");
-	const day = String(date.getDate()).padStart(2, "0");
-	return `${year}-${month}-${day}`;
 }
 
 function formatDateToDisplay(dateStr) {
@@ -32,9 +24,7 @@ function formatDateToDisplay(dateStr) {
 
 export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 	const [localContent, setLocalContent] = useState(taskObj.content);
-	const [localDeadline, setLocalDeadline] = useState(
-		convertToUserTimezone(taskObj.deadline)
-	);
+	const [localDeadline, setLocalDeadline] = useState(taskObj.deadline);
 	const [localPriority, setLocalPriority] = useState(taskObj.priority);
 	const [localOwner, setLocalOwner] = useState(taskObj.owner);
 	const [localNotes, setLocalNotes] = useState(taskObj.notes);
@@ -42,13 +32,12 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 	const [confirm, setConfirm] = useState(false);
 	const [localStatus, setLocalStatus] = useState(taskObj.status);
 
-	// const { usersList, setUsersList } = useContext(UsersListContext);
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 
 	useEffect(() => {
 		setLocalContent(taskObj.content);
-		setLocalDeadline(convertToUserTimezone(taskObj.deadline));
+		setLocalDeadline(taskObj.deadline);
 		setLocalPriority(taskObj.priority);
 		setLocalOwner(taskObj.owner);
 		setLocalNotes(taskObj.notes);
