@@ -71,9 +71,6 @@
 .reset-password {
 	color: white;
 }
-.reset-password-link {
-	color: green;
-}
 .password-field {
 	display: flex;
 	align-items: center;
@@ -134,5 +131,6 @@
 	color: white;
 }
 .login-container a {
-	color: rgb(0, 124, 0);
+	color: #4caf50;
+	text-decoration: none;
 }

@@ -166,6 +166,15 @@ export default function Register({ setUser, usersList }) {
 					Register
 				</button>
 			</form>
+			<p className="login-link-container">
+				Already have an account?{" "}
+				<a
+					href="/"
+					className="login-link"
+				>
+					Login
+				</a>
+			</p>
 			<div className="register-status"></div>
 		</div>
 	);

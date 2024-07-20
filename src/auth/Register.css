@@ -104,6 +104,13 @@
 	margin: 10px 0;
 }
 
+.login-link-container {
+	color: #fff;
+}
+.login-link {
+	color: #4caf50;
+	text-decoration: none;
+}
 @media screen and (max-width: 768px) {
 	.register-container {
 		width: 80%;
