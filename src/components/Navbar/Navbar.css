@@ -29,6 +29,13 @@ nav {
 	padding-right: 1rem;
 }
 
+.nav--menu-icon {
+	font-size: 2rem;
+	width: 10%;
+	display: flex;
+	justify-content: center;
+	margin-left: 0.75rem;
+}
 .nav--close {
 	font-size: 2rem;
 	width: 10%;

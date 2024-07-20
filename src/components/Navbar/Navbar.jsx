@@ -18,9 +18,9 @@ export default function Navbar({ user, userData, teams }) {
 	const [toggleUserMenu, setToggleUserMenu] = useState(false);
 	async function handleLogout() {
 		try {
-			await signOut(auth).then(() => {
-				navigate("/");
-			});
+			setToggleUserMenu(false);
+			await signOut(auth);
+			navigate("/");
 		} catch (error) {
 			console.error("Error logging out:", error);
 		}
@@ -31,7 +31,10 @@ export default function Navbar({ user, userData, teams }) {
 			<nav>
 				{user && (
 					<div className="nav--menu">
-						<div onClick={() => setToggleMenu(true)}>
+						<div
+							onClick={() => setToggleMenu(true)}
+							className="nav--menu-icon"
+						>
 							<FontAwesomeIcon icon={faBars} />
 						</div>
 						<div
