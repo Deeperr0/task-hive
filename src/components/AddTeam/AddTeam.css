@@ -1,0 +1,45 @@
+.add-team-close {
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
+	text-align: left;
+	transition: color 0.2s ease-in-out;
+	background-color: transparent;
+	color: white;
+	border: 0;
+}
+
+.add-team-close * {
+	font-size: 1.5rem;
+}
+
+.add-team-close:hover {
+	cursor: pointer;
+	color: #00c875;
+}
+
+.add-team-content {
+	display: flex;
+	gap: 1rem;
+	height: 2.5rem;
+}
+.add-team-content input {
+	height: 100%;
+	padding: 0 0 0 0.75rem;
+}
+
+.add-team-content button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #00c875;
+	transition: background-color 0.3s ease-in-out;
+	border: 0;
+	border-radius: 4px;
+	color: white;
+}
+
+.add-team-content button:hover {
+	cursor: pointer;
+	background-color: #00854d;
+}

@@ -7,7 +7,7 @@ export default function useFilterTasks(
 ) {
 	const [filteredTasks, setFilteredTasks] = useState([]);
 	useEffect(() => {
-		let filtered = currentWorkSpace.tasks;
+		let filtered = currentWorkSpace?.tasks ? [...currentWorkSpace.tasks] : [];
 		if (priorityFilter) {
 			filtered = filtered.filter(
 				(task) => task.priority.toLowerCase() === priorityFilter.toLowerCase()

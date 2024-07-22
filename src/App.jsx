@@ -14,7 +14,8 @@ import ChangePassword from "./auth/ChangePassword";
 import "./App.css";
 
 export const WorkSpaceContext = createContext();
-
+export const CurrentUserContext = createContext();
+export const UserDataContext = createContext();
 function App() {
 	// Authentication of user contains data like whether the email is verified and the email of the user and their uid
 	const [user, setUser] = useState(null);
@@ -107,72 +108,69 @@ function App() {
 		);
 	}
 	return (
-		<WorkSpaceContext.Provider
-			value={{
-				currentWorkSpace,
-				setCurrentWorkSpace,
-			}}
-		>
-			<Router>
-				<div className="container">
-					<Navbar
-						user={user}
-						userData={userData}
-						setCurrentWorkSpace={setCurrentWorkSpace}
-						currentWorkSpace={currentWorkSpace}
-						//TODO: CHECK ON WHY THIS IS WORKING WEIRDLY
-						teams={user ? userData.teams : []}
-					/>
-					<Routes>
-						<Route
-							path="/register"
-							element={
-								<Register
-									setUser={setUser}
-									usersList={usersList}
-								/>
-							}
-						/>
-						<Route
-							path="/reset-password"
-							element={<ResetPassword />}
-						/>
-						{user != null ? (
-							currentWorkSpace.role ? (
+		<UserDataContext.Provider value={{ userData, setUserData }}>
+			<CurrentUserContext.Provider value={{ user, userData }}>
+				<WorkSpaceContext.Provider
+					value={{
+						currentWorkSpace,
+						setCurrentWorkSpace,
+					}}
+				>
+					<Router>
+						<div className="container">
+							<Navbar
+								user={user}
+								userData={userData}
+								setCurrentWorkSpace={setCurrentWorkSpace}
+								currentWorkSpace={currentWorkSpace}
+								//TODO: CHECK ON WHY THIS IS WORKING WEIRDLY
+								teams={user ? userData.teams : []}
+							/>
+							<Routes>
 								<Route
-									path="/"
+									path="/register"
 									element={
-										<Home
-											user={user}
-											userData={userData}
-											role={currentWorkSpace.role}
-											setCurrentWorkSpace={setCurrentWorkSpace}
-											currentWorkSpace={currentWorkSpace}
-											teams={userData.teams}
+										<Register
+											setUser={setUser}
 											usersList={usersList}
 										/>
 									}
 								/>
-							) : (
 								<Route
-									path="/"
-									element={<Loader />}
+									path="/reset-password"
+									element={<ResetPassword />}
 								/>
-							)
-						) : (
-							<Route
-								path="/"
-								element={<Login setUser={setUser} />}
-							/>
-						)}
-						<Route
-							path="/change-password"
-							element={<ChangePassword />}
-						/>
-					</Routes>
-				</div>
-			</Router>
-		</WorkSpaceContext.Provider>
+								{user != null ? (
+									<Route
+										path="/"
+										element={
+											<Home
+												user={user}
+												userData={userData}
+												role={currentWorkSpace ? currentWorkSpace.role : ""}
+												setCurrentWorkSpace={setCurrentWorkSpace}
+												currentWorkSpace={currentWorkSpace}
+												teams={userData.teams}
+												usersList={usersList}
+											/>
+										}
+									/>
+								) : (
+									<Route
+										path="/"
+										element={<Login setUser={setUser} />}
+									/>
+								)}
+								<Route
+									path="/change-password"
+									element={<ChangePassword />}
+								/>
+							</Routes>
+						</div>
+					</Router>
+				</WorkSpaceContext.Provider>
+			</CurrentUserContext.Provider>
+		</UserDataContext.Provider>
 	);
 }
 

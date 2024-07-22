@@ -13,13 +13,16 @@ import filterIcon from "../../Filter-outline.svg";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
 import { WorkSpaceContext } from "../../App";
+import AddTeam from "../AddTeam";
 
 export default function SideMenu({ teams }) {
+	const [toggleAddTeam, setToggleAddTeam] = useState(false);
 	const [expandWorkSpace, setExpandWorkSpace] = useState(false);
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 	return (
 		<div className="side-menu-container">
+			{toggleAddTeam && <AddTeam setToggleAddTeam={setToggleAddTeam} />}
 			<ul className="side-menu">
 				<li>
 					<FontAwesomeIcon icon={faHome} />
@@ -59,33 +62,38 @@ export default function SideMenu({ teams }) {
 						<img src={filterIcon} />
 					</button>
 				</div>
-				<button className="add-to-team">
+				<button
+					className="add-to-team"
+					onClick={() => setToggleAddTeam(true)}
+				>
 					<FontAwesomeIcon icon={faPlus} />
 				</button>
 			</div>
-			<div className="workspace-sub-menu">
-				<div className="workspace">
-					{expandWorkSpace ? (
-						<FontAwesomeIcon icon={faCaretDown} />
-					) : (
-						<FontAwesomeIcon icon={faCaretRight} />
-					)}
-					{teams.map(
-						(workspace) =>
-							workspace.teamId == currentWorkSpace.teamId && (
-								<div
-									key={workspace.teamId}
-									className={expandWorkSpace ? "active" : ""}
-									onClick={() => {
-										setExpandWorkSpace(!expandWorkSpace);
-									}}
-								>
-									{workspace.teamName}
-								</div>
-							)
-					)}
+			{teams.length != 0 && (
+				<div className="workspace-sub-menu">
+					<div className="workspace">
+						{expandWorkSpace ? (
+							<FontAwesomeIcon icon={faCaretDown} />
+						) : (
+							<FontAwesomeIcon icon={faCaretRight} />
+						)}
+						{teams.map(
+							(workspace) =>
+								workspace?.teamId == currentWorkSpace?.teamId && (
+									<div
+										key={workspace.teamId}
+										className={expandWorkSpace ? "active" : ""}
+										onClick={() => {
+											setExpandWorkSpace(!expandWorkSpace);
+										}}
+									>
+										{workspace.teamName}
+									</div>
+								)
+						)}
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 }

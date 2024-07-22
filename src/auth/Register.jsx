@@ -49,23 +49,23 @@ export default function Register({ setUser, usersList }) {
 				lastName,
 				email,
 				teams: [
-					{
-						teamName: "My Team",
-						teamId,
-						teamMembers: [
-							{
-								username,
-								uid: user.uid,
-								email,
-							},
-						],
-						tasks: [],
-						role: "admin",
-						lastUpdated: new Date().toISOString(),
-						created: new Date().toISOString(),
-						createdById: user.uid,
-						subWorkspaces: [{}],
-					},
+					// {
+					// 	teamName: "My Team",
+					// 	teamId,
+					// 	teamMembers: [
+					// 		{
+					// 			username,
+					// 			uid: user.uid,
+					// 			email,
+					// 		},
+					// 	],
+					// 	tasks: [],
+					// 	role: "admin",
+					// 	lastUpdated: new Date().toISOString(),
+					// 	created: new Date().toISOString(),
+					// 	createdById: user.uid,
+					// 	subWorkspaces: [{}],
+					// },
 				],
 			});
 

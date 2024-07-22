@@ -168,7 +168,7 @@ export default function Project({ user, userData, usersList }) {
 			)}
 
 			<h2 className="project-title">Project Tasks</h2>
-			{currentWorkSpace.role === "admin" && (
+			{currentWorkSpace?.role === "admin" && (
 				<div className="add-buttons">
 					<button
 						onClick={addTask}
@@ -191,7 +191,7 @@ export default function Project({ user, userData, usersList }) {
 			<Tasks
 				name="To do"
 				tasksList={
-					currentWorkSpace.role === "admin"
+					currentWorkSpace?.role === "admin"
 						? filteredTasks.filter((task) => task.status != "Done")
 						: filteredTasks
 								.filter((task) => task.status != "Done")
@@ -202,9 +202,13 @@ export default function Project({ user, userData, usersList }) {
 			/>
 			<Tasks
 				name="Done"
-				tasksList={currentWorkSpace.tasks
-					.filter((task) => task.status === "Done")
-					.filter((task) => task.ownerUid === user.uid)}
+				tasksList={
+					currentWorkSpace?.tasks
+						? currentWorkSpace.tasks
+								.filter((task) => task.status === "Done")
+								.filter((task) => task.ownerUid === user.uid)
+						: []
+				}
 				updateTask={updateTask} // Pass updateTask function
 				deleteTask={deleteTask}
 			/>

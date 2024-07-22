@@ -12,13 +12,17 @@ export default function Home({ user, userData, teams, usersList }) {
 					teams={teams}
 				/>
 			</div>
-			<div className="home--right">
-				<Project
-					user={user}
-					userData={userData}
-					usersList={usersList}
-				/>
-			</div>
+			{userData.teams.length ? (
+				<div className="home--right">
+					<Project
+						user={user}
+						userData={userData}
+						usersList={usersList}
+					/>
+				</div>
+			) : (
+				<></>
+			)}
 		</div>
 	);
 }
