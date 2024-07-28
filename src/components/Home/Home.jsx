@@ -12,7 +12,7 @@ export default function Home({ user, userData, teams, usersList }) {
 					teams={teams}
 				/>
 			</div>
-			{userData.teams.length ? (
+			{userData?.teams.length ? (
 				<div className="home--right">
 					<Project
 						user={user}

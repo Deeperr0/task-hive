@@ -76,7 +76,7 @@ export default function Navbar({ user, userData, teams }) {
 								Logout
 							</button>
 							<h1 className="user-letter">
-								{userData.firstName[0].toUpperCase()}
+								{userData?.firstName[0].toUpperCase()}
 							</h1>
 						</div>
 					)}
@@ -85,7 +85,7 @@ export default function Navbar({ user, userData, teams }) {
 							className="user-letter user-letter-mobile"
 							onClick={() => setToggleUserMenu(!toggleUserMenu)}
 						>
-							{userData.firstName[0].toUpperCase()}
+							{userData?.firstName[0].toUpperCase()}
 						</h1>
 					)}
 					<div
@@ -107,9 +107,9 @@ export default function Navbar({ user, userData, teams }) {
 											className="user-letter"
 											onClick={() => setToggleUserMenu(!toggleUserMenu)}
 										>
-											{userData.firstName[0].toUpperCase()}
+											{userData?.firstName[0].toUpperCase()}
 										</h1>
-										<h2>{`${userData.firstName} ${userData.lastName}`}</h2>
+										<h2>{`${userData?.firstName} ${userData?.lastName}`}</h2>
 									</div>
 									<hr />
 									<a

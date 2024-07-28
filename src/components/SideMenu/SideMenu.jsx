@@ -42,7 +42,7 @@ export default function SideMenu({ teams }) {
 						);
 					}}
 				>
-					{teams.map((workspace) => (
+					{teams?.map((workspace) => (
 						<option
 							value={workspace.teamId}
 							key={workspace.teamId}
@@ -69,7 +69,7 @@ export default function SideMenu({ teams }) {
 					<FontAwesomeIcon icon={faPlus} />
 				</button>
 			</div>
-			{teams.length != 0 && (
+			{teams?.length != 0 && (
 				<div className="workspace-sub-menu">
 					<div className="workspace">
 						{expandWorkSpace ? (
@@ -77,7 +77,7 @@ export default function SideMenu({ teams }) {
 						) : (
 							<FontAwesomeIcon icon={faCaretRight} />
 						)}
-						{teams.map(
+						{teams?.map(
 							(workspace) =>
 								workspace?.teamId == currentWorkSpace?.teamId && (
 									<div
