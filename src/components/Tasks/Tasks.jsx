@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import TaskCard from "../TaskCard";
-import "./Tasks.css";
+// import "./Tasks.css";
 import PropTypes from "prop-types";
 
 export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
@@ -19,21 +19,39 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 		};
 	}, []);
 	return (
-		<div className="task-type-container">
-			<h3 className={name === "Done" ? "tasks--type done" : "tasks--type"}>
+		<div className="">
+			<h3
+				className={
+					name === "Done"
+						? "text-success text-lg mb-2"
+						: "text-info text-lg mb-2"
+				}
+			>
 				{name}
 			</h3>
-			<div className="tasks--container">
-				<div className="tasks--table">
-					<div className="task--header">
-						<div className="strip sticky" />
-						<div className="task-column-sticky">Task</div>
-						<div className="owner-column">Owner</div>
-						<div className="status-column">Status</div>
-						<div className="deadline-column">Deadline</div>
-						<div className="priority-column">Priority</div>
-						<div className="notes-column">Notes</div>
-						<div className="buttons-column"></div>
+			<div className="bg-secondary text-customText border-gray-900 rounded-lg pb-4 text-sm">
+				<div className="">
+					<div className="grid grid-cols-customGrid py-4">
+						<div className="strip sticky bg-secondary text-customText border-gray-900" />
+						<div className="task-column-sticky bg-secondary text-customText border-gray-900">
+							Task
+						</div>
+						<div className="owner-column bg-secondary text-customText border-gray-900">
+							Owner
+						</div>
+						<div className="status-column bg-secondary text-customText border-gray-900">
+							Status
+						</div>
+						<div className="deadline-column bg-secondary text-customText border-gray-900">
+							Deadline
+						</div>
+						<div className="priority-column bg-secondary text-customText border-gray-900">
+							Priority
+						</div>
+						<div className="notes-column bg-secondary text-customText border-gray-900">
+							Notes
+						</div>
+						<div className="buttons-column bg-secondary text-customText border-gray-900 "></div>
 					</div>
 
 					{tasksList.length != 0 && (

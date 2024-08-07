@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useContext, useRef } from "react";
-import "./TaskCard.css";
+// import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
@@ -181,29 +181,29 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 
 	const priorityClass =
 		localPriority === "Low"
-			? "task--priority-low"
+			? "bg-info"
 			: localPriority === "Medium"
-			? "task--priority-medium"
+			? "bg-subtleWarning"
 			: localPriority === "High"
-			? "task--priority-high"
+			? "bg-warning"
 			: localPriority === "Critical"
-			? "task--priority-critical"
+			? "bg-danger text-customBackground"
 			: "";
 
 	const statusClass =
 		localStatus === "Done"
-			? "task--status-done"
+			? "bg-success"
 			: localStatus === "Working on it"
-			? "task--status-working"
+			? "bg-subtleWarning"
 			: localStatus === "Stuck"
-			? "task--status-stuck"
+			? "bg-danger text-customBackground"
 			: localStatus === "Not started"
-			? "task--status-not-started"
+			? "bg-info"
 			: "";
 
 	return (
 		<div
-			className="task--card task--row"
+			className="grid grid-cols-customGrid items-center h-9"
 			ref={parentRef}
 		>
 			{confirm && (
@@ -213,7 +213,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					</p>
 					<button
 						onClick={handleDelete}
-						className="delete-button"
+						className="bg-danger text-customBackground rounded-lg p-2"
 					>
 						Delete
 					</button>
@@ -225,7 +225,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					</button>
 				</Overlay>
 			)}
-			<div className="strip sticky" />
+			<div className="strip sticky bg-secondary text-customText border-gray-900 " />
 
 			{currentWorkSpace.role === "admin" ? (
 				<input
@@ -234,7 +234,9 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					onChange={handleContentChange}
 					placeholder="Task Content"
 					className={
-						isPinned ? "task-column-sticky is-pinned" : " task-column-sticky"
+						isPinned
+							? "bg-secondary text-customText border-gray-900 border-1 h-full pl-2"
+							: "bg-secondary text-customText border-gray-900 border-1 h-full pl-2"
 					}
 					ref={stickyRef}
 				/>
@@ -242,37 +244,38 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 				<p
 					className={
 						isPinned
-							? "task--text sticky task-column is-pinned"
-							: "task--text sticky task-column"
+							? "border-gray-900 border-1 h-full"
+							: "border-gray-900 border-1 h-full"
 					}
 					ref={stickyRef}
 				>
 					{localContent}
 				</p>
 			)}
-			<p className="task--owner owner-column">
-				{currentWorkSpace.role === "admin" ? (
-					<select
-						value={localOwner}
-						onChange={handleOwnerChange}
-					>
-						{currentWorkSpace.teamMembers.map((user) => (
-							<option
-								key={user.uid}
-								value={user.username}
-							>
-								{user.username}
-							</option>
-						))}
-					</select>
-				) : (
-					<p className="task--owner-text">{localOwner}</p>
-				)}
-			</p>
+
+			{currentWorkSpace.role === "admin" ? (
+				<select
+					value={localOwner}
+					onChange={handleOwnerChange}
+					className="w-full border-gray-900 border-1 h-full"
+				>
+					{currentWorkSpace.teamMembers.map((user) => (
+						<option
+							key={user.uid}
+							value={user.username}
+						>
+							{user.username}
+						</option>
+					))}
+				</select>
+			) : (
+				<p className="border-gray-900 border-1 h-full">{localOwner}</p>
+			)}
+
 			<select
 				onChange={(e) => changeSelection(e)}
 				value={localStatus}
-				className={`select-status ${statusClass} status-column`}
+				className={`${statusClass} border-gray-900 border-1 h-full`}
 			>
 				<option
 					value="Done"
@@ -304,15 +307,16 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					type="date"
 					value={localDeadline}
 					onChange={handleDeadlineChange}
-					className={
-						taskObj.status == "Done"
-							? "deadline-column"
-							: checkDeadline() === 1
-							? "deadline-column overdue"
-							: checkDeadline() === 0
-							? "deadline-column today"
-							: "deadline-column"
-					}
+					className={` border-gray-900 border-1 h-full
+						${
+							taskObj.status == "Done"
+								? "deadline-column"
+								: checkDeadline() === 1
+								? "deadline-column overdue"
+								: checkDeadline() === 0
+								? "deadline-column today"
+								: "deadline-column"
+						}`}
 				/>
 			) : (
 				<p
@@ -331,7 +335,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 				<select
 					value={localPriority}
 					onChange={handlePriorityChange}
-					className={`select-priority ${priorityClass} priority-column`}
+					className={`w-full border-gray-900 border-1 h-full ${priorityClass} `}
 				>
 					<option
 						value="Low"
@@ -359,7 +363,9 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					</option>
 				</select>
 			) : (
-				<p className={`select-priority ${priorityClass} priority-column`}>
+				<p
+					className={`border-gray-900 border-1 h-full ${priorityClass} priority-column`}
+				>
 					{localPriority}
 				</p>
 			)}
@@ -367,12 +373,12 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 				value={localNotes}
 				onChange={handleNotesChange}
 				placeholder="Notes"
-				className="notes-column"
+				className="h-full border-1 bg-secondary text-customText border-gray-900 pl-2"
 			/>
-			<div className="buttons buttons-column">
+			<div className="buttons buttons-column bg-secondary text-customText border-gray-900 flex gap-4 px-4 text-sm">
 				<button
 					onClick={handleUpdate}
-					className="task--update"
+					className="bg-success text-customBackground w-8 h-8 rounded-full disabled:bg-gray-500"
 					disabled={!isChanged}
 				>
 					<FontAwesomeIcon icon={faSave} />
@@ -380,7 +386,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 				{currentWorkSpace.role === "admin" && (
 					<button
 						onClick={() => setConfirm(true)}
-						className="task--delete"
+						className="bg-danger text-customBackground w-8 h-8 rounded-full"
 					>
 						<FontAwesomeIcon icon={faTrash} />
 					</button>

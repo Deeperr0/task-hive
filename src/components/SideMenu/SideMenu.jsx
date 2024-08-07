@@ -8,7 +8,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./SideMenu.css";
 import filterIcon from "../../Filter-outline.svg";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
@@ -21,9 +20,9 @@ export default function SideMenu({ teams }) {
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 	return (
-		<div className="side-menu-container">
+		<div className="text-customBlack text-md">
 			{toggleAddTeam && <AddTeam setToggleAddTeam={setToggleAddTeam} />}
-			<ul className="side-menu">
+			<ul className="">
 				<li>
 					<FontAwesomeIcon icon={faHome} />
 					Home
@@ -34,8 +33,9 @@ export default function SideMenu({ teams }) {
 				</li>
 			</ul>
 			<hr />
-			<div className="workspace-menu">
+			<div className="text-customBlack bg-transparent w-full flex justify-between">
 				<select
+					className="bg-transparent w-9/12"
 					onChange={(e) => {
 						setCurrentWorkSpace(
 							teams.filter((team) => team.teamId === e.target.value)[0]
@@ -55,15 +55,18 @@ export default function SideMenu({ teams }) {
 					<FontAwesomeIcon icon={faEllipsis} />
 				</button>
 			</div>
-			<div className="workspace-filter">
-				<div className="search">
+			<div className="flex justify-between">
+				<div className="border-black flex justify-between items-center border-2">
 					<input type="text" />
 					<button>
-						<img src={filterIcon} />
+						<img
+							src={filterIcon}
+							className="w-5 mr-6"
+						/>
 					</button>
 				</div>
 				<button
-					className="add-to-team"
+					className="bg-alizarin-crimson w-14 rounded-xl "
 					onClick={() => setToggleAddTeam(true)}
 				>
 					<FontAwesomeIcon icon={faPlus} />

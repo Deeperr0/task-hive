@@ -11,7 +11,7 @@ import Register from "./auth/Register";
 import ResetPassword from "./auth/ResetPassword";
 import ChangePassword from "./auth/ChangePassword";
 
-import "./App.css";
+// import "./App.css";
 
 export const WorkSpaceContext = createContext();
 export const CurrentUserContext = createContext();
@@ -117,15 +117,15 @@ function App() {
 					}}
 				>
 					<Router>
-						<div className="container">
-							<Navbar
+						<div className="w-full bg-customBackground">
+							{/* <Navbar
 								user={user}
 								userData={userData}
 								setCurrentWorkSpace={setCurrentWorkSpace}
 								currentWorkSpace={currentWorkSpace}
 								//TODO: CHECK ON WHY THIS IS WORKING WEIRDLY
 								teams={user ? userData.teams : []}
-							/>
+							/> */}
 							<Routes>
 								<Route
 									path="/register"

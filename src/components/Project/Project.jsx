@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 import Tasks from "../Tasks";
-import "./Project.css";
 import PropTypes from "prop-types";
 import { WorkSpaceContext } from "../../App";
 import useFilterTasks from "../../hooks/useFilterTasks";
@@ -157,7 +156,7 @@ export default function Project({ user, userData, usersList }) {
 	}
 
 	return (
-		<div className="project">
+		<div className="flex flex-col items-start gap-4 pt-4">
 			{toggleAddUser && (
 				<AddUser
 					toggleAddUser={toggleAddUser}
@@ -167,17 +166,17 @@ export default function Project({ user, userData, usersList }) {
 				/>
 			)}
 
-			<h2 className="project-title">Project Tasks</h2>
+			<h2 className="text-primaryText text-2xl">Project Tasks</h2>
 			{currentWorkSpace?.role === "admin" && (
-				<div className="add-buttons">
+				<div className="flex gap-4 w-fit">
 					<button
 						onClick={addTask}
-						className="add-button"
+						className="bg-primary text-customBackground py-2 px-3 rounded-lg"
 					>
 						New task
 					</button>
 					<button
-						className="add-user"
+						className="bg-primary text-customBackground py-2 px-3 rounded-lg"
 						onClick={() => setToggleAddUser(true)}
 					>
 						Add user

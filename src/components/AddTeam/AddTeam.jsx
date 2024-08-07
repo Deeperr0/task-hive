@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Overlay from "../Overlay";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import "./AddTeam.css";
+// import "./AddTeam.css";
 import { useContext, useState } from "react";
 import {
 	CurrentUserContext,
