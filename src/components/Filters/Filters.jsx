@@ -4,7 +4,7 @@ export function Filters({ setPriorityFilter, setStatusFilter }) {
 	return (
 		<div className="text-customText items-center gap-4">
 			<h2>Filters: </h2>
-			<div className="text-customText flex items-center">
+			<div className="text-customText flex items-center gap-2">
 				<div className="text-customText">
 					<p>Priority</p>
 					<select onChange={(e) => setPriorityFilter(e.target.value)}>

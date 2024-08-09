@@ -20,61 +20,53 @@ export default function SideMenu({ teams }) {
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 	return (
-		<div className="text-customBlack text-md">
+		<div className="text-customBlack text-md h-full">
 			{toggleAddTeam && <AddTeam setToggleAddTeam={setToggleAddTeam} />}
-			<ul className="">
-				<li>
-					<FontAwesomeIcon icon={faHome} />
+			<ul className="flex flex-col gap-2 mb-4">
+				<li className="flex gap-1 items-center">
+					<FontAwesomeIcon icon={faHome} className="w-5" />
 					Home
 				</li>
-				<li>
-					<FontAwesomeIcon icon={faCalendarCheck} />
+				<li className="flex gap-1 items-center">
+					<FontAwesomeIcon icon={faCalendarCheck} className="w-5" />
 					Projects
 				</li>
 			</ul>
-			<hr />
-			<div className="text-customBlack bg-transparent w-full flex justify-between">
+			<hr className="mb-2" />
+			<div className="text-customBlack bg-transparent w-full flex justify-between mb-2">
 				<select
 					className="bg-transparent w-9/12"
 					onChange={(e) => {
 						setCurrentWorkSpace(
 							teams.filter((team) => team.teamId === e.target.value)[0]
 						);
-					}}
-				>
+					}}>
 					{teams?.map((workspace) => (
-						<option
-							value={workspace.teamId}
-							key={workspace.teamId}
-						>
+						<option value={workspace.teamId} key={workspace.teamId}>
 							{workspace.teamName}
 						</option>
 					))}
 				</select>
 				<button>
-					<FontAwesomeIcon icon={faEllipsis} />
+					<FontAwesomeIcon icon={faEllipsis} className="mx-1" />
 				</button>
 			</div>
-			<div className="flex justify-between">
-				<div className="border-black flex justify-between items-center border-2">
-					<input type="text" />
+			<div className="flex justify-between bg-transparent mb-4 gap-3">
+				<div className="border-black flex justify-between items-center border-2 w-36 bg-white overflow-hidden h-8">
+					<input type="text" className="w-full bg-transparent" />
 					<button>
-						<img
-							src={filterIcon}
-							className="w-5 mr-6"
-						/>
+						<img src={filterIcon} className="w-5 text-customText mr-3" />
 					</button>
 				</div>
 				<button
-					className="bg-alizarin-crimson w-14 rounded-xl "
-					onClick={() => setToggleAddTeam(true)}
-				>
+					className="bg-accentShade1 w-8 rounded-md"
+					onClick={() => setToggleAddTeam(true)}>
 					<FontAwesomeIcon icon={faPlus} />
 				</button>
 			</div>
 			{teams?.length != 0 && (
-				<div className="workspace-sub-menu">
-					<div className="workspace">
+				<div className="">
+					<div className="flex gap-1 items-center">
 						{expandWorkSpace ? (
 							<FontAwesomeIcon icon={faCaretDown} />
 						) : (
@@ -88,8 +80,7 @@ export default function SideMenu({ teams }) {
 										className={expandWorkSpace ? "active" : ""}
 										onClick={() => {
 											setExpandWorkSpace(!expandWorkSpace);
-										}}
-									>
+										}}>
 										{workspace.teamName}
 									</div>
 								)

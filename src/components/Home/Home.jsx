@@ -72,16 +72,22 @@ export default function Home({ user, userData, teams, usersList }) {
 			) : (
 				<>
 					<Navbar user={user} userData={userData} teams={teams} />
-					<div className="px-6 py-8 rounded-xl text-customText shadow-secondaryCustom w-1/6 ml-4">
-						<SideMenu user={user} teams={teams} />
-					</div>
-					{userData?.teams.length ? (
-						<div className="shadow-secondaryCustom rounded-lg px-4  text-customText w-9/12">
-							<Project user={user} userData={userData} usersList={usersList} />
+					<div className="flex items-start gap-6 h-full">
+						<div className="py-8 rounded-xl text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch">
+							<SideMenu user={user} teams={teams} />
 						</div>
-					) : (
-						<></>
-					)}
+						{userData?.teams.length ? (
+							<div className="shadow-secondaryCustom rounded-t-lg px-4 text-customText w-full bg-primary h-full pb-10">
+								<Project
+									user={user}
+									userData={userData}
+									usersList={usersList}
+								/>
+							</div>
+						) : (
+							<></>
+						)}
+					</div>
 				</>
 			)}
 		</>

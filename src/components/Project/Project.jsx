@@ -171,14 +171,12 @@ export default function Project({ user, userData, usersList }) {
 				<div className="flex gap-4 w-fit">
 					<button
 						onClick={addTask}
-						className="bg-primary text-customBackground py-2 px-3 rounded-lg"
-					>
+						className="bg-accentShade1 text-customBackground py-2 px-3 rounded-lg">
 						New task
 					</button>
 					<button
-						className="bg-primary text-customBackground py-2 px-3 rounded-lg"
-						onClick={() => setToggleAddUser(true)}
-					>
+						className="bg-accentShade1 text-customBackground py-2 px-3 rounded-lg"
+						onClick={() => setToggleAddUser(true)}>
 						Add user
 					</button>
 				</div>

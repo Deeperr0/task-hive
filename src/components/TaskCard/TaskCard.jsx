@@ -203,29 +203,24 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 
 	return (
 		<div
-			className="grid grid-cols-customGrid items-center h-9"
-			ref={parentRef}
-		>
+			className="grid grid-cols-customGrid items-center h-max text-sm"
+			ref={parentRef}>
 			{confirm && (
 				<Overlay>
-					<p className="delete-prompt">
+					<p className="text-customText">
 						Are you sure you want to delete this task?
 					</p>
 					<button
 						onClick={handleDelete}
-						className="bg-danger text-customBackground rounded-lg p-2"
-					>
+						className="bg-danger text-customBackground rounded-lg p-2">
 						Delete
 					</button>
-					<button
-						onClick={() => setConfirm(false)}
-						className="cancel-button"
-					>
+					<button onClick={() => setConfirm(false)} className="">
 						Cancel
 					</button>
 				</Overlay>
 			)}
-			<div className="strip sticky bg-secondary text-customText border-gray-900 " />
+			<div className="sticky text-customText border-gray-900 " />
 
 			{currentWorkSpace.role === "admin" ? (
 				<input
@@ -235,8 +230,8 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					placeholder="Task Content"
 					className={
 						isPinned
-							? "bg-secondary text-customText border-gray-900 border-1 h-full pl-2"
-							: "bg-secondary text-customText border-gray-900 border-1 h-full pl-2"
+							? "text-customText border-gray-900 border-1 h-full pl-2"
+							: "text-customText border-gray-900 border-1 h-full pl-2"
 					}
 					ref={stickyRef}
 				/>
@@ -247,8 +242,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 							? "border-gray-900 border-1 h-full"
 							: "border-gray-900 border-1 h-full"
 					}
-					ref={stickyRef}
-				>
+					ref={stickyRef}>
 					{localContent}
 				</p>
 			)}
@@ -257,13 +251,9 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 				<select
 					value={localOwner}
 					onChange={handleOwnerChange}
-					className="w-full border-gray-900 border-1 h-full"
-				>
+					className="w-full border-gray-900 border-1 h-full">
 					{currentWorkSpace.teamMembers.map((user) => (
-						<option
-							key={user.uid}
-							value={user.username}
-						>
+						<option key={user.uid} value={user.username}>
 							{user.username}
 						</option>
 					))}
@@ -275,30 +265,17 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 			<select
 				onChange={(e) => changeSelection(e)}
 				value={localStatus}
-				className={`${statusClass} border-gray-900 border-1 h-full`}
-			>
-				<option
-					value="Done"
-					className="option-status-done"
-				>
+				className={`${statusClass} border-gray-900 border-1 h-full`}>
+				<option value="Done" className="option-status-done">
 					Done
 				</option>
-				<option
-					value="Working on it"
-					className="option-status-working"
-				>
+				<option value="Working on it" className="option-status-working">
 					Working on it
 				</option>
-				<option
-					value="Stuck"
-					className="option-status-stuck"
-				>
+				<option value="Stuck" className="option-status-stuck">
 					Stuck
 				</option>
-				<option
-					value="Not started"
-					className="option-status-not-started"
-				>
+				<option value="Not started" className="option-status-not-started">
 					Not started
 				</option>
 			</select>
@@ -326,8 +303,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 							: checkDeadline() === 0
 							? "deadline-column today"
 							: "deadline-column"
-					}
-				>
+					}>
 					{formatDateToDisplay(localDeadline)}
 				</p>
 			)}
@@ -335,37 +311,23 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 				<select
 					value={localPriority}
 					onChange={handlePriorityChange}
-					className={`w-full border-gray-900 border-1 h-full ${priorityClass} `}
-				>
-					<option
-						value="Low"
-						className="option-priority-low"
-					>
+					className={`w-full border-gray-900 border-1 h-full ${priorityClass} `}>
+					<option value="Low" className="option-priority-low">
 						Low
 					</option>
-					<option
-						value="Medium"
-						className="option-priority-medium"
-					>
+					<option value="Medium" className="option-priority-medium">
 						Medium
 					</option>
-					<option
-						value="High"
-						className="option-priority-high"
-					>
+					<option value="High" className="option-priority-high">
 						High
 					</option>
-					<option
-						value="Critical"
-						className="option-priority-critical"
-					>
+					<option value="Critical" className="option-priority-critical">
 						Critical
 					</option>
 				</select>
 			) : (
 				<p
-					className={`border-gray-900 border-1 h-full ${priorityClass} priority-column`}
-				>
+					className={`border-gray-900 border-1 h-full ${priorityClass} priority-column`}>
 					{localPriority}
 				</p>
 			)}
@@ -373,21 +335,19 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 				value={localNotes}
 				onChange={handleNotesChange}
 				placeholder="Notes"
-				className="h-full border-1 bg-secondary text-customText border-gray-900 pl-2"
+				className="h-full border-1 text-customText border-gray-900 pl-2 resize-none placeholder:align-middle"
 			/>
-			<div className="buttons buttons-column bg-secondary text-customText border-gray-900 flex gap-4 px-4 text-sm">
+			<div className="buttons buttons-column text-customText border-gray-900 flex gap-4 px-4 text-sm">
 				<button
 					onClick={handleUpdate}
 					className="bg-success text-customBackground w-8 h-8 rounded-full disabled:bg-gray-500"
-					disabled={!isChanged}
-				>
+					disabled={!isChanged}>
 					<FontAwesomeIcon icon={faSave} />
 				</button>
 				{currentWorkSpace.role === "admin" && (
 					<button
 						onClick={() => setConfirm(true)}
-						className="bg-danger text-customBackground w-8 h-8 rounded-full"
-					>
+						className="bg-danger text-customBackground w-8 h-8 rounded-full">
 						<FontAwesomeIcon icon={faTrash} />
 					</button>
 				)}
