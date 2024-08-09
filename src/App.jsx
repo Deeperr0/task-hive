@@ -10,6 +10,7 @@ import Navbar from "./components/Navbar";
 import Register from "./auth/Register";
 import ResetPassword from "./auth/ResetPassword";
 import ChangePassword from "./auth/ChangePassword";
+import Project from "./components/Project";
 
 // import "./App.css";
 
@@ -102,7 +103,7 @@ function App() {
 
 	if (loading) {
 		return (
-			<div id="loader-container">
+			<div className="flex justify-center items-center h-screen m-auto overflow-hidden">
 				<Loader />
 			</div>
 		);
@@ -114,8 +115,7 @@ function App() {
 					value={{
 						currentWorkSpace,
 						setCurrentWorkSpace,
-					}}
-				>
+					}}>
 					<Router>
 						<div className="w-full bg-customBackground">
 							{/* <Navbar
@@ -129,17 +129,9 @@ function App() {
 							<Routes>
 								<Route
 									path="/register"
-									element={
-										<Register
-											setUser={setUser}
-											usersList={usersList}
-										/>
-									}
+									element={<Register setUser={setUser} usersList={usersList} />}
 								/>
-								<Route
-									path="/reset-password"
-									element={<ResetPassword />}
-								/>
+								<Route path="/reset-password" element={<ResetPassword />} />
 								{user != null ? (
 									<Route
 										path="/"
@@ -156,15 +148,10 @@ function App() {
 										}
 									/>
 								) : (
-									<Route
-										path="/"
-										element={<Login setUser={setUser} />}
-									/>
+									<Route path="/" element={<Login setUser={setUser} />} />
 								)}
-								<Route
-									path="/change-password"
-									element={<ChangePassword />}
-								/>
+								<Route path="/change-password" element={<ChangePassword />} />
+								<Route path="/login" element={<Login setUser={setUser} />} />
 							</Routes>
 						</div>
 					</Router>

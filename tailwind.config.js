@@ -3,6 +3,9 @@ export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
 		extend: {
+			borderRadius: {
+				4: "4px",
+			},
 			fontFamily: {
 				poppins: ["Poppins", "sans-serif"],
 				playfair: ["Playfair Display", "serif"],
