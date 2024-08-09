@@ -132,24 +132,20 @@ function App() {
 									element={<Register setUser={setUser} usersList={usersList} />}
 								/>
 								<Route path="/reset-password" element={<ResetPassword />} />
-								{user != null ? (
-									<Route
-										path="/"
-										element={
-											<Home
-												user={user}
-												userData={userData}
-												role={currentWorkSpace ? currentWorkSpace.role : ""}
-												setCurrentWorkSpace={setCurrentWorkSpace}
-												currentWorkSpace={currentWorkSpace}
-												teams={userData.teams}
-												usersList={usersList}
-											/>
-										}
-									/>
-								) : (
-									<Route path="/" element={<Login setUser={setUser} />} />
-								)}
+								<Route
+									path="/"
+									element={
+										<Home
+											user={user}
+											userData={userData}
+											role={currentWorkSpace ? currentWorkSpace?.role : ""}
+											setCurrentWorkSpace={setCurrentWorkSpace}
+											currentWorkSpace={currentWorkSpace}
+											teams={userData?.teams}
+											usersList={usersList}
+										/>
+									}
+								/>
 								<Route path="/change-password" element={<ChangePassword />} />
 								<Route path="/login" element={<Login setUser={setUser} />} />
 							</Routes>
