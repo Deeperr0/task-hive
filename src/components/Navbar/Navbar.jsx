@@ -25,7 +25,7 @@ export default function Navbar({ user, userData, teams }) {
 	}
 	// Side menu in Mobile
 	return (
-		<div className="border-solid border-0 shadow-custom pl-12 pr-14 pt-6 h-20 mb-8 bg-navy">
+		<div className="border-solid border-0 shadow-custom pl-12 pr-14 pt-6 h-20 mb-8 bg-navy text-customText">
 			<nav className="flex justify-between items-center">
 				{user && (
 					<div className="md:hidden">
@@ -47,16 +47,16 @@ export default function Navbar({ user, userData, teams }) {
 						</h1>
 					</a>
 				</div>
-				<div className="text-customBlack text-base">
+				<div className="text-customBlack text-base flex gap-4 items-center">
 					{user != undefined && (
-						<div className="flex justify-between items-center">
+						<div className="flex justify-between items-center gap-4">
 							<a href="/change-password" className="">
 								Change password
 							</a>
 							<button onClick={handleLogout} className="">
 								Logout
 							</button>
-							<h1 className="bg-customGreen w-10 h-10 rounded-full flex justify-center items-center text-lg text-Shark ">
+							<h1 className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center text-lg text-Shark ">
 								{userData?.firstName[0].toUpperCase()}
 							</h1>
 						</div>
