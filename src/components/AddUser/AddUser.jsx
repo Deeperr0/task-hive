@@ -33,11 +33,17 @@ function sendEmail(email, invitationCode) {
 		}
 	);
 }
-// TODO:MAKE IT SO THAT IT CHECKS FOR THE USER'S EXISTENCE IN THE TEAM BEFORE ADDING THEM
 export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 	const [chosenRole, setChosenRole] = useState("admin");
 	const [userToAdd, setUserToAdd] = useState("");
 	async function addUser(chosenRole) {
+		currentWorkSpace.teamMembers.map((member) => {
+			if (member.email === userToAdd) {
+				document.getElementById("add-error").textContent =
+					"User is already added to team"; // TODO test that this works
+				return;
+			}
+		});
 		const currentUserRef = doc(db, "users", user.uid);
 		const currentUser = await getDoc(currentUserRef);
 		const currentUserData = currentUser.data();
@@ -119,6 +125,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 						className="bg-accent hover:bg-accentShade1 w-1/2 mx-auto h-9 rounded-md">
 						Add
 					</button>
+					<div className="text-customText" id="add-error"></div>
 				</div>
 			</div>
 		</Overlay>

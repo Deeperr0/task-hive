@@ -32,7 +32,7 @@ export default function Home({ user, userData, teams, usersList }) {
 									<FontAwesomeIcon
 										icon={faClose}
 										onClick={() => setToggleNavMenu(false)}
-										className="text-2xl"
+										className="text-2xl md:hidden"
 									/>
 								</li>
 								<li>
@@ -77,7 +77,7 @@ export default function Home({ user, userData, teams, usersList }) {
 					</nav>
 					<div className="flex flex-col items-center md:grid mt-[6.625rem] md:items-start text-customText grid-cols-[44%,50%] gap-10 md:gap-24">
 						<div>
-							<h2 className="text-4xl md:text-5.5xl !font-playfair font-normal">
+							<h2 className="text-4xl md:text-5.5xl !font-playfair font-normal leading-snug">
 								Streamline Your Workflow. Empower Your Team.
 							</h2>
 							<p className="mt-[0.688rem] text-lg font-light">

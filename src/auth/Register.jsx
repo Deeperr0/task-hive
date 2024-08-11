@@ -27,8 +27,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/Navbar";
 
-// TODO: MAKE IT SO THAT IT CHECKS THE LINK FOR AN INVITATION CODE IT SHOULD CHECK THE LINK THEN CHECK A COLLECTION CALLED "invitationCodes" which will contain docs the doc.id is the invitation code and it will have a map with 2 keys. Team: this will contain the teamID that is using the invitation code, Used: this will be a boolean of whether the code has already been used
-
 export default function Register({ user, setUser, usersList }) {
 	const [fullName, setFullName] = useState("");
 	const [email, setEmail] = useState("");

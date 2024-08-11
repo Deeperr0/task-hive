@@ -26,7 +26,7 @@ export default function Project({ user, userData, usersList }) {
 		if (currentWorkSpace.role !== "admin") return; // Ensure only admin can add tasks
 
 		// Create new Task object
-		// Consider using a constructor for better performance
+		// TODO Consider using a constructor for shorter code
 		const newTask = {
 			taskId: `task-${Date.now()}`,
 			content: "New Task",
@@ -40,7 +40,7 @@ export default function Project({ user, userData, usersList }) {
 		};
 
 		// Add new task to all users in the team
-		// Consider making teams a seperate collection and only storing a reference to them in the user document
+		// TODO Consider making teams a seperate collection and only storing a reference to them in the user document
 		try {
 			await Promise.all(
 				usersList.map(async (userItem) => {

@@ -31,7 +31,7 @@ export default function SideMenu({ teams }) {
 				</li>
 				<li>
 					{
-						// TODO add a projects bag that displays all the projects/teams of the user
+						// TODO add a projects page that displays all the projects/teams of the user
 					}
 					<a href="/" className="flex gap-1 items-center">
 						<FontAwesomeIcon icon={faCalendarCheck} className="w-5" />
