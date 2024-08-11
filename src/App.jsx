@@ -6,11 +6,9 @@ import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Login from "./auth/Login";
 import Home from "./components/Home";
-import Navbar from "./components/Navbar";
 import Register from "./auth/Register";
 import ResetPassword from "./auth/ResetPassword";
 import ChangePassword from "./auth/ChangePassword";
-import Project from "./components/Project";
 
 // import "./App.css";
 
@@ -118,18 +116,16 @@ function App() {
 					}}>
 					<Router>
 						<div className="w-full bg-customBackground">
-							{/* <Navbar
-								user={user}
-								userData={userData}
-								setCurrentWorkSpace={setCurrentWorkSpace}
-								currentWorkSpace={currentWorkSpace}
-								//TODO: CHECK ON WHY THIS IS WORKING WEIRDLY
-								teams={user ? userData.teams : []}
-							/> */}
 							<Routes>
 								<Route
 									path="/register"
-									element={<Register setUser={setUser} usersList={usersList} />}
+									element={
+										<Register
+											user={user}
+											setUser={setUser}
+											usersList={usersList}
+										/>
+									}
 								/>
 								<Route path="/reset-password" element={<ResetPassword />} />
 								<Route
@@ -138,9 +134,6 @@ function App() {
 										<Home
 											user={user}
 											userData={userData}
-											role={currentWorkSpace ? currentWorkSpace?.role : ""}
-											setCurrentWorkSpace={setCurrentWorkSpace}
-											currentWorkSpace={currentWorkSpace}
 											teams={userData?.teams}
 											usersList={usersList}
 										/>

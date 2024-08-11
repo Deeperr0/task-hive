@@ -15,14 +15,13 @@ import {
 import { db } from "../../firebase";
 import { useState } from "react";
 import PropTypes from "prop-types";
-// import "./AddUser.css";
 import emailjs from "emailjs-com";
 emailjs.init(import.meta.env.VITE_EMAIL_JS_USER_ID);
 
 function sendEmail(email, invitationCode) {
 	const templateParams = {
 		to_email: email, // The recipient's email address
-		invitation_code: invitationCode, // Any dynamic content you want to include
+		invitation_code: invitationCode,
 	};
 
 	emailjs.send("task-hive-private", "invitation_email", templateParams).then(
@@ -39,10 +38,10 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 	const [chosenRole, setChosenRole] = useState("admin");
 	const [userToAdd, setUserToAdd] = useState("");
 	async function addUser(chosenRole) {
-		const userOneRef = doc(db, "users", user.uid);
-		const userOne = await getDoc(userOneRef);
-		const userOneData = userOne.data();
-		const currentWorkSpaceObj = userOneData.teams.find(
+		const currentUserRef = doc(db, "users", user.uid);
+		const currentUser = await getDoc(currentUserRef);
+		const currentUserData = currentUser.data();
+		const currentWorkSpaceObj = currentUserData.teams.find(
 			(team) => team.teamId === currentWorkSpace.teamId
 		);
 		const q = query(collection(db, "users"), where("email", "==", userToAdd));
@@ -60,55 +59,67 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 			setToggleAddUser(false);
 			return;
 		}
-		const user2 = querySnapshot.docs[0];
+		const userToBeAdded = querySnapshot.docs[0];
 		if (
 			currentWorkSpace.teamMembers.filter(
-				(member) => member.email === user2.data().email
+				(member) => member.email === userToBeAdded.data().email
 			).length > 0
 		) {
 			return;
 		}
 		currentWorkSpaceObj.teamMembers.push({
-			username: user2.data().username,
-			uid: user2.id,
-			email: user2.data().email,
+			username: userToBeAdded.data().username,
+			uid: userToBeAdded.id,
+			email: userToBeAdded.data().email,
 		});
 		currentWorkSpaceObj.role = chosenRole;
 		const updatedTeamMembers = currentWorkSpaceObj.teamMembers;
 		// Update current team object with new members
-		const updatedTeams = userOneData.teams.map((team) => {
+		const updatedTeams = currentUserData.teams.map((team) => {
 			if (team.teamId === currentWorkSpace.teamId) {
 				return { ...team, teamMembers: updatedTeamMembers };
 			}
 			return team;
 		});
-		await updateDoc(userOneRef, { teams: updatedTeams });
-		const user2Ref = doc(db, "users", user2.id);
-		await updateDoc(user2Ref, { teams: arrayUnion(currentWorkSpaceObj) });
+		await updateDoc(currentUserRef, { teams: updatedTeams });
+		const userToBeAddedRef = doc(db, "users", userToBeAdded.id);
+		await updateDoc(userToBeAddedRef, {
+			teams: arrayUnion(currentWorkSpaceObj),
+		});
 	}
 
 	return (
 		<Overlay>
-			<div className="add-user-close">
-				<FontAwesomeIcon
-					icon={faArrowLeft}
-					onClick={() => setToggleAddUser(false)}
-				/>
-			</div>
+			<div className="flex flex-col items-start gap-4">
+				<div>
+					<FontAwesomeIcon
+						icon={faArrowLeft}
+						onClick={() => setToggleAddUser(false)}
+						className="cursor-pointer"
+					/>
+				</div>
 
-			<h2 className="add-user-title">Add User</h2>
-			<div className="add-user-inputs">
-				<input
-					type="text"
-					placeholder="Enter user email"
-					value={userToAdd}
-					onChange={(e) => setUserToAdd(e.target.value)}
-				/>
-				<select onChange={(e) => setChosenRole(e.target.value)}>
-					<option value="admin">Admin</option>
-					<option value="user">User</option>
-				</select>
-				<button onClick={() => addUser(chosenRole)}>Add</button>
+				<h2 className="text-center w-full">Add User</h2>
+				<div className="flex flex-col gap-4">
+					<div className="flex gap-4 h-10">
+						<input
+							type="text"
+							placeholder="Enter user email"
+							value={userToAdd}
+							onChange={(e) => setUserToAdd(e.target.value)}
+							className="pl-2"
+						/>
+						<select onChange={(e) => setChosenRole(e.target.value)}>
+							<option value="admin">Admin</option>
+							<option value="user">User</option>
+						</select>
+					</div>
+					<button
+						onClick={() => addUser(chosenRole)}
+						className="bg-accent hover:bg-accentShade1 w-1/2 mx-auto h-9 rounded-md">
+						Add
+					</button>
+				</div>
 			</div>
 		</Overlay>
 	);

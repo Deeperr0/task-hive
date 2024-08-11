@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-// import "./Filters.css";
 export function Filters({ setPriorityFilter, setStatusFilter }) {
 	return (
 		<div className="text-customText items-center gap-4">

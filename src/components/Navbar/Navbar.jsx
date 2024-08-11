@@ -8,12 +8,12 @@ import {
 	faBars,
 	faClose,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import SideMenu from "../SideMenu";
-export default function Navbar({ user, userData, teams }) {
+import { useContext, useState } from "react";
+import { UserDataContext } from "../../App";
+export default function Navbar({ user, setToggleMenu }) {
 	const navigate = useNavigate();
-	const [toggleMenu, setToggleMenu] = useState(false);
 	const [toggleUserMenu, setToggleUserMenu] = useState(false);
+	const { userData } = useContext(UserDataContext);
 	async function handleLogout() {
 		try {
 			setToggleUserMenu(false);
@@ -23,20 +23,15 @@ export default function Navbar({ user, userData, teams }) {
 			console.error("Error logging out:", error);
 		}
 	}
-	// Side menu in Mobile
 	return (
-		<div className="border-solid border-0 shadow-custom pl-12 pr-14 pt-6 h-20 mb-8 bg-navy text-customText">
-			<nav className="flex justify-between items-center">
+		<div className="border-solid border-0 shadow-custom pl-12 pr-14 md:py-6 h-20 mb-8 bg-navy text-customText flex items-center">
+			<nav className="flex justify-between items-center w-full">
 				{user && (
 					<div className="md:hidden">
-						<div onClick={() => setToggleMenu(true)} className="">
+						<div
+							onClick={() => setToggleMenu(true)}
+							className="block md:hidden">
 							<FontAwesomeIcon icon={faBars} />
-						</div>
-						<div className={toggleMenu ? "" : ""}>
-							<SideMenu user={user} teams={teams} />
-							<div className="" onClick={() => setToggleMenu(false)}>
-								<FontAwesomeIcon icon={faClose} />
-							</div>
 						</div>
 					</div>
 				)}
@@ -49,38 +44,43 @@ export default function Navbar({ user, userData, teams }) {
 				</div>
 				<div className="text-customBlack text-base flex gap-4 items-center">
 					{user != undefined && (
-						<div className="flex justify-between items-center gap-4">
-							<a href="/change-password" className="">
-								Change password
-							</a>
-							<button onClick={handleLogout} className="">
-								Logout
-							</button>
-							<h1 className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center text-lg text-Shark ">
+						<div className="hidden md:flex justify-between items-center gap-4">
+							<a href="/change-password">Change password</a>
+							<button onClick={handleLogout}>Logout</button>
+							<h1 className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center text-lg text-Shark">
 								{userData?.firstName[0].toUpperCase()}
 							</h1>
 						</div>
 					)}
 					{user != undefined && (
-						<h1
-							className="md:hidden"
-							onClick={() => setToggleUserMenu(!toggleUserMenu)}>
-							{userData?.firstName[0].toUpperCase()}
-						</h1>
+						<div className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center">
+							<h1
+								className="md:hidden"
+								onClick={() => setToggleUserMenu(!toggleUserMenu)}>
+								{userData?.firstName[0].toUpperCase()}
+							</h1>
+						</div>
 					)}
-					<div className={toggleUserMenu ? "" : ""}>
+					<div
+						className={
+							toggleUserMenu
+								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-customBackground text-customText"
+								: "py-8 rounded-xl text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch hidden md:block"
+						}>
 						{user ? (
 							<div className="md:hidden">
 								<div className="" onClick={() => setToggleUserMenu(false)}>
 									<FontAwesomeIcon icon={faClose} />
 								</div>
-								<div className="">
-									<div className="">
-										<h1
-											className=""
-											onClick={() => setToggleUserMenu(!toggleUserMenu)}>
-											{userData?.firstName[0].toUpperCase()}
-										</h1>
+								<div className="flex flex-col gap-4 items-center">
+									<div className="flex flex-col gap-4 items-center">
+										<div className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center">
+											<h1
+												className=""
+												onClick={() => setToggleUserMenu(!toggleUserMenu)}>
+												{userData?.firstName[0].toUpperCase()}
+											</h1>
+										</div>
 										<h2>{`${userData?.firstName} ${userData?.lastName}`}</h2>
 									</div>
 									<hr />
@@ -108,11 +108,6 @@ export default function Navbar({ user, userData, teams }) {
 }
 
 Navbar.propTypes = {
-	loggedIn: PropTypes.bool,
-	username: PropTypes.string,
 	user: PropTypes.object,
-	userData: PropTypes.object,
-	teams: PropTypes.array,
-	currentWorkSpace: PropTypes.object,
-	setCurrentWorkSpace: PropTypes.func,
+	setToggleMenu: PropTypes.func,
 };

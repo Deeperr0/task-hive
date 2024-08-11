@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Overlay from "../Overlay";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-// import "./AddTeam.css";
 import { useContext, useState } from "react";
 import {
 	CurrentUserContext,
@@ -11,14 +10,14 @@ import {
 import { db } from "../../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import PropTypes from "prop-types";
 
 export default function AddTeam({ setToggleAddTeam }) {
-	const { user, setUser } = useContext(CurrentUserContext);
+	const { user } = useContext(CurrentUserContext);
 	const { userData, setUserData } = useContext(UserDataContext);
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 	const [localTeamName, setLocalTeamName] = useState("");
-	console.log(localTeamName);
 	async function handleAddTeam() {
 		const teamId = uuidv4();
 		const userDocRef = doc(db, "users", user.uid);
@@ -50,24 +49,35 @@ export default function AddTeam({ setToggleAddTeam }) {
 		await setDoc(userDocRef, { teams: updatedTeams }, { merge: true });
 		setToggleAddTeam(false);
 		setUserData({ ...userData, teams: updatedTeams });
-		setCurrentWorkSpace({ ...currentWorkSpace });
+
+		setCurrentWorkSpace({ ...currentWorkSpace }); // To trigger an update in the page
 	}
 	return (
 		<Overlay>
-			<button
-				onClick={() => setToggleAddTeam(false)}
-				className="add-team-close"
-			>
-				<FontAwesomeIcon icon={faArrowLeft} />
-			</button>
-			<div className="add-team-content">
-				<input
-					type="text"
-					placeholder="Team Name"
-					onChange={(e) => setLocalTeamName(e.target.value)}
-				/>
-				<button onClick={handleAddTeam}>Add Team</button>
+			<div className="flex flex-col items-start gap-2">
+				<button
+					onClick={() => setToggleAddTeam(false)}
+					className="text-customText text-left">
+					<FontAwesomeIcon icon={faArrowLeft} />
+				</button>
+				<div className="flex gap-2 h-10 items-center">
+					<input
+						type="text"
+						placeholder="Team Name"
+						onChange={(e) => setLocalTeamName(e.target.value)}
+						className="w-7/12 text-customText pl-2 h-full"
+					/>
+					<button
+						onClick={handleAddTeam}
+						className="bg-accent hover:bg-accentShade1 transition-all duration-300 rounded-md px-4 py-2">
+						Add Team
+					</button>
+				</div>
 			</div>
 		</Overlay>
 	);
 }
+
+AddTeam.propTypes = {
+	setToggleAddTeam: PropTypes.func,
+};

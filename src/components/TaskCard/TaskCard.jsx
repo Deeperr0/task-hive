@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useContext, useRef } from "react";
-// import "./TaskCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
@@ -29,10 +28,9 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 	const [localOwner, setLocalOwner] = useState(taskObj.owner);
 	const [localNotes, setLocalNotes] = useState(taskObj.notes);
 	const [isChanged, setIsChanged] = useState(false);
-	const [confirm, setConfirm] = useState(false);
+	const [confirmDeletion, setConfirmDeletion] = useState(false);
 	const [localStatus, setLocalStatus] = useState(taskObj.status);
-	const { currentWorkSpace, setCurrentWorkSpace } =
-		useContext(WorkSpaceContext);
+	const { currentWorkSpace } = useContext(WorkSpaceContext);
 
 	useEffect(() => {
 		setLocalContent(taskObj.content);
@@ -77,30 +75,6 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 		};
 	}, []);
 
-	// function checkStickyElement() {
-	// 	const stickyElement = document.querySelector(".sticky");
-	// 	const observer = new IntersectionObserver(
-	// 		(entries) => {
-	// 			entries.forEach((entry) => {
-	// 				if (entry.intersectionRatio < 1) {
-	// 					// Element has become pinned
-	// 					stickyElement.style.backgroundColor = "lightgreen";
-	// 					console.log("Sticky element is pinned");
-	// 				} else {
-	// 					// Element is not pinned
-	// 					stickyElement.style.backgroundColor = "yellow";
-	// 					console.log("Sticky element is not pinned");
-	// 				}
-	// 			});
-	// 		},
-	// 		{
-	// 			threshold: [1], // Trigger when the element is fully in view
-	// 		}
-	// 	);
-
-	// 	observer.observe(stickyElement);
-	// }
-
 	const debouncedUpdateStatus = useCallback(
 		debounce((taskId, newStatus) => {
 			updateTask(taskId, {
@@ -126,7 +100,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 
 	function handleDelete() {
 		deleteTask(taskObj.taskId);
-		setConfirm(false);
+		setConfirmDeletion(false);
 	}
 
 	function handleContentChange(event) {
@@ -205,7 +179,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 		<div
 			className="grid grid-cols-customGrid items-center h-max text-sm"
 			ref={parentRef}>
-			{confirm && (
+			{confirmDeletion && (
 				<Overlay>
 					<p className="text-customText">
 						Are you sure you want to delete this task?
@@ -215,7 +189,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 						className="bg-danger text-customBackground rounded-lg p-2">
 						Delete
 					</button>
-					<button onClick={() => setConfirm(false)} className="">
+					<button onClick={() => setConfirmDeletion(false)} className="">
 						Cancel
 					</button>
 				</Overlay>
@@ -346,7 +320,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 				</button>
 				{currentWorkSpace.role === "admin" && (
 					<button
-						onClick={() => setConfirm(true)}
+						onClick={() => setConfirmDeletion(true)}
 						className="bg-danger text-customBackground w-8 h-8 rounded-full">
 						<FontAwesomeIcon icon={faTrash} />
 					</button>

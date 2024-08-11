@@ -25,8 +25,10 @@ export default function Project({ user, userData, usersList }) {
 	async function addTask() {
 		if (currentWorkSpace.role !== "admin") return; // Ensure only admin can add tasks
 
+		// Create new Task object
+		// Consider using a constructor for better performance
 		const newTask = {
-			taskId: `task-${Date.now()}`, // Generate a unique task ID
+			taskId: `task-${Date.now()}`,
 			content: "New Task",
 			owner: userData.username,
 			ownerUid: user.uid,
@@ -37,6 +39,8 @@ export default function Project({ user, userData, usersList }) {
 			lastUpdated: new Date().toISOString(),
 		};
 
+		// Add new task to all users in the team
+		// Consider making teams a seperate collection and only storing a reference to them in the user document
 		try {
 			await Promise.all(
 				usersList.map(async (userItem) => {
@@ -75,6 +79,8 @@ export default function Project({ user, userData, usersList }) {
 			console.error("Error adding task:", error);
 		}
 	}
+
+	// Updating task in all users in the team
 	async function updateTask(taskId, updates) {
 		try {
 			await Promise.all(
@@ -116,6 +122,7 @@ export default function Project({ user, userData, usersList }) {
 		}
 	}
 
+	// Delete task from all the users in the team
 	async function deleteTask(taskId) {
 		try {
 			await Promise.all(
@@ -194,7 +201,7 @@ export default function Project({ user, userData, usersList }) {
 								.filter((task) => task.status != "Done")
 								.filter((task) => task.ownerUid === user.uid)
 				}
-				updateTask={updateTask} // Pass updateTask function
+				updateTask={updateTask}
 				deleteTask={deleteTask}
 			/>
 			<Tasks
@@ -206,7 +213,7 @@ export default function Project({ user, userData, usersList }) {
 								.filter((task) => task.ownerUid === user.uid)
 						: []
 				}
-				updateTask={updateTask} // Pass updateTask function
+				updateTask={updateTask}
 				deleteTask={deleteTask}
 			/>
 		</div>

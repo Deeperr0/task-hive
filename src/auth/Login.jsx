@@ -42,9 +42,9 @@ export default function Login({ setUser }) {
 	return (
 		<>
 			<Navbar />
-			<div className="bg-primary flex flex-col items-center h-1/2 justify-between gap-5 w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText">
-				<h2 className="text-white text-[2rem]">Welcome Back</h2>
-				<p className="text-sm text-white">
+			<div className="bg-primary flex flex-col items-center h-1/2 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText">
+				<h2 className="text-white text-3xl md:text-[2rem]">Welcome Back</h2>
+				<p className="text-customBackground text-xs w-11/12 md:text-sm md:w-9/12 text-center">
 					{"Don't have an account?"}{" "}
 					<a
 						href="/register"
@@ -54,7 +54,7 @@ export default function Login({ setUser }) {
 				</p>
 				<form
 					onSubmit={handleLogin}
-					className="w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4">
+					className="md:w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4">
 					<div className="bg-customBackground flex items-center gap-2">
 						<FontAwesomeIcon icon={faEnvelope} className="text-customText" />
 						<input
@@ -76,7 +76,7 @@ export default function Login({ setUser }) {
 							required
 							minLength={6}
 							maxLength={20}
-							className="bg-transparent w-4/5"
+							className="bg-transparent w-9/12 md:w-4/5"
 						/>
 						<button
 							type="button"
@@ -97,7 +97,7 @@ export default function Login({ setUser }) {
 						className="bg-accentShade1 rounded-md px-4 py-2 w-full text-xl text-white">
 						Login
 					</button>
-					<p className="text-sm text-white">
+					<p className="text-customBackground text-xs md:text-sm md:w-9/12 text-center !p-0">
 						{`Forgot your password? `}
 						<a
 							href="/reset-password"

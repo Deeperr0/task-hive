@@ -23,13 +23,20 @@ export default function SideMenu({ teams }) {
 		<div className="text-customBlack text-md h-full">
 			{toggleAddTeam && <AddTeam setToggleAddTeam={setToggleAddTeam} />}
 			<ul className="flex flex-col gap-2 mb-4">
-				<li className="flex gap-1 items-center">
-					<FontAwesomeIcon icon={faHome} className="w-5" />
-					Home
+				<li>
+					<a href="/" className="flex gap-1 items-center">
+						<FontAwesomeIcon icon={faHome} className="w-5" />
+						Home
+					</a>
 				</li>
-				<li className="flex gap-1 items-center">
-					<FontAwesomeIcon icon={faCalendarCheck} className="w-5" />
-					Projects
+				<li>
+					{
+						// TODO add a projects bag that displays all the projects/teams of the user
+					}
+					<a href="/" className="flex gap-1 items-center">
+						<FontAwesomeIcon icon={faCalendarCheck} className="w-5" />
+						Projects (Upcoming)
+					</a>
 				</li>
 			</ul>
 			<hr className="mb-2" />
@@ -47,6 +54,9 @@ export default function SideMenu({ teams }) {
 						</option>
 					))}
 				</select>
+				{
+					// TODO add a drop down menu for a list of actions that can be done on the current workspace
+				}
 				<button>
 					<FontAwesomeIcon icon={faEllipsis} className="mx-1" />
 				</button>

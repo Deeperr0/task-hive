@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import TaskCard from "../TaskCard";
-// import "./Tasks.css";
 import PropTypes from "prop-types";
 
 export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
@@ -28,33 +27,21 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 				}>
 				{name}
 			</h3>
-			<div className=" text-customText border-gray-900 rounded-lg pb-4 text-sm">
+			<div className="text-customText border-gray-900 rounded-lg pb-4 text-sm overflow-auto md:overflow-hidden whitespace-nowrap">
 				<div className="">
-					<div className="grid grid-cols-customGrid py-4">
-						<div className="strip sticky  text-customText border-gray-900" />
-						<div className="task-column-sticky  text-customText border-gray-900">
-							Task
-						</div>
-						<div className="owner-column  text-customText border-gray-900">
-							Owner
-						</div>
-						<div className="status-column  text-customText border-gray-900">
-							Status
-						</div>
-						<div className="deadline-column  text-customText border-gray-900">
-							Deadline
-						</div>
-						<div className="priority-column  text-customText border-gray-900">
-							Priority
-						</div>
-						<div className="notes-column  text-customText border-gray-900">
-							Notes
-						</div>
-						<div className="buttons-column  text-customText border-gray-900 "></div>
+					<div className="grid grid-cols-customGrid py-4 text-customText [&>*]:border-gray-900 overflow-auto md:overflow-hidden">
+						<div className="sticky" />
+						<div className="text-customText">Task</div>
+						<div>Owner</div>
+						<div>Status</div>
+						<div>Deadline</div>
+						<div>Priority</div>
+						<div>Notes</div>
+						<div></div>
 					</div>
 
 					{tasksList.length != 0 && (
-						<div className="tasks--list">
+						<div>
 							{tasksList.map((task) => (
 								<TaskCard
 									key={task.taskId}

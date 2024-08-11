@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import {
 	createUserWithEmailAndPassword,
@@ -29,16 +29,19 @@ import Navbar from "../components/Navbar";
 
 // TODO: MAKE IT SO THAT IT CHECKS THE LINK FOR AN INVITATION CODE IT SHOULD CHECK THE LINK THEN CHECK A COLLECTION CALLED "invitationCodes" which will contain docs the doc.id is the invitation code and it will have a map with 2 keys. Team: this will contain the teamID that is using the invitation code, Used: this will be a boolean of whether the code has already been used
 
-export default function Register({ setUser, usersList }) {
+export default function Register({ user, setUser, usersList }) {
 	const [fullName, setFullName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	// const [firstName, setFirstName] = useState("");
-	// const [lastName, setLastName] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [username, setUsername] = useState("");
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		if (user !== null) {
+			navigate("/");
+		}
+	});
 	async function handleRegister(event) {
 		const url = window.location.href;
 
@@ -76,29 +79,20 @@ export default function Register({ setUser, usersList }) {
 				email,
 				teams: [],
 			});
-			console.log("User details saved in Firestore.");
 			if (!invitationCode) {
-				console.log("Navigating to homepage, no invitation code present.");
 				document.querySelector(".register-status").innerHTML =
 					"User added successfully. An email was sent with instructions to verify account and update password.";
 				navigate("/");
 			} else {
-				console.log("Fetching invitation document for code:", invitationCode);
 				const invitationDocRef = doc(db, "invitationCodes", invitationCode);
 				const invitationDoc = await getDoc(invitationDocRef);
-				console.log("Invitation document received:", invitationDoc);
 
 				if (invitationDoc.exists()) {
 					const invitationData = invitationDoc.data();
-					console.log("Invitation data:", invitationData);
 
 					if (invitationData.used) {
-						console.log(
-							"Invitation code already used. Navigating to homepage."
-						);
 						navigate("/");
 					} else {
-						console.log("Invitation code is valid. Adding user to teams.");
 						await Promise.all(
 							usersList.map(async (userItem) => {
 								if (
@@ -106,14 +100,11 @@ export default function Register({ setUser, usersList }) {
 										(team) => team.teamId === invitationData.teamId
 									)
 								) {
-									console.log("User item found in team:", userItem);
-
 									const q = query(
 										collection(db, "users"),
 										where("username", "==", userItem.username)
 									);
 									const qSnapshot = await getDocs(q);
-									console.log("Query snapshot received:", qSnapshot);
 
 									const userDoc = qSnapshot.docs[0];
 
@@ -137,9 +128,7 @@ export default function Register({ setUser, usersList }) {
 										});
 
 										const userDocRef = doc(db, "users", userItem.id);
-										console.log("Updating team for user:", userItem.username);
 										await updateDoc(userDocRef, { teams: updatedTeams });
-										console.log("Team updated for user:", userItem.username);
 									}
 								}
 							})
@@ -147,24 +136,18 @@ export default function Register({ setUser, usersList }) {
 
 						const adminRef = doc(db, "users", invitationData.invitedBy);
 						const adminDoc = await getDoc(adminRef);
-						console.log("Admin document received:", adminDoc);
 
 						const adminData = adminDoc.data();
 						const teamObj = adminData.teams.filter(
 							(team) => team.teamId === invitationData.teamId
 						)[0];
-						console.log("Updating new user team with admin data.");
 						await updateDoc(newUserRef, {
 							teams: [teamObj],
 						});
-						console.log("New user team updated.");
-
-						console.log("Marking invitation as used.");
 						await updateDoc(invitationDocRef, {
 							...invitationData,
 							used: true,
 						});
-						console.log("Invitation marked as used.");
 						setUser(user);
 						setTimeout(navigate("/"), 5000);
 					}
@@ -187,15 +170,17 @@ export default function Register({ setUser, usersList }) {
 	return (
 		<>
 			<Navbar />
-			<div className="bg-primary flex flex-col items-center h-1/2 justify-between gap-5 w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText">
-				<h2 className="text-white text-[2rem]">Welcome to TaskHive!</h2>
-				<p className="text-customBackground text-sm w-9/12 text-center">
+			<div className="bg-primary flex flex-col items-center h-1/2 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText">
+				<h2 className="text-white text-3xl md:text-[2rem]">
+					Welcome to TaskHive!
+				</h2>
+				<p className="text-customBackground text-xs w-11/12 md:text-sm md:w-9/12 text-center">
 					Register now to create your account and start managing your tasks and
 					projects efficiently with TaskHive.
 				</p>
 				<form
 					onSubmit={handleRegister}
-					className="w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
+					className="md:w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
 					autoComplete="off">
 					<div className="bg-customBackground flex items-center gap-2">
 						<FontAwesomeIcon icon={faUser} className="text-customText" />
@@ -246,7 +231,7 @@ export default function Register({ setUser, usersList }) {
 							required
 							minLength={6}
 							maxLength={20}
-							className="bg-transparent w-4/5"
+							className="bg-transparent w-9/12 md:w-4/5"
 						/>
 						<button
 							type="button"
@@ -281,6 +266,7 @@ export default function Register({ setUser, usersList }) {
 }
 
 Register.propTypes = {
+	user: PropTypes.object,
 	setUser: PropTypes.func.isRequired,
 	usersList: PropTypes.array.isRequired,
 };

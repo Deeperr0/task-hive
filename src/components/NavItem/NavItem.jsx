@@ -6,7 +6,7 @@ export default function NavItem({ itemName, itemLink, active }) {
 			<hr
 				className={
 					active
-						? "opacity-100 border-1 border-black w-1/3"
+						? "opacity-100 border-1 border-black md:w-1/3 w-4"
 						: "opacity-0 transition-all duration-300 group-hover:opacity-100 border-1 border-black w-1/3"
 				}
 			/>
