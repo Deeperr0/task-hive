@@ -18,7 +18,7 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 		};
 	}, []);
 	return (
-		<div className="bg-secondaryShade1 rounded-4">
+		<div className="bg-secondaryShade1 rounded-4 overflow-hidden w-screen">
 			<h3
 				className={
 					name === "Done"
@@ -27,11 +27,13 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 				}>
 				{name}
 			</h3>
-			<div className="text-customText border-gray-900 rounded-lg pb-4 text-sm overflow-auto md:overflow-hidden whitespace-nowrap">
+			<div className="text-customText border-gray-900 rounded-lg pb-4 text-sm whitespace-nowrap overflow-scroll md:overflow-hidden w-screen">
 				<div className="">
-					<div className="grid grid-cols-customGrid py-4 text-customText [&>*]:border-gray-900 overflow-auto md:overflow-hidden">
-						<div className="sticky" />
-						<div className="text-customText">Task</div>
+					<div className="grid grid-cols-customGrid py-4 text-customText [&>*]:border-gray-900 w-[66rem]">
+						<div className="sticky left-0" />
+						<div className="text-customText sticky left-0 bg-secondaryShade1">
+							Task
+						</div>
 						<div>Owner</div>
 						<div>Status</div>
 						<div>Deadline</div>
@@ -39,19 +41,20 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 						<div>Notes</div>
 						<div></div>
 					</div>
-
-					{tasksList.length != 0 && (
-						<div>
-							{tasksList.map((task) => (
-								<TaskCard
-									key={task.taskId}
-									taskObj={task}
-									deleteTask={deleteTask}
-									updateTask={updateTask}
-								/>
-							))}
-						</div>
-					)}
+					<div>
+						{tasksList.length != 0 && (
+							<div className="w-[66rem]">
+								{tasksList.map((task) => (
+									<TaskCard
+										key={task.taskId}
+										taskObj={task}
+										deleteTask={deleteTask}
+										updateTask={updateTask}
+									/>
+								))}
+							</div>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

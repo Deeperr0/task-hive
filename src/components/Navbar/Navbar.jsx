@@ -53,7 +53,7 @@ export default function Navbar({ user, setToggleMenu }) {
 						</div>
 					)}
 					{user != undefined && (
-						<div className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center">
+						<div className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center md:hidden">
 							<h1
 								className="md:hidden"
 								onClick={() => setToggleUserMenu(!toggleUserMenu)}>
@@ -64,8 +64,8 @@ export default function Navbar({ user, setToggleMenu }) {
 					<div
 						className={
 							toggleUserMenu
-								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-customBackground text-customText"
-								: "py-8 rounded-xl text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch hidden md:block"
+								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-customBackground text-customText z-30"
+								: "hidden"
 						}>
 						{user ? (
 							<div className="md:hidden">

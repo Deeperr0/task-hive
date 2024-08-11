@@ -101,7 +101,7 @@ export default function Home({ user, userData, teams, usersList }) {
 						<div
 							className={
 								toggleMenu
-									? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-customBackground text-customText"
+									? "flex flex-col gap-4 fixed top-0 left-0 px-10 md:px-5 pt-10 w-screen h-screen bg-customBackground text-customText z-30"
 									: "py-8 rounded-xl text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch hidden md:block"
 							}>
 							<div

@@ -177,7 +177,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 
 	return (
 		<div
-			className="grid grid-cols-customGrid items-center h-max text-sm"
+			className="grid grid-cols-customGrid items-center h-max text-sm w-[66rem]"
 			ref={parentRef}>
 			{confirmDeletion && (
 				<Overlay>
@@ -194,7 +194,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					</button>
 				</Overlay>
 			)}
-			<div className="sticky text-customText border-gray-900 " />
+			<div className="sticky left-0 text-customText border-gray-900 " />
 
 			{currentWorkSpace.role === "admin" ? (
 				<input
@@ -204,8 +204,8 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					placeholder="Task Content"
 					className={
 						isPinned
-							? "text-customText border-gray-900 border-1 h-full pl-2"
-							: "text-customText border-gray-900 border-1 h-full pl-2"
+							? "text-customText border-gray-900 border-1 h-full pl-2 sticky left-0"
+							: "text-customText border-gray-900 border-1 h-full pl-2 sticky left-0"
 					}
 					ref={stickyRef}
 				/>

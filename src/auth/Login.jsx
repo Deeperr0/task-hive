@@ -54,7 +54,7 @@ export default function Login({ setUser }) {
 				</p>
 				<form
 					onSubmit={handleLogin}
-					className="md:w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4">
+					className="w-11/12 md:w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4">
 					<div className="bg-customBackground flex items-center gap-2">
 						<FontAwesomeIcon icon={faEnvelope} className="text-customText" />
 						<input

@@ -17,7 +17,8 @@ export default {
 				1: "1px",
 			},
 			gridTemplateColumns: {
-				customGrid: "1rem 170px 140px 150px 170px 100px 170px 140px",
+				customGrid:
+					"1rem 10.625rem 8.75rem 9.375rem 10.625rem 6.25rem 10.625rem 8.75rem",
 			},
 			boxShadow: {
 				custom: "2px -2px 10px rgba(3, 3, 3, 0.1)",
