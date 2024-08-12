@@ -25,28 +25,37 @@ export default function AddTeam({ setToggleAddTeam }) {
 		if (!userDoc.exists()) {
 			return;
 		}
+		const newTeam = {
+			teamName: `${localTeamName != "" ? localTeamName : "My Team"}`,
+			teamId,
+			teamMembers: [
+				{
+					username: userData.username,
+					uid: user.uid,
+					email: userData.email,
+				},
+			],
+			tasks: [],
+			lastUpdated: new Date().toISOString(),
+			created: new Date().toISOString(),
+			createdById: user.uid,
+			subWorkspaces: [{}],
+		};
 		const currentUserData = userDoc.data();
-		const updatedTeams = [
+		const updatedTeams = {
 			...currentUserData.teams,
+			[teamId]: { role: "admin" },
+		};
+		await setDoc(
+			userDocRef,
 			{
-				teamName: `${localTeamName != "" ? localTeamName : "My Team"}`,
-				teamId,
-				teamMembers: [
-					{
-						username: currentUserData.username,
-						uid: user.uid,
-						email: currentUserData.email,
-					},
-				],
-				tasks: [],
-				role: "admin",
-				lastUpdated: new Date().toISOString(),
-				created: new Date().toISOString(),
-				createdById: user.uid,
-				subWorkspaces: [{}],
+				...currentUserData,
+				teams: updatedTeams,
 			},
-		];
-		await setDoc(userDocRef, { teams: updatedTeams }, { merge: true });
+			{ merge: true }
+		);
+		await setDoc(doc(db, "teams", teamId), newTeam);
+
 		setToggleAddTeam(false);
 		setUserData({ ...userData, teams: updatedTeams });
 

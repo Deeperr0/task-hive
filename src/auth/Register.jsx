@@ -4,16 +4,7 @@ import {
 	createUserWithEmailAndPassword,
 	sendEmailVerification,
 } from "firebase/auth";
-import {
-	collection,
-	doc,
-	getDoc,
-	getDocs,
-	updateDoc,
-	query,
-	where,
-	setDoc,
-} from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -63,11 +54,11 @@ export default function Register({ user, setUser, usersList }) {
 				password
 			);
 
-			const user = userCredential.user;
+			const newUser = userCredential.user;
 
 			await sendEmailVerification(auth.currentUser);
 
-			const newUserRef = doc(db, "users", user.uid);
+			const newUserRef = doc(db, "users", newUser.uid);
 			const firstName = fullName.split(" ")[0];
 			const lastName = fullName.split(" ")[1];
 			await setDoc(newUserRef, {
@@ -91,62 +82,34 @@ export default function Register({ user, setUser, usersList }) {
 					if (invitationData.used) {
 						navigate("/");
 					} else {
-						await Promise.all(
-							usersList.map(async (userItem) => {
-								if (
-									userItem.teams.some(
-										(team) => team.teamId === invitationData.teamId
-									)
-								) {
-									const q = query(
-										collection(db, "users"),
-										where("username", "==", userItem.username)
-									);
-									const qSnapshot = await getDocs(q);
-
-									const userDoc = qSnapshot.docs[0];
-
-									if (userDoc) {
-										const userData = userDoc.data();
-										const updatedTeams = userData.teams.map((team) => {
-											if (team.teamId === invitationData.teamId) {
-												return {
-													...team,
-													teamMembers: [
-														...team.teamMembers,
-														{
-															username,
-															uid: user.uid,
-															email,
-														},
-													],
-												};
-											}
-											return team;
-										});
-
-										const userDocRef = doc(db, "users", userItem.id);
-										await updateDoc(userDocRef, { teams: updatedTeams });
-									}
-								}
-							})
-						);
-
-						const adminRef = doc(db, "users", invitationData.invitedBy);
-						const adminDoc = await getDoc(adminRef);
-
-						const adminData = adminDoc.data();
-						const teamObj = adminData.teams.filter(
-							(team) => team.teamId === invitationData.teamId
-						)[0];
-						await updateDoc(newUserRef, {
-							teams: [teamObj],
+						const teamDocRef = doc(db, "teams", invitationData.teamId);
+						const teamDoc = await getDoc(teamDocRef);
+						const teamData = teamDoc.data();
+						const teamMembers = teamData.teamMembers;
+						await updateDoc(teamDocRef, {
+							teamMembers: [
+								...teamMembers,
+								{
+									username,
+									uid: newUser.uid,
+									email,
+								},
+							],
 						});
+						const newUserDoc = await getDoc(newUserRef);
+						const newUserData = newUserDoc.data();
+						await updateDoc(newUserRef, {
+							...newUserData,
+							teams: {
+								[invitationData.teamId]: { role: invitationData.chosenRole },
+							},
+						});
+
 						await updateDoc(invitationDocRef, {
 							...invitationData,
 							used: true,
 						});
-						setUser(user);
+						setUser(newUser);
 						setTimeout(navigate("/"), 5000);
 					}
 				} else {

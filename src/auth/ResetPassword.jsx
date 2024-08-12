@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-// import "./ResetPassword.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function ResetPassword() {
 	const [email, setEmail] = useState("");
@@ -42,17 +43,29 @@ export default function ResetPassword() {
 	}, [message, navigate]);
 
 	return (
-		<div className="reset-password-container">
-			<h2 className="reset-password-title">Reset Password</h2>
-			<form onSubmit={handleResetPassword}>
+		<div className="bg-primary w-1/3 mx-auto mt-36 flex flex-col justify-center items-center py-10 gap-4 rounded-lg">
+			<div className="flex items-center gap-2 justify-between">
+				<FontAwesomeIcon
+					icon={faArrowLeft}
+					className="text-xl"
+					onClick={() => navigate("/")}
+				/>
+				<h2 className="text-2xl">Reset Password</h2>
+			</div>
+			<form onSubmit={handleResetPassword} className="flex flex-col gap-4">
 				<input
 					type="email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					placeholder="Enter your email"
 					required
+					className="p-2"
 				/>
-				<button type="submit">Send Reset Email</button>
+				<button
+					type="submit"
+					className="p-2 bg-accent hover:bg-accentShade1 text-customBackground rounded-md">
+					Send Reset Email
+				</button>
 			</form>
 			{message && <p>{message}</p>}
 		</div>

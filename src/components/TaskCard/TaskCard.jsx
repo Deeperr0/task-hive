@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback, useContext, useRef } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
-import { WorkSpaceContext } from "../../App";
+import { RoleContext, WorkSpaceContext } from "../../App";
 import Overlay from "../Overlay";
+import { updateTask, deleteTask } from "../../utils/manageTasks";
 
 function debounce(func, wait) {
 	let timeout;
@@ -21,7 +22,8 @@ function formatDateToDisplay(dateStr) {
 	return `${day}-${month}-${year}`;
 }
 
-export default function TaskCard({ taskObj, deleteTask, updateTask }) {
+export default function TaskCard({ taskObj }) {
+	// TODO merge all these states into one object state
 	const [localContent, setLocalContent] = useState(taskObj.content);
 	const [localDeadline, setLocalDeadline] = useState(taskObj.deadline);
 	const [localPriority, setLocalPriority] = useState(taskObj.priority);
@@ -30,8 +32,9 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirmDeletion, setConfirmDeletion] = useState(false);
 	const [localStatus, setLocalStatus] = useState(taskObj.status);
-	const { currentWorkSpace } = useContext(WorkSpaceContext);
-
+	const { currentWorkSpace, setCurrentWorkSpace } =
+		useContext(WorkSpaceContext);
+	const { role } = useContext(RoleContext);
 	useEffect(() => {
 		setLocalContent(taskObj.content);
 		setLocalDeadline(taskObj.deadline);
@@ -45,35 +48,6 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 		taskObj.owner,
 		taskObj.notes,
 	]);
-
-	const stickyRef = useRef(null);
-	const parentRef = useRef(null);
-	const [isPinned, setIsPinned] = useState(false);
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				// Check if the element is horizontally pinned
-				setIsPinned(entry.intersectionRatio < 1);
-			},
-			{
-				root: null, // Use the viewport as the container
-				rootMargin: "0px", // No margin around the root
-				threshold: [1], // Fully visible
-			}
-		);
-
-		const currentElement = stickyRef.current;
-		if (currentElement) {
-			observer.observe(currentElement);
-		}
-
-		return () => {
-			if (currentElement) {
-				observer.unobserve(currentElement);
-			}
-		};
-	}, []);
 
 	const debouncedUpdateStatus = useCallback(
 		debounce((taskId, newStatus) => {
@@ -99,7 +73,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 	}
 
 	function handleDelete() {
-		deleteTask(taskObj.taskId);
+		deleteTask(taskObj.taskId, currentWorkSpace, setCurrentWorkSpace);
 		setConfirmDeletion(false);
 	}
 
@@ -138,7 +112,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 			notes: localNotes,
 			lastUpdated: now,
 		};
-		updateTask(taskObj.taskId, updates);
+		updateTask(taskObj.taskId, updates, currentWorkSpace, setCurrentWorkSpace);
 		setIsChanged(false);
 	}
 
@@ -176,9 +150,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 			: "";
 
 	return (
-		<div
-			className="grid grid-cols-customGrid items-center h-max text-sm w-[66rem]"
-			ref={parentRef}>
+		<div className="grid grid-cols-customGrid items-center h-max text-sm w-[66rem]">
 			{confirmDeletion && (
 				<Overlay>
 					<p className="text-customText">
@@ -196,32 +168,19 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 			)}
 			<div className="sticky left-0 text-customText border-gray-900 " />
 
-			{currentWorkSpace.role === "admin" ? (
+			{role === "admin" ? (
 				<input
 					type="text"
 					value={localContent}
 					onChange={handleContentChange}
 					placeholder="Task Content"
-					className={
-						isPinned
-							? "text-customText border-gray-900 border-1 h-full pl-2 sticky left-0"
-							: "text-customText border-gray-900 border-1 h-full pl-2 sticky left-0"
-					}
-					ref={stickyRef}
+					className="text-customText border-gray-900 border-1 h-full pl-2 sticky left-0"
 				/>
 			) : (
-				<p
-					className={
-						isPinned
-							? "border-gray-900 border-1 h-full"
-							: "border-gray-900 border-1 h-full"
-					}
-					ref={stickyRef}>
-					{localContent}
-				</p>
+				<p className="border-gray-900 border-1 h-full">{localContent}</p>
 			)}
 
-			{currentWorkSpace.role === "admin" ? (
+			{role === "admin" ? (
 				<select
 					value={localOwner}
 					onChange={handleOwnerChange}
@@ -253,7 +212,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					Not started
 				</option>
 			</select>
-			{currentWorkSpace.role === "admin" ? (
+			{role === "admin" ? (
 				<input
 					type="date"
 					value={localDeadline}
@@ -281,7 +240,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					{formatDateToDisplay(localDeadline)}
 				</p>
 			)}
-			{currentWorkSpace.role === "admin" ? (
+			{role === "admin" ? (
 				<select
 					value={localPriority}
 					onChange={handlePriorityChange}
@@ -318,7 +277,7 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 					disabled={!isChanged}>
 					<FontAwesomeIcon icon={faSave} />
 				</button>
-				{currentWorkSpace.role === "admin" && (
+				{role === "admin" && (
 					<button
 						onClick={() => setConfirmDeletion(true)}
 						className="bg-danger text-customBackground w-8 h-8 rounded-full">
@@ -332,6 +291,4 @@ export default function TaskCard({ taskObj, deleteTask, updateTask }) {
 
 TaskCard.propTypes = {
 	taskObj: PropTypes.object,
-	updateTask: PropTypes.func,
-	deleteTask: PropTypes.func,
 };

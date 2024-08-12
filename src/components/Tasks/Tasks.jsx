@@ -1,22 +1,7 @@
-import { useEffect } from "react";
 import TaskCard from "../TaskCard";
 import PropTypes from "prop-types";
 
 export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
-	useEffect(() => {
-		function handleScroll() {
-			const header = document.querySelector(".task--header");
-			if (header) {
-				const sticky = header.getBoundingClientRect().top <= 0;
-				header.classList.toggle("is-sticky", sticky);
-			}
-		}
-
-		window.addEventListener("scroll", handleScroll);
-		return () => {
-			window.removeEventListener("scroll", handleScroll);
-		};
-	}, []);
 	return (
 		<div className="bg-secondaryShade1 rounded-4 overflow-hidden w-screen">
 			<h3

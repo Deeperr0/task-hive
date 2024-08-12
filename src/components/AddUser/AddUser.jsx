@@ -1,17 +1,7 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Overlay from "../Overlay";
-import {
-	arrayUnion,
-	collection,
-	doc,
-	getDoc,
-	getDocs,
-	updateDoc,
-	query,
-	where,
-	addDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc, query, where, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useState } from "react";
 import PropTypes from "prop-types";
@@ -37,19 +27,16 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 	const [chosenRole, setChosenRole] = useState("admin");
 	const [userToAdd, setUserToAdd] = useState("");
 	async function addUser(chosenRole) {
-		currentWorkSpace.teamMembers.map((member) => {
-			if (member.email === userToAdd) {
-				document.getElementById("add-error").textContent =
-					"User is already added to team"; // TODO test that this works
-				return;
-			}
-		});
-		const currentUserRef = doc(db, "users", user.uid);
-		const currentUser = await getDoc(currentUserRef);
-		const currentUserData = currentUser.data();
-		const currentWorkSpaceObj = currentUserData.teams.find(
-			(team) => team.teamId === currentWorkSpace.teamId
-		);
+		const errorDiv = document.getElementById("add-error");
+		if (
+			currentWorkSpace.teamMembers.filter((member) => {
+				member.email === userToAdd;
+			})
+		) {
+			errorDiv.innerText = "User already exists";
+			return;
+		}
+		const teamDocRef = doc(db, "teams", currentWorkSpace.teamId);
 		const q = query(collection(db, "users"), where("email", "==", userToAdd));
 		const querySnapshot = await getDocs(q);
 		if (querySnapshot.empty) {
@@ -66,31 +53,21 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 			return;
 		}
 		const userToBeAdded = querySnapshot.docs[0];
-		if (
-			currentWorkSpace.teamMembers.filter(
-				(member) => member.email === userToBeAdded.data().email
-			).length > 0
-		) {
-			return;
-		}
-		currentWorkSpaceObj.teamMembers.push({
+		let updatedTeam = currentWorkSpace;
+		updatedTeam.teamMembers.push({
 			username: userToBeAdded.data().username,
 			uid: userToBeAdded.id,
 			email: userToBeAdded.data().email,
 		});
-		currentWorkSpaceObj.role = chosenRole;
-		const updatedTeamMembers = currentWorkSpaceObj.teamMembers;
-		// Update current team object with new members
-		const updatedTeams = currentUserData.teams.map((team) => {
-			if (team.teamId === currentWorkSpace.teamId) {
-				return { ...team, teamMembers: updatedTeamMembers };
-			}
-			return team;
+		await updateDoc(teamDocRef, {
+			updatedTeam,
 		});
-		await updateDoc(currentUserRef, { teams: updatedTeams });
 		const userToBeAddedRef = doc(db, "users", userToBeAdded.id);
 		await updateDoc(userToBeAddedRef, {
-			teams: arrayUnion(currentWorkSpaceObj),
+			teams: {
+				...userToBeAdded.data().teams,
+				[currentWorkSpace.teamId]: { role: chosenRole },
+			},
 		});
 	}
 

@@ -10,15 +10,40 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import filterIcon from "../../Filter-outline.svg";
 import PropTypes from "prop-types";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { WorkSpaceContext } from "../../App";
 import AddTeam from "../AddTeam";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
+
+async function getTeam(teamId) {
+	const teamDocRef = doc(db, "teams", teamId);
+	const teamDoc = await getDoc(teamDocRef);
+	const teamData = teamDoc?.data();
+	return teamData;
+}
 
 export default function SideMenu({ teams }) {
 	const [toggleAddTeam, setToggleAddTeam] = useState(false);
 	const [expandWorkSpace, setExpandWorkSpace] = useState(false);
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
+	const [teamsList, setTeamsList] = useState({});
+	useEffect(() => {
+		async function fetchTeams() {
+			await Promise.all(
+				Object.keys(teams).map(async (teamId) => {
+					const teamData = await getTeam(teamId);
+					setTeamsList((prevTeamsList) => ({
+						...prevTeamsList,
+						[teamId]: teamData,
+					}));
+				})
+			);
+		}
+
+		fetchTeams();
+	}, [currentWorkSpace, teams]);
 	return (
 		<div className="text-customBlack text-md h-full">
 			{toggleAddTeam && <AddTeam setToggleAddTeam={setToggleAddTeam} />}
@@ -44,13 +69,11 @@ export default function SideMenu({ teams }) {
 				<select
 					className="bg-transparent w-9/12"
 					onChange={(e) => {
-						setCurrentWorkSpace(
-							teams.filter((team) => team.teamId === e.target.value)[0]
-						);
+						setCurrentWorkSpace(teamsList[e.target.value]?.teamName);
 					}}>
-					{teams?.map((workspace) => (
-						<option value={workspace.teamId} key={workspace.teamId}>
-							{workspace.teamName}
+					{Object.keys(teams).map((teamId) => (
+						<option key={teamId} value={teamId}>
+							{teamsList[teamId]?.teamName}
 						</option>
 					))}
 				</select>
@@ -82,18 +105,15 @@ export default function SideMenu({ teams }) {
 						) : (
 							<FontAwesomeIcon icon={faCaretRight} />
 						)}
-						{teams?.map(
-							(workspace) =>
-								workspace?.teamId == currentWorkSpace?.teamId && (
-									<div
-										key={workspace.teamId}
-										className={expandWorkSpace ? "active" : ""}
-										onClick={() => {
-											setExpandWorkSpace(!expandWorkSpace);
-										}}>
-										{workspace.teamName}
-									</div>
-								)
+						{currentWorkSpace && (
+							<div
+								key={currentWorkSpace.teamId}
+								className={expandWorkSpace ? "active" : ""}
+								onClick={() => {
+									setExpandWorkSpace(!expandWorkSpace);
+								}}>
+								{currentWorkSpace.teamName}
+							</div>
 						)}
 					</div>
 				</div>
@@ -104,7 +124,7 @@ export default function SideMenu({ teams }) {
 
 SideMenu.propTypes = {
 	user: PropTypes.object,
-	teams: PropTypes.array,
+	teams: PropTypes.object,
 	expandWorkSpace: PropTypes.bool,
 	setExpandWorkSpace: PropTypes.func,
 };
