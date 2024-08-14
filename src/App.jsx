@@ -9,6 +9,10 @@ import Home from "./components/Home";
 import Register from "./auth/Register";
 import ResetPassword from "./auth/ResetPassword";
 import ChangePassword from "./auth/ChangePassword";
+import Features from "./components/Features/Features";
+import AboutUs from "./components/AboutUs";
+import ContactUs from "./components/ContactUs";
+import Pricing from "./components/Pricing";
 
 // import "./App.css";
 
@@ -100,7 +104,8 @@ function App() {
 						value={{
 							currentWorkSpace,
 							setCurrentWorkSpace,
-						}}>
+						}}
+					>
 						<Router>
 							<div className="w-full bg-customBackground h-full">
 								<Routes>
@@ -114,7 +119,10 @@ function App() {
 											/>
 										}
 									/>
-									<Route path="/reset-password" element={<ResetPassword />} />
+									<Route
+										path="/reset-password"
+										element={<ResetPassword />}
+									/>
 									<Route
 										path="/"
 										element={
@@ -125,8 +133,31 @@ function App() {
 											/>
 										}
 									/>
-									<Route path="/change-password" element={<ChangePassword />} />
-									<Route path="/login" element={<Login setUser={setUser} />} />
+									<Route
+										path="/features"
+										element={<Features />}
+									/>
+									<Route
+										path="/pricing"
+										element={<Pricing />}
+									/>
+									<Route
+										path="/about-us"
+										element={<AboutUs />}
+									/>
+									<Route
+										path="/contact"
+										element={<ContactUs />}
+									/>
+									<Route
+										path="/change-password"
+										element={<ChangePassword />}
+									/>
+
+									<Route
+										path="/login"
+										element={<Login setUser={setUser} />}
+									/>
 								</Routes>
 							</div>
 						</Router>

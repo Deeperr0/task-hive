@@ -40,6 +40,8 @@ export default {
 				success: "#00F060",
 				info: "#5BB0FF",
 				neutral1: "#838383",
+				primaryShade3: "rgba(206, 39, 39, 0.05)",
+				accentShade2: "rgba(39, 207, 87, 0.3)",
 			},
 		},
 	},

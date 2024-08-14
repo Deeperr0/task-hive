@@ -9,7 +9,8 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 					name === "Done"
 						? "text-success text-lg my-2 ml-2"
 						: "text-info text-lg my-2 ml-2"
-				}>
+				}
+			>
 				{name}
 			</h3>
 			<div className="text-customText border-gray-900 rounded-lg pb-4 text-sm whitespace-nowrap overflow-scroll md:overflow-hidden w-screen">
@@ -27,9 +28,9 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 						<div></div>
 					</div>
 					<div>
-						{tasksList.length != 0 && (
+						{tasksList?.length != 0 && (
 							<div className="w-[66rem]">
-								{tasksList.map((task) => (
+								{tasksList?.map((task) => (
 									<TaskCard
 										key={task.taskId}
 										taskObj={task}

@@ -26,8 +26,9 @@ export default function Home({ user, userData, teams }) {
 									TaskHive makes team management effortless and efficient.
 								</p>
 								<button
-									className="text-customText mt-6 font-semibold bg-accentShade1 rounded-md px-4 py-2"
-									onClick={() => navigate("/register")}>
+									className="text-customText mt-6 font-semibold bg-accentShade1 rounded-md px-4 py-2 hover:bg-accentShade2 transition-all duration-300 ease-in-out"
+									onClick={() => navigate("/register")}
+								>
 									Get Started for Free
 								</button>
 							</div>
@@ -42,25 +43,39 @@ export default function Home({ user, userData, teams }) {
 				</>
 			) : (
 				<>
-					<Navbar user={user} setToggleMenu={setToggleMenu} />
+					<Navbar
+						user={user}
+						setToggleMenu={setToggleMenu}
+					/>
 					<div className="flex items-start gap-6 h-full ">
 						<div
 							className={
 								toggleMenu
 									? "flex flex-col gap-4 fixed top-0 left-0 px-10 md:px-5 pt-10 w-screen h-screen bg-customBackground text-customText z-30"
 									: "py-8 rounded-tr-xl border text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch hidden md:block"
-							}>
+							}
+						>
 							<div
 								className="text-customText"
-								onClick={() => setToggleMenu(false)}>
+								onClick={() => setToggleMenu(false)}
+							>
 								{toggleMenu && (
-									<FontAwesomeIcon icon={faClose} className="text-xl" />
+									<FontAwesomeIcon
+										icon={faClose}
+										className="text-xl"
+									/>
 								)}
 							</div>
-							<SideMenu user={user} teams={teams} />
+							<SideMenu
+								user={user}
+								teams={teams}
+							/>
 						</div>
 						<div className="shadow-secondaryCustom md:rounded-t-lg px-4 text-customText w-full bg-primary h-full pb-10">
-							<Project user={user} userData={userData} />
+							<Project
+								user={user}
+								userData={userData}
+							/>
 						</div>
 					</div>
 				</>
