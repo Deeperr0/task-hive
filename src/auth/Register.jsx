@@ -131,7 +131,7 @@ export default function Register({ user, setUser, usersList }) {
 	return (
 		<>
 			<Navbar />
-			<div className="bg-primary flex flex-col items-center h-1/2 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText">
+			<div className="bg-primary flex flex-col items-center h-1/2 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText lg:h-4/6">
 				<h2 className="text-white text-3xl md:text-[2rem]">
 					Welcome to TaskHive!
 				</h2>
@@ -142,9 +142,13 @@ export default function Register({ user, setUser, usersList }) {
 				<form
 					onSubmit={handleRegister}
 					className="w-11/12 md:w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
-					autoComplete="off">
+					autoComplete="off"
+				>
 					<div className="bg-customBackground flex items-center gap-2">
-						<FontAwesomeIcon icon={faUser} className="text-customText" />
+						<FontAwesomeIcon
+							icon={faUser}
+							className="text-customText"
+						/>
 						<input
 							type="text"
 							value={fullName}
@@ -158,7 +162,10 @@ export default function Register({ user, setUser, usersList }) {
 						/>
 					</div>
 					<div className="bg-customBackground flex items-center gap-2">
-						<FontAwesomeIcon icon={faAt} className="text-customText" />
+						<FontAwesomeIcon
+							icon={faAt}
+							className="text-customText"
+						/>
 						<input
 							type="text"
 							value={username}
@@ -171,7 +178,10 @@ export default function Register({ user, setUser, usersList }) {
 					</div>
 
 					<div className="bg-customBackground flex items-center gap-2">
-						<FontAwesomeIcon icon={faEnvelope} className="text-customText" />
+						<FontAwesomeIcon
+							icon={faEnvelope}
+							className="text-customText"
+						/>
 						<input
 							type="email"
 							value={email}
@@ -183,7 +193,10 @@ export default function Register({ user, setUser, usersList }) {
 						/>
 					</div>
 					<div className="bg-customBackground text-neutral1 flex items-center gap-2">
-						<FontAwesomeIcon icon={faLock} className="text-customText" />
+						<FontAwesomeIcon
+							icon={faLock}
+							className="text-customText"
+						/>
 						<input
 							type={showPassword ? "text" : "password"}
 							value={password}
@@ -200,7 +213,8 @@ export default function Register({ user, setUser, usersList }) {
 							onClick={(e) => {
 								e.preventDefault();
 								setShowPassword(!showPassword);
-							}}>
+							}}
+						>
 							{showPassword ? (
 								<FontAwesomeIcon icon={faEye} />
 							) : (
@@ -210,13 +224,17 @@ export default function Register({ user, setUser, usersList }) {
 					</div>
 					<button
 						type="submit"
-						className="bg-accentShade1 rounded-md px-4 py-2 w-full text-xl text-white">
+						className="bg-accentShade1 rounded-md px-4 py-2 w-full text-xl text-white"
+					>
 						Create Account
 					</button>
 				</form>
 				<p className="text-sm text-white">
 					Already have an account?{" "}
-					<a href="/login" className="text-accent">
+					<a
+						href="/login"
+						className="text-accent"
+					>
 						Login
 					</a>
 				</p>
