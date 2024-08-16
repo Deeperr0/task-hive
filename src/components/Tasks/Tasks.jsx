@@ -1,7 +1,7 @@
 import TaskCard from "../TaskCard";
 import PropTypes from "prop-types";
 
-export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
+export default function Tasks({ name, tasksList }) {
 	return (
 		<div className="bg-secondaryShade1 rounded-4 overflow-hidden w-screen">
 			<h3
@@ -9,8 +9,7 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 					name === "Done"
 						? "text-success text-lg my-2 ml-2"
 						: "text-info text-lg my-2 ml-2"
-				}
-			>
+				}>
 				{name}
 			</h3>
 			<div className="text-customText border-gray-900 rounded-lg pb-4 text-sm whitespace-nowrap overflow-scroll md:overflow-hidden w-screen">
@@ -31,12 +30,7 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 						{tasksList?.length != 0 && (
 							<div className="w-[66rem]">
 								{tasksList?.map((task) => (
-									<TaskCard
-										key={task.taskId}
-										taskObj={task}
-										deleteTask={deleteTask}
-										updateTask={updateTask}
-									/>
+									<TaskCard key={task.taskId} taskObj={task} />
 								))}
 							</div>
 						)}
@@ -50,6 +44,4 @@ export default function Tasks({ name, tasksList, deleteTask, updateTask }) {
 Tasks.propTypes = {
 	tasksList: PropTypes.arrayOf(PropTypes.object).isRequired,
 	name: PropTypes.string.isRequired,
-	deleteTask: PropTypes.func.isRequired,
-	updateTask: PropTypes.func.isRequired,
 };

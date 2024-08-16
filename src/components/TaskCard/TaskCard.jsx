@@ -49,9 +49,19 @@ export default function TaskCard({ taskObj }) {
 		taskObj.notes,
 	]);
 
-	const debouncedUpdateStatus = useCallback(
-		debounce((taskId, newStatus) => {
-			updateTask(taskId, {
+	// const debouncedUpdateStatus = useCallback(
+	// 	debounce((taskId, newStatus) => {
+
+	// 	}, 1000),
+	// 	[]
+	// );
+
+	function changeSelection(event) {
+		let newStatus = event.target.value;
+		// debouncedUpdateStatus(taskObj.taskId, newStatus);
+		updateTask(
+			taskObj.taskId,
+			{
 				lastUpdated: new Date().toISOString(),
 				owner: localOwner,
 				ownerUid: taskObj.ownerUid,
@@ -60,16 +70,12 @@ export default function TaskCard({ taskObj }) {
 				deadline: localDeadline,
 				content: localContent,
 				status: newStatus,
-				taskId: taskId,
-			});
-			setLocalStatus(newStatus);
-		}, 1000),
-		[]
-	);
-
-	function changeSelection(event) {
-		let newStatus = event.target.value;
-		debouncedUpdateStatus(taskObj.taskId, newStatus);
+				taskId: taskObj.taskId,
+			},
+			currentWorkSpace,
+			setCurrentWorkSpace
+		);
+		setLocalStatus(newStatus);
 	}
 
 	function handleDelete() {
