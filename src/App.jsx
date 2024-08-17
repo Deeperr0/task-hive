@@ -14,8 +14,6 @@ import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
 import Pricing from "./components/Pricing";
 
-// import "./App.css";
-
 export const WorkSpaceContext = createContext();
 export const CurrentUserContext = createContext();
 export const UserDataContext = createContext();
@@ -68,8 +66,8 @@ function App() {
 				if (userDoc.exists()) {
 					const data = userDoc.data();
 					setUserData(data);
+					// TODO make it so that it uses the last accessed workspace instead of simply the first one on the list
 					const firstTeamId = Object.keys(data.teams)[0];
-					// setTeams(data.teams);
 					const teamDocRef = doc(db, "teams", firstTeamId);
 					const teamDoc = await getDoc(teamDocRef);
 					if (teamDoc.exists()) {
@@ -104,8 +102,7 @@ function App() {
 						value={{
 							currentWorkSpace,
 							setCurrentWorkSpace,
-						}}
-					>
+						}}>
 						<Router>
 							<div className="w-full bg-customBackground h-full">
 								<Routes>
@@ -119,10 +116,7 @@ function App() {
 											/>
 										}
 									/>
-									<Route
-										path="/reset-password"
-										element={<ResetPassword />}
-									/>
+									<Route path="/reset-password" element={<ResetPassword />} />
 									<Route
 										path="/"
 										element={
@@ -133,31 +127,13 @@ function App() {
 											/>
 										}
 									/>
-									<Route
-										path="/features"
-										element={<Features />}
-									/>
-									<Route
-										path="/pricing"
-										element={<Pricing />}
-									/>
-									<Route
-										path="/about-us"
-										element={<AboutUs />}
-									/>
-									<Route
-										path="/contact"
-										element={<ContactUs />}
-									/>
-									<Route
-										path="/change-password"
-										element={<ChangePassword />}
-									/>
+									<Route path="/features" element={<Features />} />
+									<Route path="/pricing" element={<Pricing />} />
+									<Route path="/about-us" element={<AboutUs />} />
+									<Route path="/contact" element={<ContactUs />} />
+									<Route path="/change-password" element={<ChangePassword />} />
 
-									<Route
-										path="/login"
-										element={<Login setUser={setUser} />}
-									/>
+									<Route path="/login" element={<Login setUser={setUser} />} />
 								</Routes>
 							</div>
 						</Router>

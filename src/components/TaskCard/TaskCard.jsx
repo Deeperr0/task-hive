@@ -1,18 +1,10 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSave } from "@fortawesome/free-solid-svg-icons";
 import PropTypes from "prop-types";
 import { RoleContext, WorkSpaceContext } from "../../App";
 import Overlay from "../Overlay";
 import { updateTask, deleteTask } from "../../utils/manageTasks";
-
-function debounce(func, wait) {
-	let timeout;
-	return function (...args) {
-		clearTimeout(timeout);
-		timeout = setTimeout(() => func.apply(this, args), wait);
-	};
-}
 
 function formatDateToDisplay(dateStr) {
 	const date = new Date(dateStr);
@@ -24,24 +16,16 @@ function formatDateToDisplay(dateStr) {
 
 export default function TaskCard({ taskObj }) {
 	// TODO merge all these states into one object state
-	const [localContent, setLocalContent] = useState(taskObj.content);
-	const [localDeadline, setLocalDeadline] = useState(taskObj.deadline);
-	const [localPriority, setLocalPriority] = useState(taskObj.priority);
-	const [localOwner, setLocalOwner] = useState(taskObj.owner);
-	const [localNotes, setLocalNotes] = useState(taskObj.notes);
+	const [localTaskObj, setLocalTaskObj] = useState(taskObj);
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirmDeletion, setConfirmDeletion] = useState(false);
-	const [localStatus, setLocalStatus] = useState(taskObj.status);
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 	const { role } = useContext(RoleContext);
 	useEffect(() => {
-		setLocalContent(taskObj.content);
-		setLocalDeadline(taskObj.deadline);
-		setLocalPriority(taskObj.priority);
-		setLocalOwner(taskObj.owner);
-		setLocalNotes(taskObj.notes);
+		setLocalTaskObj(taskObj);
 	}, [
+		taskObj,
 		taskObj.content,
 		taskObj.deadline,
 		taskObj.priority,
@@ -49,33 +33,25 @@ export default function TaskCard({ taskObj }) {
 		taskObj.notes,
 	]);
 
-	// const debouncedUpdateStatus = useCallback(
-	// 	debounce((taskId, newStatus) => {
-
-	// 	}, 1000),
-	// 	[]
-	// );
-
 	function changeSelection(event) {
 		let newStatus = event.target.value;
-		// debouncedUpdateStatus(taskObj.taskId, newStatus);
 		updateTask(
 			taskObj.taskId,
 			{
 				lastUpdated: new Date().toISOString(),
-				owner: localOwner,
+				owner: localTaskObj.owner,
 				ownerUid: taskObj.ownerUid,
-				notes: localNotes,
-				priority: localPriority,
-				deadline: localDeadline,
-				content: localContent,
+				notes: localTaskObj.notes,
+				priority: localTaskObj.priority,
+				deadline: localTaskObj.deadline,
+				content: localTaskObj.content,
 				status: newStatus,
 				taskId: taskObj.taskId,
 			},
 			currentWorkSpace,
 			setCurrentWorkSpace
 		);
-		setLocalStatus(newStatus);
+		setLocalTaskObj((prev) => ({ ...prev, status: newStatus }));
 	}
 
 	function handleDelete() {
@@ -84,38 +60,38 @@ export default function TaskCard({ taskObj }) {
 	}
 
 	function handleContentChange(event) {
-		setLocalContent(event.target.value);
+		setLocalTaskObj((prev) => ({ ...prev, content: event.target.value }));
 		setIsChanged(true);
 	}
 
 	function handleDeadlineChange(event) {
-		setLocalDeadline(event.target.value);
+		setLocalTaskObj((prev) => ({ ...prev, deadline: event.target.value }));
 		setIsChanged(true);
 	}
 
 	function handlePriorityChange(event) {
-		setLocalPriority(event.target.value);
+		setLocalTaskObj((prev) => ({ ...prev, priority: event.target.value }));
 		setIsChanged(true);
 	}
 
 	function handleOwnerChange(event) {
-		setLocalOwner(event.target.value);
+		setLocalTaskObj((prev) => ({ ...prev, owner: event.target.value }));
 		setIsChanged(true);
 	}
 
 	function handleNotesChange(event) {
-		setLocalNotes(event.target.value);
+		setLocalTaskObj((prev) => ({ ...prev, notes: event.target.value }));
 		setIsChanged(true);
 	}
 
 	function handleUpdate() {
 		const now = new Date().toISOString();
 		const updates = {
-			content: localContent,
-			deadline: localDeadline,
-			priority: localPriority,
-			owner: localOwner,
-			notes: localNotes,
+			content: localTaskObj.content,
+			deadline: localTaskObj.deadline,
+			priority: localTaskObj.priority,
+			owner: localTaskObj.owner,
+			notes: localTaskObj.notes,
 			lastUpdated: now,
 		};
 		updateTask(taskObj.taskId, updates, currentWorkSpace, setCurrentWorkSpace);
@@ -124,9 +100,9 @@ export default function TaskCard({ taskObj }) {
 
 	function checkDeadline() {
 		let today = new Date().toISOString().split("T")[0];
-		if (today > localDeadline) {
+		if (today > localTaskObj.deadline) {
 			return 1;
-		} else if (today === localDeadline) {
+		} else if (today === localTaskObj.deadline) {
 			return 0;
 		} else {
 			return -1;
@@ -134,29 +110,29 @@ export default function TaskCard({ taskObj }) {
 	}
 
 	const priorityClass =
-		localPriority === "Low"
+		localTaskObj.priority === "Low"
 			? "bg-info"
-			: localPriority === "Medium"
+			: localTaskObj.priority === "Medium"
 			? "bg-subtleWarning"
-			: localPriority === "High"
+			: localTaskObj.priority === "High"
 			? "bg-warning"
-			: localPriority === "Critical"
+			: localTaskObj.priority === "Critical"
 			? "bg-danger text-customBackground"
 			: "";
 
 	const statusClass =
-		localStatus === "Done"
+		localTaskObj.status === "Done"
 			? "bg-success"
-			: localStatus === "Working on it"
+			: localTaskObj.status === "Working on it"
 			? "bg-subtleWarning"
-			: localStatus === "Stuck"
+			: localTaskObj.status === "Stuck"
 			? "bg-danger text-customBackground"
-			: localStatus === "Not started"
+			: localTaskObj.status === "Not started"
 			? "bg-info"
 			: "";
 
 	return (
-		<div className="grid grid-cols-customGrid items-center h-max text-sm w-[66rem]">
+		<div className="grid grid-cols-customGrid items-center h-10 text-sm w-[66rem]">
 			{confirmDeletion && (
 				<Overlay>
 					<p className="text-customText">
@@ -167,9 +143,7 @@ export default function TaskCard({ taskObj }) {
 						className="bg-danger text-customBackground rounded-lg p-2">
 						Delete
 					</button>
-					<button onClick={() => setConfirmDeletion(false)} className="">
-						Cancel
-					</button>
+					<button onClick={() => setConfirmDeletion(false)}>Cancel</button>
 				</Overlay>
 			)}
 			<div className="sticky left-0 text-customText border-gray-900 " />
@@ -177,18 +151,20 @@ export default function TaskCard({ taskObj }) {
 			{role === "admin" ? (
 				<input
 					type="text"
-					value={localContent}
+					value={localTaskObj.content}
 					onChange={handleContentChange}
 					placeholder="Task Content"
 					className="text-customText border-gray-900 border-1 h-full pl-2 sticky left-0"
 				/>
 			) : (
-				<p className="border-gray-900 border-1 h-full">{localContent}</p>
+				<p className="border-gray-900 border-1 h-full">
+					{localTaskObj.content}
+				</p>
 			)}
 
 			{role === "admin" ? (
 				<select
-					value={localOwner}
+					value={localTaskObj.owner}
 					onChange={handleOwnerChange}
 					className="w-full border-gray-900 border-1 h-full">
 					{currentWorkSpace.teamMembers.map((user) => (
@@ -198,80 +174,80 @@ export default function TaskCard({ taskObj }) {
 					))}
 				</select>
 			) : (
-				<p className="border-gray-900 border-1 h-full">{localOwner}</p>
+				<p className="border-gray-900 border-1 h-full">{localTaskObj.owner}</p>
 			)}
 
 			<select
 				onChange={(e) => changeSelection(e)}
-				value={localStatus}
+				value={localTaskObj.status}
 				className={`${statusClass} border-gray-900 border-1 h-full`}>
-				<option value="Done" className="option-status-done">
+				<option value="Done" className="bg-success">
 					Done
 				</option>
-				<option value="Working on it" className="option-status-working">
+				<option value="Working on it" className="bg-subtleWarning">
 					Working on it
 				</option>
-				<option value="Stuck" className="option-status-stuck">
+				<option value="Stuck" className="bg-danger">
 					Stuck
 				</option>
-				<option value="Not started" className="option-status-not-started">
+				<option value="Not started" className="bg-info">
 					Not started
 				</option>
 			</select>
 			{role === "admin" ? (
 				<input
 					type="date"
-					value={localDeadline}
+					value={localTaskObj.deadline}
 					onChange={handleDeadlineChange}
-					className={` border-gray-900 border-1 h-full
+					className={`border-gray-900 border-1 h-full
 						${
 							taskObj.status == "Done"
-								? "deadline-column"
+								? ""
 								: checkDeadline() === 1
-								? "deadline-column overdue"
+								? "bg-danger"
 								: checkDeadline() === 0
-								? "deadline-column today"
-								: "deadline-column"
+								? "bg-warning"
+								: ""
 						}`}
 				/>
 			) : (
 				<p
 					className={
 						checkDeadline() === 1
-							? "deadline-column overdue"
+							? "bg-danger"
 							: checkDeadline() === 0
-							? "deadline-column today"
-							: "deadline-column"
+							? "bg-warning"
+							: ""
 					}>
-					{formatDateToDisplay(localDeadline)}
+					{formatDateToDisplay(localTaskObj.deadline)}
 				</p>
 			)}
 			{role === "admin" ? (
 				<select
-					value={localPriority}
+					value={localTaskObj.priority}
 					onChange={handlePriorityChange}
-					className={`w-full border-gray-900 border-1 h-full ${priorityClass} `}>
-					<option value="Low" className="option-priority-low">
+					className={`w-full border-gray-900 border-1 h-full ${priorityClass}`}>
+					<option value="Low" className="bg-info">
 						Low
 					</option>
-					<option value="Medium" className="option-priority-medium">
+					<option value="Medium" className="bg-subtleWarning">
 						Medium
 					</option>
-					<option value="High" className="option-priority-high">
+					<option value="High" className="bg-warning">
 						High
 					</option>
-					<option value="Critical" className="option-priority-critical">
+					<option value="Critical" className="bg-danger">
 						Critical
 					</option>
 				</select>
 			) : (
 				<p
 					className={`border-gray-900 border-1 h-full ${priorityClass} priority-column`}>
-					{localPriority}
+					{localTaskObj.priority}
 				</p>
 			)}
 			<textarea
-				value={localNotes}
+				value={localTaskObj.notes}
 				onChange={handleNotesChange}
 				placeholder="Notes"
 				className="h-full border-1 text-customText border-gray-900 pl-2 resize-none placeholder:align-middle"

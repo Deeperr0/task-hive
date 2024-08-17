@@ -42,7 +42,7 @@ export default function Login({ setUser }) {
 	return (
 		<>
 			<Navbar />
-			<div className="bg-primary flex flex-col items-center h-1/2 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText">
+			<div className="bg-primary flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText">
 				<h2 className="text-white text-3xl md:text-[2rem]">Welcome Back</h2>
 				<p className="text-customBackground text-xs w-11/12 md:text-sm md:w-9/12 text-center">
 					{"Don't have an account?"}{" "}

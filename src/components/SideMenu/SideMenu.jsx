@@ -69,7 +69,7 @@ export default function SideMenu({ teams }) {
 				<select
 					className="bg-transparent w-9/12"
 					onChange={(e) => {
-						setCurrentWorkSpace(teamsList[e.target.value]?.teamName);
+						setCurrentWorkSpace(teamsList[e.target.value]);
 					}}>
 					{Object.keys(teams).map((teamId) => (
 						<option key={teamId} value={teamId}>
