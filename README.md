@@ -61,17 +61,9 @@ VITE_EMAIL_JS_USER_ID=-iPknfaLz5IzCyHZx
 
 
 
-## Screenshots
-
-![image](https://github.com/user-attachments/assets/e0ea8915-3bcb-4931-a958-4abf1c6dead8)
-![image](https://github.com/user-attachments/assets/0b0c6209-e852-4267-af5b-b42d40fb03fc)
-![image](https://github.com/user-attachments/assets/87ea6662-a687-4c79-9176-1e120d366758)
-
-
-
 ## Links
 
-- **Live Website**: [https://luckily-resolved-lamb.ngrok-free.app](https://luckily-resolved-lamb.ngrok-free.app/)
+- **Live Website**: [https://task-hive-three.vercel.app](https://task-hive-three.vercel.app)
   - View the deployed version of TaskHive and interact with its features.
 
 
