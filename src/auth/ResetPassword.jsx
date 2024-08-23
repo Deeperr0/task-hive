@@ -36,14 +36,14 @@ export default function ResetPassword() {
 				);
 				if (timerText === 0) {
 					clearInterval(timerInterval);
-					navigate("/");
+					navigate("/login");
 				}
 			}, 1000);
 		}
 	}, [message, navigate]);
 
 	return (
-		<div className="bg-primary w-1/3 mx-auto mt-36 flex flex-col justify-center items-center py-10 gap-4 rounded-lg">
+		<div className="bg-primary w-11/12 md:w-1/3 mx-auto mt-36 flex flex-col justify-center items-center py-10 gap-4 rounded-lg">
 			<div className="flex items-center gap-2 justify-between">
 				<FontAwesomeIcon
 					icon={faArrowLeft}
@@ -52,7 +52,9 @@ export default function ResetPassword() {
 				/>
 				<h2 className="text-2xl">Reset Password</h2>
 			</div>
-			<form onSubmit={handleResetPassword} className="flex flex-col gap-4">
+			<form
+				onSubmit={handleResetPassword}
+				className="flex flex-col gap-4 text-customText [&>*]:w-full">
 				<input
 					type="email"
 					value={email}
