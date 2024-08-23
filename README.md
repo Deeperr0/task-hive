@@ -69,10 +69,6 @@ VITE_EMAIL_JS_USER_ID=-iPknfaLz5IzCyHZx
 
 ## Appendix
 
-### Private Code Version
-
-For recruiters or potential collaborators interested in exploring a more developed version of TaskHive, including additional features or enhancements, please contact me directly. I am happy to provide access to a private repository or share further details about the project upon request.
-
 Feel free to reach out to me via email or through my LinkedIn profile for more information.
 
 - **Email**: [yousefah921@gmail.com](mailto:yousefah921@gmail.com)
