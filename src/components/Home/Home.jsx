@@ -1,12 +1,16 @@
-import Project from "../Project";
+import React from "react";
+// import Project from "../Project";
+
 import PropTypes from "prop-types";
-import SideMenu from "../SideMenu";
 import heroBanner from "../../assets/hero-banner.png";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+
+const LazyProject = React.lazy(() => import("../Project"));
+const LazySideMenu = React.lazy(() => import("../SideMenu"));
 
 export default function Home({ user, userData, teams }) {
 	const [toggleMenu, setToggleMenu] = useState(false);
@@ -66,13 +70,13 @@ export default function Home({ user, userData, teams }) {
 									/>
 								)}
 							</div>
-							<SideMenu
+							<LazySideMenu
 								user={user}
 								teams={teams}
 							/>
 						</div>
 						<div className="shadow-secondaryCustom md:rounded-t-lg px-4 text-customText w-full bg-primaryShade3 h-full pb-10">
-							<Project
+							<LazyProject
 								user={user}
 								userData={userData}
 							/>

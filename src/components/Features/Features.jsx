@@ -3,34 +3,55 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import featuresHero from "../../assets/features-hero.webp";
 import Card from "../Card";
+import Loader from "../Loader";
 
 export default function Features({ user }) {
 	const [toggleMenu, setToggleMenu] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	return (
 		<div>
-			<Navbar
-				user={user}
-				setToggleMenu={setToggleMenu}
-			/>
-			<div
-				id="hero-section"
-				className=" mx-4 md:mx-36 pb-36"
-			>
-				<div className="flex flex-col items-center md:grid mt-[3rem] text-customText grid-cols-[44%,50%] gap-10 md:gap-24 text-center md:text-left">
-					<div>
-						<h1 className="text-4xl md:text-5.5xl !font-playfair font-normal leading-snug text-left">
-							{`Discover TaskHive's Powerful Features`}
-						</h1>
-						<p className="mt-[0.688rem] text-md md:text-lg font-light text-left">
-							Explore our robust features designed to transform the way you
-							manage projects.
-						</p>
-					</div>
-					<div>
-						<img
-							src={featuresHero}
-							alt="2 people with their laptops discussing ideas on a piece of paper"
-						/>
+			<div className={!isLoading && "hidden"}>
+				<Loader />
+			</div>
+			<div className={isLoading ? "hidden" : "block"}>
+				<Navbar
+					user={user}
+					setToggleMenu={setToggleMenu}
+				/>
+				<div
+					id="hero-section"
+					className=" mx-4 md:mx-36 pb-36"
+				>
+					<div className="flex flex-col items-center md:grid mt-[3rem] text-customText grid-cols-[44%,50%] gap-10 md:gap-24 text-center md:text-left">
+						<div>
+							<h1 className="text-4xl md:text-5.5xl !font-playfair font-normal leading-snug text-left">
+								{`Discover TaskHive's Powerful Features`}
+							</h1>
+							<p className="mt-[0.688rem] text-md md:text-lg font-light text-left">
+								Explore our robust features designed to transform the way you
+								manage projects.
+							</p>
+						</div>
+						<div>
+							<img
+								src={featuresHero}
+								alt="2 people with their laptops discussing ideas on a piece of paper"
+								onLoad={() => {
+									setIsLoading(false);
+								}}
+							/>
+							{/* <img
+								onLoad={() => {
+									setTimeout(() => {
+										setIsLoading(false);
+									}, 2000);
+								}}
+								src={featuresHero}
+								alt="2 people with their laptops discussing ideas on a piece of paper"
+								height={500}
+								className={isLoading ? "hidden" : "block"}
+							/> */}
+						</div>
 					</div>
 				</div>
 				<div
