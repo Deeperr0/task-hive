@@ -15,7 +15,6 @@ function formatDateToDisplay(dateStr) {
 }
 
 export default function TaskCard({ taskObj }) {
-	// TODO merge all these states into one object state
 	const [localTaskObj, setLocalTaskObj] = useState(taskObj);
 	const [isChanged, setIsChanged] = useState(false);
 	const [confirmDeletion, setConfirmDeletion] = useState(false);
@@ -140,7 +139,8 @@ export default function TaskCard({ taskObj }) {
 					</p>
 					<button
 						onClick={handleDelete}
-						className="bg-danger text-customBackground rounded-lg p-2">
+						className="bg-danger text-customBackground rounded-lg p-2"
+					>
 						Delete
 					</button>
 					<button onClick={() => setConfirmDeletion(false)}>Cancel</button>
@@ -166,9 +166,13 @@ export default function TaskCard({ taskObj }) {
 				<select
 					value={localTaskObj.owner}
 					onChange={handleOwnerChange}
-					className="w-full border-gray-900 border-1 h-full">
+					className="w-full border-gray-900 border-1 h-full"
+				>
 					{currentWorkSpace.teamMembers.map((user) => (
-						<option key={user.uid} value={user.username}>
+						<option
+							key={user.uid}
+							value={user.username}
+						>
 							{user.username}
 						</option>
 					))}
@@ -180,17 +184,30 @@ export default function TaskCard({ taskObj }) {
 			<select
 				onChange={(e) => changeSelection(e)}
 				value={localTaskObj.status}
-				className={`${statusClass} border-gray-900 border-1 h-full`}>
-				<option value="Done" className="bg-success">
+				className={`${statusClass} border-gray-900 border-1 h-full`}
+			>
+				<option
+					value="Done"
+					className="bg-success"
+				>
 					Done
 				</option>
-				<option value="Working on it" className="bg-subtleWarning">
+				<option
+					value="Working on it"
+					className="bg-subtleWarning"
+				>
 					Working on it
 				</option>
-				<option value="Stuck" className="bg-danger">
+				<option
+					value="Stuck"
+					className="bg-danger"
+				>
 					Stuck
 				</option>
-				<option value="Not started" className="bg-info">
+				<option
+					value="Not started"
+					className="bg-info"
+				>
 					Not started
 				</option>
 			</select>
@@ -218,7 +235,8 @@ export default function TaskCard({ taskObj }) {
 							: checkDeadline() === 0
 							? "bg-warning"
 							: ""
-					}>
+					}
+				>
 					{formatDateToDisplay(localTaskObj.deadline)}
 				</p>
 			)}
@@ -226,23 +244,37 @@ export default function TaskCard({ taskObj }) {
 				<select
 					value={localTaskObj.priority}
 					onChange={handlePriorityChange}
-					className={`w-full border-gray-900 border-1 h-full ${priorityClass}`}>
-					<option value="Low" className="bg-info">
+					className={`w-full border-gray-900 border-1 h-full ${priorityClass}`}
+				>
+					<option
+						value="Low"
+						className="bg-info"
+					>
 						Low
 					</option>
-					<option value="Medium" className="bg-subtleWarning">
+					<option
+						value="Medium"
+						className="bg-subtleWarning"
+					>
 						Medium
 					</option>
-					<option value="High" className="bg-warning">
+					<option
+						value="High"
+						className="bg-warning"
+					>
 						High
 					</option>
-					<option value="Critical" className="bg-danger">
+					<option
+						value="Critical"
+						className="bg-danger"
+					>
 						Critical
 					</option>
 				</select>
 			) : (
 				<p
-					className={`border-gray-900 border-1 h-full ${priorityClass} priority-column`}>
+					className={`border-gray-900 border-1 h-full ${priorityClass} priority-column`}
+				>
 					{localTaskObj.priority}
 				</p>
 			)}
@@ -255,14 +287,16 @@ export default function TaskCard({ taskObj }) {
 			<div className="buttons buttons-column text-customText border-gray-900 flex gap-4 px-4 text-sm">
 				<button
 					onClick={handleUpdate}
-					className="bg-success text-customBackground w-8 h-8 rounded-full disabled:bg-gray-500"
-					disabled={!isChanged}>
+					className="bg-success text-customBackground w-8 h-8 rounded-full disabled:bg-gray-500 hover:bg-successHover transition-all duration-300"
+					disabled={!isChanged}
+				>
 					<FontAwesomeIcon icon={faSave} />
 				</button>
 				{role === "admin" && (
 					<button
 						onClick={() => setConfirmDeletion(true)}
-						className="bg-danger text-customBackground w-8 h-8 rounded-full">
+						className="bg-danger text-customBackground w-8 h-8 rounded-full hover:bg-[#be3131] transition-all duration-200"
+					>
 						<FontAwesomeIcon icon={faTrash} />
 					</button>
 				)}

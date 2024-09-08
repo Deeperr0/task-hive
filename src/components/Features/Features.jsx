@@ -40,17 +40,6 @@ export default function Features({ user }) {
 									setIsLoading(false);
 								}}
 							/>
-							{/* <img
-								onLoad={() => {
-									setTimeout(() => {
-										setIsLoading(false);
-									}, 2000);
-								}}
-								src={featuresHero}
-								alt="2 people with their laptops discussing ideas on a piece of paper"
-								height={500}
-								className={isLoading ? "hidden" : "block"}
-							/> */}
 						</div>
 					</div>
 				</div>

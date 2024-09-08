@@ -43,12 +43,14 @@ export default function Project({ user, userData }) {
 								setCurrentWorkSpace
 							)
 						}
-						className="bg-accentShade1 text-customBackground py-2 px-3 rounded-lg">
+						className="bg-accentShade1 hover:bg-accentShade1Hover text-customBackground py-2 px-3 rounded-lg transition-all duration-300"
+					>
 						New task
 					</button>
 					<button
-						className="bg-accentShade1 text-customBackground py-2 px-3 rounded-lg"
-						onClick={() => setToggleAddUser(true)}>
+						className="bg-accentShade1 hover:bg-accentShade1Hover text-customBackground py-2 px-3 rounded-lg transition-all duration-300"
+						onClick={() => setToggleAddUser(true)}
+					>
 						Add user
 					</button>
 				</div>

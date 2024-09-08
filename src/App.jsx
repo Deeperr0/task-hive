@@ -5,38 +5,32 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, db } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-// import Login from "./auth/Login";
 import Home from "./components/Home";
-// import Register from "./auth/Register";
-// import ResetPassword from "./auth/ResetPassword";
-// import ChangePassword from "./auth/ChangePassword";
-// import Features from "./components/Features/Features";
-// import AboutUs from "./components/AboutUs";
-// import ContactUs from "./components/ContactUs";
-// import Pricing from "./components/Pricing";
+import ErrorBoundary from "./utils/ErrorBoundary";
 
-export const WorkSpaceContext = createContext();
-export const CurrentUserContext = createContext();
-export const UserDataContext = createContext();
-export const RoleContext = createContext();
+export const WorkSpaceContext = createContext({});
+export const CurrentUserContext = createContext({});
+export const UserDataContext = createContext({});
+export const RoleContext = createContext("");
 const LazyLogin = React.lazy(() => import("./auth/Login"));
 const LazyRegister = React.lazy(() => import("./auth/Register"));
 const LazyResetPassword = React.lazy(() => import("./auth/ResetPassword"));
 const LazyChangePassword = React.lazy(() => import("./auth/ChangePassword"));
-// const LazyHome = React.lazy(() => import("./components/Home"));
 const LazyFeatures = React.lazy(() => import("./components/Features/Features"));
 const LazyAboutUs = React.lazy(() => import("./components/AboutUs"));
 const LazyContactUs = React.lazy(() => import("./components/ContactUs"));
 const LazyPricing = React.lazy(() => import("./components/Pricing"));
 
 function App() {
-	// Authentication of user contains data like whether the email is verified and the email of the user and their uid
+	// Authentication of user. Contains data like whether the email is verified and the email of the user and their uid
 	const [user, setUser] = useState(null);
 
 	const [loading, setLoading] = useState(true);
 
+	// Stores the data of the logged in user including their username and the teams they are a part of
 	const [userData, setUserData] = useState({});
 
+	// Stores the current work space of the logged in user
 	const [currentWorkSpace, setCurrentWorkSpace] = useState(null);
 
 	// Stores the list of team objects the logged in user is a part of
@@ -59,6 +53,7 @@ function App() {
 	 */
 	// Fetches the list of users
 	const [usersList, setUsersList] = useState([]);
+
 	// Stores the role of the logged in user
 	const [role, setRole] = useState(null);
 
@@ -71,6 +66,7 @@ function App() {
 		getUsersList();
 		// Check if user is authenticated
 		const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+			// If user is authenticated, fetch user data
 			if (currentUser) {
 				const userDocRef = doc(db, "users", currentUser.uid);
 				const userDoc = await getDoc(userDocRef);
@@ -111,91 +107,92 @@ function App() {
 							setCurrentWorkSpace,
 						}}
 					>
-						<Router>
-							<div className="w-full bg-customBackground h-full">
-								<Routes>
-									<Route
-										path="/register"
-										element={
-											<Suspense fallback={<Loader />}>
-												<LazyRegister
+						<ErrorBoundary>
+							<Router>
+								<div className="w-full bg-customBackground h-full">
+									<Routes>
+										<Route
+											path="/register"
+											element={
+												<Suspense fallback={<Loader />}>
+													<LazyRegister
+														user={user}
+														setUser={setUser}
+														usersList={usersList}
+													/>
+												</Suspense>
+											}
+										/>
+										<Route
+											path="/reset-password"
+											element={
+												<Suspense fallback={<Loader />}>
+													<LazyResetPassword />
+												</Suspense>
+											}
+										/>
+										<Route
+											path="/"
+											element={
+												<Home
 													user={user}
-													setUser={setUser}
-													usersList={usersList}
+													userData={userData}
 												/>
-											</Suspense>
-										}
-									/>
-									<Route
-										path="/reset-password"
-										element={
-											<Suspense fallback={<Loader />}>
-												<LazyResetPassword />
-											</Suspense>
-										}
-									/>
-									<Route
-										path="/"
-										element={
-											<Home
-												user={user}
-												userData={userData}
-												teams={userData?.teams}
-											/>
-										}
-									/>
-									<Route
-										path="/features"
-										element={
-											<Suspense fallback={<Loader />}>
-												<LazyFeatures />{" "}
-											</Suspense>
-										}
-									/>
-									<Route
-										path="/pricing"
-										element={
-											<Suspense fallback={<Loader />}>
-												<LazyPricing />
-											</Suspense>
-										}
-									/>
-									<Route
-										path="/about-us"
-										element={
-											<Suspense fallback={<Loader />}>
-												<LazyAboutUs />
-											</Suspense>
-										}
-									/>
-									<Route
-										path="/contact"
-										element={
-											<Suspense fallback={<Loader />}>
-												<LazyContactUs />
-											</Suspense>
-										}
-									/>
-									<Route
-										path="/change-password"
-										element={
-											<Suspense fallback={<Loader />}>
-												<LazyChangePassword />
-											</Suspense>
-										}
-									/>
+											}
+										/>
+										<Route
+											path="/features"
+											element={
+												<Suspense fallback={<Loader />}>
+													<LazyFeatures />{" "}
+												</Suspense>
+											}
+										/>
+										<Route
+											path="/pricing"
+											element={
+												<Suspense fallback={<Loader />}>
+													<LazyPricing />
+												</Suspense>
+											}
+										/>
+										<Route
+											path="/about-us"
+											element={
+												<Suspense fallback={<Loader />}>
+													<LazyAboutUs />
+												</Suspense>
+											}
+										/>
+										<Route
+											path="/contact"
+											element={
+												<Suspense fallback={<Loader />}>
+													<LazyContactUs />
+												</Suspense>
+											}
+										/>
+										<Route
+											path="/change-password"
+											element={
+												<Suspense fallback={<Loader />}>
+													<LazyChangePassword />
+												</Suspense>
+											}
+										/>
 
-									<Route
-										path="/login"
-										element={
-											<Suspense fallback={<Loader />}>
-												<LazyLogin setUser={setUser} />
-											</Suspense>
-										}
-									/>
-								</Routes>
-							</div>
-						</Router>
+										<Route
+											path="/login"
+											element={
+												<Suspense fallback={<Loader />}>
+													<LazyLogin setUser={setUser} />
+												</Suspense>
+											}
+										/>
+									</Routes>
+								</div>
+							</Router>
+						</ErrorBoundary>
 					</WorkSpaceContext.Provider>
 				</CurrentUserContext.Provider>
 			</UserDataContext.Provider>

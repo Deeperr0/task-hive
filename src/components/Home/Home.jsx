@@ -1,18 +1,15 @@
-import React from "react";
-// import Project from "../Project";
-
 import PropTypes from "prop-types";
 import heroBanner from "../../assets/hero-banner.png";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, lazy } from "react";
 
-const LazyProject = React.lazy(() => import("../Project"));
-const LazySideMenu = React.lazy(() => import("../SideMenu"));
+const LazyProject = lazy(() => import("../Project"));
+const LazySideMenu = lazy(() => import("../SideMenu"));
 
-export default function Home({ user, userData, teams }) {
+export default function Home({ user, userData }) {
 	const [toggleMenu, setToggleMenu] = useState(false);
 	const navigate = useNavigate();
 	return (
@@ -72,7 +69,7 @@ export default function Home({ user, userData, teams }) {
 							</div>
 							<LazySideMenu
 								user={user}
-								teams={teams}
+								teams={userData?.teams}
 							/>
 						</div>
 						<div className="shadow-secondaryCustom md:rounded-t-lg px-4 text-customText w-full bg-primaryShade3 h-full pb-10">

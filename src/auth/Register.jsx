@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { auth, db } from "../firebase";
 import {
 	createUserWithEmailAndPassword,
@@ -19,18 +19,19 @@ import {
 import Navbar from "../components/Navbar";
 
 export default function Register({ user, setUser, usersList }) {
-	const [fullName, setFullName] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [registrationDetails, setRegistrationDetails] = useState({
+		username: "",
+		fullName: "",
+		email: "",
+		password: "",
+	});
 	const [showPassword, setShowPassword] = useState(false);
-	const [username, setUsername] = useState("");
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (user !== null) {
-			navigate("/");
-		}
-	});
+	if (user !== null) {
+		navigate("/");
+	}
+
 	async function handleRegister(event) {
 		const url = window.location.href;
 
@@ -39,19 +40,44 @@ export default function Register({ user, setUser, usersList }) {
 
 		event.preventDefault();
 
-		// Log username availability check
-		if (checkUsernameAvailability(username) === false) {
+		if (checkUsernameAvailability(registrationDetails.username) === false) {
 			document.querySelector(".register-status").innerHTML =
 				"Username already exists. Please choose a different username.";
-			console.log("Username taken.");
+			return;
+		}
+
+		if (registrationDetails.fullName.split(" ").length < 2) {
+			document.querySelector(".register-status").innerHTML =
+				"Please enter your full name.";
+			return;
+		}
+
+		if (registrationDetails.password.length < 6) {
+			document.querySelector(".register-status").innerHTML =
+				"Password must be at least 6 characters.";
+			return;
+		}
+
+		if (
+			registrationDetails.email === "" ||
+			registrationDetails.email.includes("@") === false
+		) {
+			document.querySelector(".register-status").innerHTML =
+				"Please enter a valid email address.";
+			return;
+		}
+
+		if (registrationDetails.username === "") {
+			document.querySelector(".register-status").innerHTML =
+				"Please enter a username.";
 			return;
 		}
 
 		try {
 			const userCredential = await createUserWithEmailAndPassword(
 				auth,
-				email,
-				password
+				registrationDetails.email,
+				registrationDetails.password
 			);
 
 			const newUser = userCredential.user;
@@ -59,13 +85,13 @@ export default function Register({ user, setUser, usersList }) {
 			await sendEmailVerification(auth.currentUser);
 
 			const newUserRef = doc(db, "users", newUser.uid);
-			const firstName = fullName.split(" ")[0];
-			const lastName = fullName.split(" ")[1];
+			const firstName = registrationDetails.fullName.split(" ")[0];
+			const lastName = registrationDetails.fullName.split(" ")[1];
 			await setDoc(newUserRef, {
-				username,
+				username: registrationDetails.username,
 				firstName,
 				lastName,
-				email,
+				email: registrationDetails.email,
 				teams: [],
 			});
 			if (!invitationCode) {
@@ -80,7 +106,15 @@ export default function Register({ user, setUser, usersList }) {
 					const invitationData = invitationDoc.data();
 
 					if (invitationData.used) {
-						navigate("/");
+						<div className="flex flex-col items-center justify-center">
+							<p>This link has already been used.</p>
+							<p>
+								If this is a mistake, please ask your admin to add you again to
+								the team.
+							</p>
+							<p>Thank you for using TaskHive.</p>
+							<button onClick={() => navigate("/")}>Go back</button>
+						</div>;
 					} else {
 						const teamDocRef = doc(db, "teams", invitationData.teamId);
 						const teamDoc = await getDoc(teamDocRef);
@@ -90,9 +124,9 @@ export default function Register({ user, setUser, usersList }) {
 							teamMembers: [
 								...teamMembers,
 								{
-									username,
+									username: registrationDetails.username,
 									uid: newUser.uid,
-									email,
+									email: registrationDetails.email,
 								},
 							],
 						});
@@ -128,6 +162,13 @@ export default function Register({ user, setUser, usersList }) {
 	function checkUsernameAvailability(username) {
 		return !usersList.some((user) => user.username === username);
 	}
+
+	function handleChange(e) {
+		setRegistrationDetails({
+			...registrationDetails,
+			[e.target.name]: e.target.value,
+		});
+	}
 	return (
 		<>
 			<Navbar />
@@ -142,14 +183,20 @@ export default function Register({ user, setUser, usersList }) {
 				<form
 					onSubmit={handleRegister}
 					className="w-11/12 md:w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
-					autoComplete="off">
+					autoComplete="off"
+					noValidate
+				>
 					<div className="bg-customBackground flex items-center gap-2">
-						<FontAwesomeIcon icon={faUser} className="text-customText" />
+						<FontAwesomeIcon
+							icon={faUser}
+							className="text-customText"
+						/>
 						<input
+							name="fullName"
 							type="text"
-							value={fullName}
+							value={registrationDetails.fullName}
 							onChange={(e) => {
-								setFullName(e.target.value);
+								handleChange(e);
 							}}
 							placeholder="Full Name"
 							required
@@ -158,11 +205,15 @@ export default function Register({ user, setUser, usersList }) {
 						/>
 					</div>
 					<div className="bg-customBackground flex items-center gap-2">
-						<FontAwesomeIcon icon={faAt} className="text-customText" />
+						<FontAwesomeIcon
+							icon={faAt}
+							className="text-customText"
+						/>
 						<input
+							name="username"
 							type="text"
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
+							value={registrationDetails.username}
+							onChange={(e) => handleChange(e)}
 							placeholder="Username"
 							required
 							autoFocus
@@ -171,11 +222,15 @@ export default function Register({ user, setUser, usersList }) {
 					</div>
 
 					<div className="bg-customBackground flex items-center gap-2">
-						<FontAwesomeIcon icon={faEnvelope} className="text-customText" />
+						<FontAwesomeIcon
+							icon={faEnvelope}
+							className="text-customText"
+						/>
 						<input
+							name="email"
 							type="email"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							value={registrationDetails.email}
+							onChange={(e) => handleChange(e)}
 							placeholder="Email"
 							required
 							autoFocus
@@ -183,11 +238,15 @@ export default function Register({ user, setUser, usersList }) {
 						/>
 					</div>
 					<div className="bg-customBackground text-neutral1 flex items-center gap-2">
-						<FontAwesomeIcon icon={faLock} className="text-customText" />
+						<FontAwesomeIcon
+							icon={faLock}
+							className="text-customText"
+						/>
 						<input
+							name="password"
 							type={showPassword ? "text" : "password"}
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
+							value={registrationDetails.password}
+							onChange={(e) => handleChange(e)}
 							placeholder="Password"
 							required
 							minLength={6}
@@ -200,7 +259,8 @@ export default function Register({ user, setUser, usersList }) {
 							onClick={(e) => {
 								e.preventDefault();
 								setShowPassword(!showPassword);
-							}}>
+							}}
+						>
 							{showPassword ? (
 								<FontAwesomeIcon icon={faEye} />
 							) : (
@@ -210,13 +270,17 @@ export default function Register({ user, setUser, usersList }) {
 					</div>
 					<button
 						type="submit"
-						className="bg-accentShade1 rounded-md px-4 py-2 w-full text-xl text-white">
+						className="bg-accentShade1 rounded-md px-4 py-2 w-full text-xl text-white"
+					>
 						Create Account
 					</button>
 				</form>
 				<p className="text-sm text-white">
 					Already have an account?{" "}
-					<a href="/login" className="text-accent">
+					<a
+						href="/login"
+						className="text-accent"
+					>
 						Login
 					</a>
 				</p>

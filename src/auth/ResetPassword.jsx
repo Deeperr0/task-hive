@@ -25,7 +25,7 @@ export default function ResetPassword() {
 
 	useEffect(() => {
 		if (
-			message ===
+			message ==
 			`Password reset email sent. Please check your inbox. You will be redirected to the login page in 5 seconds.`
 		) {
 			let timerText = 5;
@@ -39,6 +39,8 @@ export default function ResetPassword() {
 					navigate("/login");
 				}
 			}, 1000);
+
+			return () => clearInterval(timerInterval);
 		}
 	}, [message, navigate]);
 
@@ -48,13 +50,14 @@ export default function ResetPassword() {
 				<FontAwesomeIcon
 					icon={faArrowLeft}
 					className="text-xl"
-					onClick={() => navigate("/")}
+					onClick={() => navigate("/login")}
 				/>
 				<h2 className="text-2xl">Reset Password</h2>
 			</div>
 			<form
 				onSubmit={handleResetPassword}
-				className="flex flex-col gap-4 text-customText [&>*]:w-full">
+				className="flex flex-col gap-4 text-customText [&>*]:w-full"
+			>
 				<input
 					type="email"
 					value={email}
@@ -65,7 +68,8 @@ export default function ResetPassword() {
 				/>
 				<button
 					type="submit"
-					className="p-2 bg-accent hover:bg-accentShade1 text-customBackground rounded-md">
+					className="p-2 bg-accent hover:bg-accentShade1 text-customBackground rounded-md"
+				>
 					Send Reset Email
 				</button>
 			</form>
