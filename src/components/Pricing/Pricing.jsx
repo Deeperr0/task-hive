@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Navbar from "../Navbar";
 import PricingCard from "../PricingCard";
 export default function Pricing() {
 	const [pricingType, setPricingType] = useState(0); // 0 for monthly, 1 for annually
@@ -7,10 +6,6 @@ export default function Pricing() {
 	const pricesMonthly = [19.99, 24.99, 39.99];
 	return (
 		<div>
-			<Navbar
-				user={null}
-				setToggleMenu={null}
-			/>
 			<div className="flex flex-col items-center mt-16">
 				<h2 className="text-5xl text-customText">
 					Flexible Plans for Every Team

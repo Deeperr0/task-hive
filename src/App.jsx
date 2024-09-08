@@ -7,7 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import Home from "./components/Home";
 import ErrorBoundary from "./utils/ErrorBoundary";
-
+import Navbar from "./components/Navbar";
 export const WorkSpaceContext = createContext({});
 export const CurrentUserContext = createContext({});
 export const UserDataContext = createContext({});
@@ -20,8 +20,11 @@ const LazyFeatures = React.lazy(() => import("./components/Features/Features"));
 const LazyAboutUs = React.lazy(() => import("./components/AboutUs"));
 const LazyContactUs = React.lazy(() => import("./components/ContactUs"));
 const LazyPricing = React.lazy(() => import("./components/Pricing"));
+import { toggleMenu } from "./signals/toggleMenu";
+import { useSignals } from "@preact/signals-react/runtime";
 
 function App() {
+	useSignals();
 	// Authentication of user. Contains data like whether the email is verified and the email of the user and their uid
 	const [user, setUser] = useState(null);
 
@@ -110,6 +113,10 @@ function App() {
 						<ErrorBoundary>
 							<Router>
 								<div className="w-full bg-customBackground h-full">
+									<Navbar
+										user={user}
+										toggleMenu={toggleMenu}
+									/>
 									<Routes>
 										<Route
 											path="/register"
@@ -137,6 +144,7 @@ function App() {
 												<Home
 													user={user}
 													userData={userData}
+													toggleMenu={toggleMenu}
 												/>
 											}
 										/>

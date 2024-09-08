@@ -1,23 +1,17 @@
-import Navbar from "../Navbar";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import featuresHero from "../../assets/features-hero.webp";
 import Card from "../Card";
 import Loader from "../Loader";
 
-export default function Features({ user }) {
-	const [toggleMenu, setToggleMenu] = useState(false);
+export default function Features() {
 	const [isLoading, setIsLoading] = useState(true);
 	return (
 		<div>
-			<div className={!isLoading && "hidden"}>
+			<div className={`${!isLoading ? "hidden" : "block"}`}>
 				<Loader />
 			</div>
-			<div className={isLoading ? "hidden" : "block"}>
-				<Navbar
-					user={user}
-					setToggleMenu={setToggleMenu}
-				/>
+			<div className={`py-10 ${isLoading ? "hidden" : "block"}`}>
 				<div
 					id="hero-section"
 					className=" mx-4 md:mx-36 pb-36"

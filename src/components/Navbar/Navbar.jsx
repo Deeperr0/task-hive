@@ -11,7 +11,9 @@ import {
 import { useContext, useState } from "react";
 import { UserDataContext } from "../../App";
 import NavItem from "../NavItem";
-export default function Navbar({ user, setToggleMenu }) {
+import { useSignals } from "@preact/signals-react/runtime";
+
+export default function Navbar({ user, toggleMenu }) {
 	const path = window.location.pathname;
 	const navigate = useNavigate();
 	const [toggleNavMenu, setToggleNavMenu] = useState(false);
@@ -26,14 +28,18 @@ export default function Navbar({ user, setToggleMenu }) {
 			console.error("Error logging out:", error);
 		}
 	}
+	useSignals();
 	return (
-		<div className="border-solid border-0 shadow-custom pl-12 pr-14 md:py-6 h-20 mb-8 bg-navy text-customText flex items-center">
+		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 mb-8 bg-navy text-customText flex items-center">
 			<nav className="flex justify-between items-center w-full">
 				{user && (
-					<div className="md:hidden">
-						<div
-							onClick={() => setToggleMenu(true)}
-							className="block md:hidden">
+					<div
+						className="md:hidden"
+						onClick={() => {
+							toggleMenu.value = "true";
+						}}
+					>
+						<div className="block md:hidden text-xl">
 							<FontAwesomeIcon icon={faBars} />
 						</div>
 					</div>
@@ -58,7 +64,8 @@ export default function Navbar({ user, setToggleMenu }) {
 							<div className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center md:hidden">
 								<h1
 									className="md:hidden"
-									onClick={() => setToggleUserMenu(!toggleUserMenu)}>
+									onClick={() => setToggleUserMenu(!toggleUserMenu)}
+								>
 									{userData?.firstName[0].toUpperCase()}
 								</h1>
 							</div>
@@ -72,7 +79,8 @@ export default function Navbar({ user, setToggleMenu }) {
 										toggleNavMenu
 											? "fixed top-0 left-0 z-100 w-screen h-screen bg-customBackground p-10"
 											: "hidden md:flex"
-									}>
+									}
+								>
 									<ul className="text-customText gap-4 md:items-center md:flex flex flex-col md:flex-row">
 										<li>
 											<FontAwesomeIcon
@@ -118,7 +126,7 @@ export default function Navbar({ user, setToggleMenu }) {
 										</li>
 									</ul>
 								</div>
-								<div className="md:hidden text-customText">
+								<div className="md:hidden text-customText aspect-square text-xl">
 									<FontAwesomeIcon
 										icon={faBars}
 										onClick={() => setToggleNavMenu(true)}
@@ -132,32 +140,46 @@ export default function Navbar({ user, setToggleMenu }) {
 							toggleUserMenu && user
 								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-customBackground text-customText z-30"
 								: "hidden"
-						}>
-						<div className="md:hidden">
-							<div className="" onClick={() => setToggleUserMenu(false)}>
-								<FontAwesomeIcon icon={faClose} />
+						}
+					>
+						<div className="md:hidden px-5">
+							<div className="text-xl">
+								<FontAwesomeIcon
+									icon={faClose}
+									onClick={() => setToggleUserMenu(false)}
+								/>
 							</div>
 							<div className="flex flex-col gap-4 items-center">
 								<div className="flex flex-col gap-4 items-center">
 									<div className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center">
 										<h1
 											className=""
-											onClick={() => setToggleUserMenu(!toggleUserMenu)}>
+											onClick={() => setToggleUserMenu(!toggleUserMenu)}
+										>
 											{userData?.firstName[0].toUpperCase()}
 										</h1>
 									</div>
 									<h2>{`${userData?.firstName} ${userData?.lastName}`}</h2>
 								</div>
 								<hr />
-								<a href="/profile" className="">
+								<a
+									href="/profile"
+									className=""
+								>
 									Profile
 								</a>
 								<hr />
-								<a href="/change-password" className="">
+								<a
+									href="/change-password"
+									className=""
+								>
 									Change password
 								</a>
 								<hr />
-								<button onClick={handleLogout} className="">
+								<button
+									onClick={handleLogout}
+									className=""
+								>
 									<FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout
 								</button>
 							</div>
@@ -171,5 +193,5 @@ export default function Navbar({ user, setToggleMenu }) {
 
 Navbar.propTypes = {
 	user: PropTypes.object,
-	setToggleMenu: PropTypes.func,
+	toggleMenu: PropTypes.object,
 };

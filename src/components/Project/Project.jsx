@@ -73,7 +73,7 @@ export default function Project({ user, userData }) {
 				name="Done"
 				tasksList={
 					currentWorkSpace?.tasks
-						? currentWorkSpace.tasks
+						? filteredTasks
 								.filter((task) => task.status === "Done")
 								.filter((task) => task.ownerUid === user.uid)
 						: []

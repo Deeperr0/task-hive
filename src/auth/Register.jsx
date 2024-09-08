@@ -16,7 +16,6 @@ import {
 	faLock,
 	faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import Navbar from "../components/Navbar";
 
 export default function Register({ user, setUser, usersList }) {
 	const [registrationDetails, setRegistrationDetails] = useState({
@@ -171,7 +170,6 @@ export default function Register({ user, setUser, usersList }) {
 	}
 	return (
 		<>
-			<Navbar />
 			<div className="bg-primary flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText lg:h-11/12">
 				<h2 className="text-white text-3xl md:text-[2rem]">
 					Welcome to TaskHive!
@@ -270,7 +268,7 @@ export default function Register({ user, setUser, usersList }) {
 					</div>
 					<button
 						type="submit"
-						className="bg-accentShade1 rounded-md px-4 py-2 w-full text-xl text-white"
+						className="bg-accentShade1 rounded-md hover:bg-accentShade1Hover px-4 py-2 w-full text-xl text-white"
 					>
 						Create Account
 					</button>
