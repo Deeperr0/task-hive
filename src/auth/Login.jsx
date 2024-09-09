@@ -40,7 +40,7 @@ export default function Login({ setUser }) {
 
 	return (
 		<>
-			<div className="bg-primary flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText">
+			<div className="bg-[#1e294d] flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 lg:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customPurple">
 				<h2 className="text-white text-3xl md:text-[2rem]">Welcome Back</h2>
 				<p className="text-customBackground text-xs w-11/12 md:text-sm md:w-9/12 text-center">
 					{"Don't have an account?"}{" "}
@@ -58,7 +58,7 @@ export default function Login({ setUser }) {
 					<div className="bg-customBackground flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faEnvelope}
-							className="text-customText"
+							className="text-customPurple"
 						/>
 						<input
 							type="email"
@@ -72,7 +72,7 @@ export default function Login({ setUser }) {
 					<div className="bg-customBackground text-neutral1 flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faLock}
-							className="text-customText"
+							className="text-customPurple"
 						/>
 						<input
 							type={showPassword ? "text" : "password"}
@@ -101,15 +101,15 @@ export default function Login({ setUser }) {
 					</div>
 					<button
 						type="submit"
-						className="bg-accentShade1 rounded-md px-4 py-2 w-full text-xl text-white"
+						className="bg-customPurple border-2 border-transparent rounded-md hover:bg-transparent hover:border-customPurple px-4 py-2 w-full text-xl text-white transition-all duration-300"
 					>
 						Login
 					</button>
-					<p className="text-customBackground text-xs md:text-sm md:w-9/12 text-center !p-0">
+					<p className="text-customBackground text-xs md:text-sm text-center">
 						{`Forgot your password? `}
 						<a
 							href="/reset-password"
-							className="text-accent hover:text-accentShade1 transition-all duration-300"
+							className="text-customPurple hover:text-white transition-all duration-300"
 						>
 							Reset password
 						</a>

@@ -112,7 +112,7 @@ function App() {
 					>
 						<ErrorBoundary>
 							<Router>
-								<div className="w-full bg-customBackground h-full">
+								<div className="w-full bg-opacity-10 h-full">
 									<Navbar
 										user={user}
 										toggleMenu={toggleMenu}

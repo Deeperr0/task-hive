@@ -46,7 +46,7 @@ export default function Navbar({ user, toggleMenu }) {
 				)}
 				<div className="">
 					<a href="/">
-						<h1 className="text-customText text-2xl leading-10 font-normal hover:text-primaryShade1 transition duration-300">
+						<h1 className="text-customText text-2xl leading-10 font-normal hover:text-customPurple transition duration-300">
 							TaskHive
 						</h1>
 					</a>
@@ -55,8 +55,18 @@ export default function Navbar({ user, toggleMenu }) {
 					{user ? (
 						<>
 							<div className="hidden md:flex justify-between items-center gap-4">
-								<a href="/change-password">Change password</a>
-								<button onClick={handleLogout}>Logout</button>
+								<a
+									href="/change-password"
+									className="font-medium hover:text-accentShade1 transition-all duration-300"
+								>
+									Change password
+								</a>
+								<button
+									onClick={handleLogout}
+									className="font-medium hover:text-danger transition-all duration-300"
+								>
+									Logout
+								</button>
 								<h1 className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center text-lg text-Shark">
 									{userData?.firstName[0].toUpperCase()}
 								</h1>
@@ -126,6 +136,7 @@ export default function Navbar({ user, toggleMenu }) {
 										</li>
 									</ul>
 								</div>
+
 								<div className="md:hidden text-customText aspect-square text-xl">
 									<FontAwesomeIcon
 										icon={faBars}
@@ -176,16 +187,23 @@ export default function Navbar({ user, toggleMenu }) {
 									Change password
 								</a>
 								<hr />
-								<button
-									onClick={handleLogout}
-									className=""
-								>
+								<button onClick={handleLogout}>
 									<FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout
 								</button>
 							</div>
 						</div>
 					</div>
 				</div>
+				{!user && (
+					<div className="hidden lg:flex gap-4">
+						<button className="text-customPurple border-2 rounded-lg hover:bg-customPurple border-customPurple px-4 py-2 hover:text-white transition-all duration-300">
+							Login
+						</button>
+						<button className="bg-customPurple border-2 border-transparent rounded-lg hover:bg-transparent hover:border-customPurple px-4 py-2 text-white transition-all duration-300">
+							Sign Up
+						</button>
+					</div>
+				)}
 			</nav>
 		</div>
 	);

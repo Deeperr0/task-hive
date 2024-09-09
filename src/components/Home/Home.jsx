@@ -15,40 +15,33 @@ export default function Home({ user, userData, toggleMenu }) {
 			{!user ? (
 				<>
 					<div className="p-5 lg:px-14 md:py-5 md:px-32">
-						<div className="flex flex-col items-center lg:grid mt-[3rem] lg:items-start text-customText grid-cols-[44%,50%] gap-12 md:gap-24 text-center lg:text-left">
-							<div className="flex flex-col justify-center h-full items-center lg:items-start">
-								<h2 className="text-4xl md:text-5.5xl !font-playfair font-normal leading-snug ">
+						<div className="flex flex-col items-center mt-[3rem] text-customText gap-12 md:gap-24 text-center">
+							<div className="flex flex-col justify-center h-full items-center lg:w-7/12 gap-7">
+								<h2 className="text-2xl md:text-4xl lg:text-5xl font-helvetica font-semibold !leading-snug">
 									Streamline Your Workflow. Empower Your Team.
 								</h2>
-								<p className="mt-[0.688rem] text-lg font-light">
+								<p className="md:text-lg lg:text-xl font-light w-10/12 text-purpleText">
 									TaskHive makes team management effortless and efficient.
 								</p>
-								<button
-									className="mt-6 font-semibold bg-accentShade1 rounded-md px-4 py-2 hover:bg-accentShade1Hover text-white transition-all duration-300 ease-in-out w-fit"
-									onClick={() => navigate("/register")}
-								>
-									Get Started for Free
-								</button>
+								<div className="flex gap-4 items-center">
+									<button
+										className="font-semibold bg-customPurple hover:bg-transparent border-2 border-transparent hover:border-customPurple rounded-md px-4 py-2 hover:bg-accentShade1Hover text-white transition-all duration-300 ease-in-out w-fit"
+										onClick={() => navigate("/register")}
+									>
+										Get Started
+									</button>
+									<button className="font-semibold rounded-md px-4 py-2 text-customPurple hover:text-white hover:bg-customPurple transition-all duration-300 ease-in-out w-fit border-2 border-customPurple">
+										See how it works
+									</button>
+								</div>
 							</div>
-							<div className="md:rounded-lg border-0 overflow-hidden">
-								<picture>
-									<source
-										srcSet="/home/hero-banner.webp"
-										type="image/webp"
-										media="(min-width:768px)"
-									/>
-									<img
-										src="/home/hero-banner-mobile.webp"
-										alt="a group of people working together"
-									/>
-								</picture>
-							</div>
+							<div className="md:rounded-lg border-0 overflow-hidden"></div>
 						</div>
 					</div>
 				</>
 			) : (
 				<>
-					<div className="flex items-start gap-6 h-full ">
+					<div className="flex items-start gap-6 h-full">
 						<div
 							className={
 								toggleMenu.value == "true"
@@ -56,7 +49,7 @@ export default function Home({ user, userData, toggleMenu }) {
 									: "py-8 rounded-tr-xl border text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch hidden md:block bg-primaryShade3"
 							}
 						>
-							<div className="text-customText">
+							<div className="text-customText  md:hidden">
 								<FontAwesomeIcon
 									icon={faClose}
 									className="text-xl"

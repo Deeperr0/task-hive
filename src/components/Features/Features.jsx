@@ -16,7 +16,7 @@ export default function Features() {
 					id="hero-section"
 					className=" mx-4 md:mx-36 pb-36"
 				>
-					<div className="flex flex-col items-center md:grid mt-[3rem] text-customText grid-cols-[44%,50%] gap-10 md:gap-24 text-center md:text-left">
+					<div className="flex flex-col items-center lg:grid mt-[3rem] text-customText grid-cols-[44%,50%] gap-10 md:gap-24 text-center md:text-left">
 						<div>
 							<h1 className="text-4xl md:text-5.5xl !font-playfair font-normal leading-snug text-left">
 								{`Discover TaskHive's Powerful Features`}
@@ -44,7 +44,7 @@ export default function Features() {
 					<h2 className="text-3xl text-customText text-center mb-9">
 						Features Overview
 					</h2>
-					<div className="flex gap-4 items-center md:justify-center overflow-x-scroll md:overflow-hidden w-full px-5 no-scrollbar">
+					<div className="flex gap-4 items-center lg:justify-center overflow-x-scroll lg:overflow-hidden w-full px-5 no-scrollbar">
 						<Card
 							cardTitle="Task Management"
 							cardText="Manage your tasks with ease. Add, edit, and delete tasks in one place."
@@ -66,7 +66,7 @@ export default function Features() {
 					<h2 className="text-3xl text-customText text-center mb-9">
 						Benefits
 					</h2>
-					<div className="flex gap-4 items-center md:justify-center overflow-x-scroll md:overflow-hidden w-full px-5 no-scrollbar">
+					<div className="flex gap-4 items-center lg:justify-center overflow-x-scroll lg:overflow-hidden w-full px-5 no-scrollbar">
 						<Card
 							cardTitle="Boost Efficiency"
 							cardText=" With TaskHive, you can streamline your workflow and increase productivity. Track time, set goals, and stay on top of your work with ease."

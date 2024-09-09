@@ -170,7 +170,7 @@ export default function Register({ user, setUser, usersList }) {
 	}
 	return (
 		<>
-			<div className="bg-primary flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 md:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customText lg:h-11/12">
+			<div className="bg-[#1e294d] flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 lg:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customPurple lg:h-11/12">
 				<h2 className="text-white text-3xl md:text-[2rem]">
 					Welcome to TaskHive!
 				</h2>
@@ -187,7 +187,7 @@ export default function Register({ user, setUser, usersList }) {
 					<div className="bg-customBackground flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faUser}
-							className="text-customText"
+							className="text-customPurple"
 						/>
 						<input
 							name="fullName"
@@ -205,7 +205,7 @@ export default function Register({ user, setUser, usersList }) {
 					<div className="bg-customBackground flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faAt}
-							className="text-customText"
+							className="text-customPurple"
 						/>
 						<input
 							name="username"
@@ -222,7 +222,7 @@ export default function Register({ user, setUser, usersList }) {
 					<div className="bg-customBackground flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faEnvelope}
-							className="text-customText"
+							className="text-customPurple"
 						/>
 						<input
 							name="email"
@@ -238,7 +238,7 @@ export default function Register({ user, setUser, usersList }) {
 					<div className="bg-customBackground text-neutral1 flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faLock}
-							className="text-customText"
+							className="text-customPurple"
 						/>
 						<input
 							name="password"
@@ -268,7 +268,7 @@ export default function Register({ user, setUser, usersList }) {
 					</div>
 					<button
 						type="submit"
-						className="bg-accentShade1 rounded-md hover:bg-accentShade1Hover px-4 py-2 w-full text-xl text-white"
+						className="bg-customPurple border-2 border-transparent rounded-md hover:bg-transparent hover:border-customPurple px-4 py-2 w-full text-xl text-white transition-all duration-300"
 					>
 						Create Account
 					</button>
@@ -277,7 +277,7 @@ export default function Register({ user, setUser, usersList }) {
 					Already have an account?{" "}
 					<a
 						href="/login"
-						className="text-accent"
+						className="text-customPurple hover:text-white transition-all duration-200"
 					>
 						Login
 					</a>
