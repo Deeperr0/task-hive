@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import featuresHero from "../../assets/features-hero.webp";
 import Card from "../Card";
 import Loader from "../Loader";
 
@@ -28,7 +27,7 @@ export default function Features() {
 						</div>
 						<div>
 							<img
-								src={featuresHero}
+								src="/features/features-hero.webp"
 								alt="2 people with their laptops discussing ideas on a piece of paper"
 								onLoad={() => {
 									setIsLoading(false);

@@ -40,13 +40,13 @@ export default function Login({ setUser }) {
 
 	return (
 		<>
-			<div className="bg-[#1e294d] flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 lg:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-customPurple">
+			<div className="bg-primary-450 flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 lg:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-accent-500">
 				<h2 className="text-white text-3xl md:text-[2rem]">Welcome Back</h2>
 				<p className="text-customBackground text-xs w-11/12 md:text-sm md:w-9/12 text-center">
 					{"Don't have an account?"}{" "}
 					<a
 						href="/register"
-						className="text-accent hover:text-accentShade1 transition-all duration-300"
+						className="text-accent-500 hover:text-accent-300 transition-all duration-300"
 					>
 						Sign up
 					</a>
@@ -58,7 +58,7 @@ export default function Login({ setUser }) {
 					<div className="bg-customBackground flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faEnvelope}
-							className="text-customPurple"
+							className="text-accent-500"
 						/>
 						<input
 							type="email"
@@ -72,7 +72,7 @@ export default function Login({ setUser }) {
 					<div className="bg-customBackground text-neutral1 flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faLock}
-							className="text-customPurple"
+							className="text-accent-500"
 						/>
 						<input
 							type={showPassword ? "text" : "password"}
@@ -101,7 +101,7 @@ export default function Login({ setUser }) {
 					</div>
 					<button
 						type="submit"
-						className="bg-customPurple border-2 border-transparent rounded-md hover:bg-transparent hover:border-customPurple px-4 py-2 w-full text-xl text-white transition-all duration-300"
+						className="bg-accent-500 border-2 border-transparent rounded-md hover:bg-transparent hover:border-accent-500 px-4 py-2 w-full text-xl text-white transition-all duration-300"
 					>
 						Login
 					</button>
@@ -109,7 +109,7 @@ export default function Login({ setUser }) {
 						{`Forgot your password? `}
 						<a
 							href="/reset-password"
-							className="text-customPurple hover:text-white transition-all duration-300"
+							className="text-accent-500 hover:text-accent-300 transition-all duration-300"
 						>
 							Reset password
 						</a>

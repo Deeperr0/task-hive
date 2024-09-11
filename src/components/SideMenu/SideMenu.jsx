@@ -88,6 +88,7 @@ export default function SideMenu({ teams }) {
 						<option
 							key={teamId}
 							value={teamId}
+							className="text-primary-900"
 						>
 							{teamsList[teamId]?.teamName}
 						</option>

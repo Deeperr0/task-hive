@@ -46,7 +46,7 @@ export default function Navbar({ user, toggleMenu }) {
 				)}
 				<div className="">
 					<a href="/">
-						<h1 className="text-customText text-2xl leading-10 font-normal hover:text-customPurple transition duration-300">
+						<h1 className="text-customText text-2xl leading-10 font-normal hover:text-accent-500 transition duration-300">
 							TaskHive
 						</h1>
 					</a>
@@ -82,7 +82,8 @@ export default function Navbar({ user, toggleMenu }) {
 						</>
 					) : (
 						path != "/login" &&
-						path != "/register" && (
+						path != "/register" &&
+						path != "/reset-password" && (
 							<nav className="flex justify-between items-center">
 								<div
 									className={
@@ -194,12 +195,18 @@ export default function Navbar({ user, toggleMenu }) {
 						</div>
 					</div>
 				</div>
-				{!user && (
+				{!user && path != "/login" && path != "/register" && (
 					<div className="hidden lg:flex gap-4">
-						<button className="text-customPurple border-2 rounded-lg hover:bg-customPurple border-customPurple px-4 py-2 hover:text-white transition-all duration-300">
+						<button
+							className="text-accent-500 border-2 rounded-lg hover:bg-accent-500 border-accent-500 px-4 py-2 hover:text-white transition-all duration-300"
+							onClick={() => navigate("/login")}
+						>
 							Login
 						</button>
-						<button className="bg-customPurple border-2 border-transparent rounded-lg hover:bg-transparent hover:border-customPurple px-4 py-2 text-white transition-all duration-300">
+						<button
+							className="bg-accent-500 border-2 border-transparent rounded-lg hover:bg-transparent hover:border-accent-500 px-4 py-2 text-white transition-all duration-300"
+							onClick={() => navigate("/register")}
+						>
 							Sign Up
 						</button>
 					</div>

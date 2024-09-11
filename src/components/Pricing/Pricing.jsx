@@ -6,19 +6,26 @@ export default function Pricing() {
 	const pricesMonthly = [19.99, 24.99, 39.99];
 	return (
 		<div>
-			<div className="flex flex-col items-center mt-16">
+			<div className="flex flex-col items-center mt-16 pb-10">
 				<h2 className="text-5xl text-customText">
 					Flexible Plans for Every Team
 				</h2>
 				<p className="text-base text-customText text-center mt-4">
 					{`This is just a placeholder for the pricing page. These prices are purely fictional`}
 				</p>
-				<div className="text-customBackground flex gap-4 items-center mt-4 bg-accentShade2 p-1 rounded-lg">
+				<div className="text-customBackground flex gap-4 items-center mt-4 bg-accent-900 p-1 rounded-xl relative">
+					<div
+						className={`w-[45.5%] h-5/6 absolute bg-accent-500 rounded-lg z-0 transition-all duration-300 ${
+							pricingType == 0
+								? "top-1 left-1"
+								: "transform translate-x-full ml-4"
+						}`}
+					></div>
 					<button
 						className={
 							pricingType == 0
-								? "bg-accent rounded-md px-6 py-1"
-								: "border-0  rounded-md px-6 py-1"
+								? "rounded-md px-6 py-1 z-10 text-center"
+								: "border-0 rounded-md px-6 py-1 text-center"
 						}
 						onClick={() => setPricingType(0)}
 					>
@@ -27,15 +34,15 @@ export default function Pricing() {
 					<button
 						className={
 							pricingType == 1
-								? "bg-accent rounded-md px-6 py-1"
-								: "border-0  rounded-md px-6 py-1"
+								? "rounded-md px-6 py-1 z-10 text-center"
+								: "border-0  rounded-md px-6 py-1 text-center"
 						}
 						onClick={() => setPricingType(1)}
 					>
 						Annually
 					</button>
 				</div>
-				<div className="flex mt-10">
+				<div className="flex flex-col lg:flex-row mt-10 gap-6 lg:gap-0">
 					<PricingCard
 						packageName={"Basic"}
 						price={pricingType == 0 ? pricesMonthly[0] : pricesYearly[0]}

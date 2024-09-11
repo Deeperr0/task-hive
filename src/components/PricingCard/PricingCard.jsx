@@ -11,10 +11,10 @@ export default function PricingCard({
 }) {
 	return (
 		<div
-			className={`w-96 h-[32rem] text-customText flex flex-col items-center justify-center gap-10 rounded-xl ${
+			className={`w-80 md:w-96 h-[32rem] text-customText flex flex-col items-center justify-center gap-10 rounded-xl ${
 				mostPopular
-					? "bg-primaryShade2 h-[34rem] -translate-y-4 shadow-2xl"
-					: "bg-secondaryShade2"
+					? "bg-gradient-to-tr from-background1 via-background2 to-background3 h-[34rem] lg:-translate-y-4 shadow-2xl"
+					: "bg-gradient-to-bl from-accent-750 to-accent-600"
 			}`}
 		>
 			<h2 className="text-xl">{packageName}</h2>
@@ -38,10 +38,10 @@ export default function PricingCard({
 				</ul>
 			</div>
 			<button
-				className={` rounded-md px-6 py-2 hover:shadow-2xl text-customBackground hover:-translate-y-0.5 transition-all duration-300 ease-in-out ${
+				className={`rounded-md px-6 py-2 hover:shadow-2xl text-customBackground hover:-translate-y-0.5 transition-all duration-300 ease-in-out ${
 					mostPopular
-						? "bg-primary hover:shadow-primary"
-						: "bg-accentShade1 hover:shadow-accent"
+						? "bg-accent-500 hover:shadow-accent-500"
+						: "bg-primary-450 hover:shadow-primary-500"
 				}`}
 			>
 				{buttonText}

@@ -35,7 +35,10 @@ export default function ChangePassword() {
 				<h2 className="text-2xl">Change Password</h2>
 			</div>
 
-			<form onSubmit={handleChangePassword} className="flex gap-2">
+			<form
+				onSubmit={handleChangePassword}
+				className="flex gap-2"
+			>
 				<input
 					type="password"
 					value={newPassword}
@@ -48,7 +51,8 @@ export default function ChangePassword() {
 				/>
 				<button
 					type="submit"
-					className="bg-accent rounded-md px-4 py-2 hover:bg-accentShade1 transition-all duration-300">
+					className="bg-accent rounded-md px-4 py-2 hover:bg-accentShade1 transition-all duration-300"
+				>
 					Change Password
 				</button>
 				{error && <p style={{ color: "red" }}>{error}</p>}

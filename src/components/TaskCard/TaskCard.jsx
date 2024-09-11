@@ -134,7 +134,7 @@ export default function TaskCard({ taskObj }) {
 		<div className="grid grid-cols-customGrid items-center h-10 text-sm w-[66rem]">
 			{confirmDeletion && (
 				<Overlay>
-					<p className="text-customText">
+					<p className="text-primary-900">
 						Are you sure you want to delete this task?
 					</p>
 					<button
@@ -154,7 +154,7 @@ export default function TaskCard({ taskObj }) {
 					value={localTaskObj.content}
 					onChange={handleContentChange}
 					placeholder="Task Content"
-					className="text-customText border-gray-900 border-1 h-full pl-2 sticky left-0"
+					className="text-primary-900 border-gray-900 border-1 h-full pl-2 sticky left-0"
 				/>
 			) : (
 				<p className="border-gray-900 border-1 h-full">
@@ -166,7 +166,7 @@ export default function TaskCard({ taskObj }) {
 				<select
 					value={localTaskObj.owner}
 					onChange={handleOwnerChange}
-					className="w-full border-gray-900 border-1 h-full"
+					className="w-full border-gray-900 border-1 h-full text-primary-900"
 				>
 					{currentWorkSpace.teamMembers.map((user) => (
 						<option
@@ -216,7 +216,7 @@ export default function TaskCard({ taskObj }) {
 					type="date"
 					value={localTaskObj.deadline}
 					onChange={handleDeadlineChange}
-					className={`border-gray-900 border-1 h-full
+					className={`border-gray-900 border-1 h-full 
 						${
 							taskObj.status == "Done"
 								? ""
@@ -282,9 +282,9 @@ export default function TaskCard({ taskObj }) {
 				value={localTaskObj.notes}
 				onChange={handleNotesChange}
 				placeholder="Notes"
-				className="h-full border-1 text-customText border-gray-900 pl-2 resize-none placeholder:align-middle"
+				className="h-full border-1 text-primary-900 border-gray-900 pl-2 resize-none placeholder:align-middle"
 			/>
-			<div className="buttons buttons-column text-customText border-gray-900 flex gap-4 px-4 text-sm">
+			<div className="buttons buttons-column text-primary-900 border-gray-900 flex gap-4 px-4 text-sm">
 				<button
 					onClick={handleUpdate}
 					className="bg-success text-customBackground w-8 h-8 rounded-full disabled:bg-gray-500 hover:bg-successHover transition-all duration-300"

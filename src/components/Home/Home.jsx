@@ -25,12 +25,12 @@ export default function Home({ user, userData, toggleMenu }) {
 								</p>
 								<div className="flex gap-4 items-center">
 									<button
-										className="font-semibold bg-customPurple hover:bg-transparent border-2 border-transparent hover:border-customPurple rounded-md px-4 py-2 hover:bg-accentShade1Hover text-white transition-all duration-300 ease-in-out w-fit"
+										className="font-semibold bg-accent-500 hover:bg-transparent border-2 border-transparent hover:border-accent-500 rounded-md px-4 py-2 hover:bg-accentShade1Hover text-white transition-all duration-300 ease-in-out w-fit"
 										onClick={() => navigate("/register")}
 									>
 										Get Started
 									</button>
-									<button className="font-semibold rounded-md px-4 py-2 text-customPurple hover:text-white hover:bg-customPurple transition-all duration-300 ease-in-out w-fit border-2 border-customPurple">
+									<button className="font-semibold rounded-md px-4 py-2 text-accent-500 hover:text-white hover:bg-accent-500 transition-all duration-300 ease-in-out w-fit border-2 border-accent-500">
 										See how it works
 									</button>
 								</div>

@@ -34,8 +34,3 @@ html {
 body {
 	height: 100%;
 }
-.lawrencium {
-	background: #0f0c29;
-	background: -webkit-linear-gradient(120deg, #0f0c29, #302b63, #24243e);
-	background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
-}

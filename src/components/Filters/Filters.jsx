@@ -6,7 +6,10 @@ export function Filters({ setPriorityFilter, setStatusFilter }) {
 			<div className="text-customText flex items-center gap-2">
 				<div className="text-customText">
 					<p>Priority</p>
-					<select onChange={(e) => setPriorityFilter(e.target.value)}>
+					<select
+						onChange={(e) => setPriorityFilter(e.target.value)}
+						className="text-primary-900"
+					>
 						<option value="">All</option>
 						<option value="Low">Low</option>
 						<option value="Medium">Medium</option>
@@ -16,7 +19,10 @@ export function Filters({ setPriorityFilter, setStatusFilter }) {
 				</div>
 				<div>
 					<p>Status</p>
-					<select onChange={(e) => setStatusFilter(e.target.value)}>
+					<select
+						onChange={(e) => setStatusFilter(e.target.value)}
+						className="text-primary-900"
+					>
 						<option value="">All</option>
 						<option value="Not started">Not started</option>
 						<option value="Working on it">Working on it</option>
