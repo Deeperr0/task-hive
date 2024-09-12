@@ -32,7 +32,7 @@ export default function Card({ cardTitle, cardText }) {
 
 	return (
 		<div
-			className="bg-primaryShade3 flex flex-col w-80 md:w-[26.875rem] h-[25.25rem] rounded-2xl px-10 pt-36 gap-5 items-center flex-shrink-0"
+			className="bg-gradient-to-br from-primary-450 to-primary-700 flex flex-col w-80 md:w-[26.875rem] h-[25.25rem] rounded-2xl px-10 pt-36 gap-5 items-center flex-shrink-0"
 			ref={triggerBoxRef}
 		>
 			<div className="w-fit">

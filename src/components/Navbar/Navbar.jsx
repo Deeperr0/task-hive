@@ -67,7 +67,7 @@ export default function Navbar({ user, toggleMenu }) {
 								>
 									Logout
 								</button>
-								<h1 className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center text-lg text-Shark">
+								<h1 className="bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center text-lg text-Shark">
 									{userData?.firstName[0].toUpperCase()}
 								</h1>
 							</div>

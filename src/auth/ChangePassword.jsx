@@ -25,7 +25,7 @@ export default function ChangePassword() {
 	}
 
 	return (
-		<div className="bg-primary w-1/3 mx-auto mt-36 flex flex-col justify-center items-center py-10 gap-4 rounded-lg">
+		<div className="bg-primary-450 w-11/12 md:w-1/3 mx-auto mt-36 flex flex-col justify-center items-center py-10 gap-4 rounded-lg">
 			<div className="flex items-center gap-2 justify-between">
 				<FontAwesomeIcon
 					icon={faArrowLeft}

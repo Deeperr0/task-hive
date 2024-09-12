@@ -72,7 +72,7 @@ export default function SideMenu({ teams }) {
 							icon={faCalendarCheck}
 							className="w-5"
 						/>
-						Projects (Upcoming)
+						Projects
 					</a>
 				</li>
 			</ul>

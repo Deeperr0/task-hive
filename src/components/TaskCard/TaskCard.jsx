@@ -216,10 +216,10 @@ export default function TaskCard({ taskObj }) {
 					type="date"
 					value={localTaskObj.deadline}
 					onChange={handleDeadlineChange}
-					className={`border-gray-900 border-1 h-full 
+					className={`border-gray-900 border-1 h-full  
 						${
 							taskObj.status == "Done"
-								? ""
+								? "text-primary-900"
 								: checkDeadline() === 1
 								? "bg-danger"
 								: checkDeadline() === 0
