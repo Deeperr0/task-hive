@@ -134,9 +134,7 @@ export default function TaskCard({ taskObj }) {
 		<div className="grid grid-cols-customGrid items-center h-10 text-sm w-[66rem]">
 			{confirmDeletion && (
 				<Overlay>
-					<p className="text-primary-900">
-						Are you sure you want to delete this task?
-					</p>
+					<p>Are you sure you want to delete this task?</p>
 					<button
 						onClick={handleDelete}
 						className="bg-danger text-customBackground rounded-lg p-2"

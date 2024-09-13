@@ -84,6 +84,9 @@ export default function SideMenu({ teams }) {
 						setCurrentWorkSpace(teamsList[e.target.value]);
 					}}
 				>
+					{
+						// TODO Fix the bug where it sometimes shows the wrong team in the selection but the correct team is selected
+					}
 					{Object.keys(teams).map((teamId) => (
 						<option
 							key={teamId}

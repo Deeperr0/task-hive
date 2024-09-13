@@ -22,6 +22,8 @@ const LazyContactUs = React.lazy(() => import("./components/ContactUs"));
 const LazyPricing = React.lazy(() => import("./components/Pricing"));
 import { toggleMenu } from "./signals/toggleMenu";
 import { useSignals } from "@preact/signals-react/runtime";
+import { getLatestUpdated } from "./utils/getLatestUpdated";
+import fetchTeamsByIds from "./utils/fetchTeamsByIds";
 
 function App() {
 	useSignals();
@@ -75,15 +77,21 @@ function App() {
 				const userDoc = await getDoc(userDocRef);
 				if (userDoc.exists()) {
 					const data = userDoc.data();
-					setUserData(data);
-					// TODO make it so that it uses the last accessed workspace instead of simply the first one on the list
-					const firstTeamId = Object.keys(data.teams)[0];
-					const teamDocRef = doc(db, "teams", firstTeamId);
-					const teamDoc = await getDoc(teamDocRef);
-					if (teamDoc.exists()) {
-						setCurrentWorkSpace(teamDoc.data());
+					const teamIds = Object.keys(data.teams); // Get the team IDs
+
+					// Fetch only the teams for the current user
+					const teams = await fetchTeamsByIds(teamIds);
+
+					const lastUpdatedTeamId = getLatestUpdated(teams);
+					if (lastUpdatedTeamId) {
+						const teamDocRef = doc(db, "teams", lastUpdatedTeamId);
+						const teamDoc = await getDoc(teamDocRef);
+						if (teamDoc.exists()) {
+							setCurrentWorkSpace(teamDoc.data());
+						}
 					}
-					setRole(data.teams[firstTeamId].role);
+					setUserData(data);
+					setRole(data.teams[lastUpdatedTeamId].role);
 				} else {
 					setUserData(null);
 				}

@@ -1,7 +1,15 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Overlay from "../Overlay";
-import { collection, doc, getDocs, updateDoc, query, where, addDoc } from "firebase/firestore";
+import {
+	collection,
+	doc,
+	getDocs,
+	updateDoc,
+	query,
+	where,
+	addDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { useState } from "react";
 import PropTypes from "prop-types";
@@ -31,7 +39,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 		if (
 			currentWorkSpace.teamMembers.filter((member) => {
 				member.email === userToAdd;
-			})
+			}).length > 0
 		) {
 			errorDiv.innerText = "User already exists";
 			return;
@@ -78,7 +86,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 					<FontAwesomeIcon
 						icon={faArrowLeft}
 						onClick={() => setToggleAddUser(false)}
-						className="cursor-pointer"
+						className="cursor-pointer hover:text-accent-500 transition-all duration-300"
 					/>
 				</div>
 
@@ -90,19 +98,26 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 							placeholder="Enter user email"
 							value={userToAdd}
 							onChange={(e) => setUserToAdd(e.target.value)}
-							className="pl-2"
+							className="pl-2 text-primary-900"
 						/>
-						<select onChange={(e) => setChosenRole(e.target.value)}>
+						<select
+							onChange={(e) => setChosenRole(e.target.value)}
+							className="bg-accent-700"
+						>
 							<option value="admin">Admin</option>
 							<option value="user">User</option>
 						</select>
 					</div>
 					<button
 						onClick={() => addUser(chosenRole)}
-						className="bg-accent hover:bg-accentShade1 w-1/2 mx-auto h-9 rounded-md">
+						className="bg-accent-500 border-2 border-transparent hover:border-accent-500 hover:bg-transparent w-1/2 mx-auto h-9 rounded-md"
+					>
 						Add
 					</button>
-					<div className="text-customText" id="add-error"></div>
+					<div
+						className="text-customText"
+						id="add-error"
+					></div>
 				</div>
 			</div>
 		</Overlay>

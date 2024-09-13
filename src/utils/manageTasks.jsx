@@ -26,6 +26,7 @@ export async function addTask(
 		const teamDocRef = doc(db, "teams", currentWorkSpace.teamId);
 		await updateDoc(teamDocRef, {
 			...currentWorkSpace,
+			lastUpdated: new Date().toISOString(),
 			tasks: [...currentWorkSpace.tasks, newTask],
 		});
 		setCurrentWorkSpace({
@@ -53,6 +54,7 @@ export async function updateTask(
 		});
 		await updateDoc(teamDocRef, {
 			...currentWorkSpace,
+			lastUpdated: new Date().toISOString(),
 			tasks: updatedTasks,
 		});
 		setCurrentWorkSpace({
@@ -77,6 +79,7 @@ export async function deleteTask(
 		);
 		await updateDoc(teamDocRef, {
 			...currentWorkSpace,
+			lastUpdated: new Date().toISOString(),
 			tasks: updatedTasks,
 		});
 		setCurrentWorkSpace({
