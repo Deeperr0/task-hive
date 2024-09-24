@@ -38,7 +38,7 @@ export default function PricingCard({
 				</ul>
 			</div>
 			<button
-				className={`rounded-md px-6 py-2 hover:shadow-2xl text-customBackground hover:-translate-y-0.5 transition-all duration-300 ease-in-out ${
+				className={`rounded-md px-6 py-2 hover:shadow-2xl text-accent-50 hover:-translate-y-0.5 transition-all duration-300 ease-in-out ${
 					mostPopular
 						? "bg-accent-500 hover:shadow-accent-500"
 						: "bg-primary-450 hover:shadow-primary-500"
