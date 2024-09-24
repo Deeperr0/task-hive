@@ -116,7 +116,7 @@ export default function TaskCard({ taskObj }) {
 			: localTaskObj.priority === "High"
 			? "bg-warning"
 			: localTaskObj.priority === "Critical"
-			? "bg-danger text-customBackground"
+			? "bg-danger text-accent-50"
 			: "";
 
 	const statusClass =
@@ -125,7 +125,7 @@ export default function TaskCard({ taskObj }) {
 			: localTaskObj.status === "Working on it"
 			? "bg-subtleWarning"
 			: localTaskObj.status === "Stuck"
-			? "bg-danger text-customBackground"
+			? "bg-danger text-accent-50"
 			: localTaskObj.status === "Not started"
 			? "bg-info"
 			: "";
@@ -137,7 +137,7 @@ export default function TaskCard({ taskObj }) {
 					<p>Are you sure you want to delete this task?</p>
 					<button
 						onClick={handleDelete}
-						className="bg-danger text-customBackground rounded-lg p-2"
+						className="bg-danger text-accent-50 rounded-lg p-2"
 					>
 						Delete
 					</button>
@@ -285,7 +285,7 @@ export default function TaskCard({ taskObj }) {
 			<div className="buttons buttons-column text-primary-900 border-gray-900 flex gap-4 px-4 text-sm">
 				<button
 					onClick={handleUpdate}
-					className="bg-success text-customBackground w-8 h-8 rounded-full disabled:bg-gray-500 hover:bg-successHover transition-all duration-300"
+					className="bg-success text-accent-50 w-8 h-8 rounded-full disabled:bg-gray-500 hover:bg-successHover transition-all duration-300"
 					disabled={!isChanged}
 				>
 					<FontAwesomeIcon icon={faSave} />
@@ -293,7 +293,7 @@ export default function TaskCard({ taskObj }) {
 				{role === "admin" && (
 					<button
 						onClick={() => setConfirmDeletion(true)}
-						className="bg-danger text-customBackground w-8 h-8 rounded-full hover:bg-[#be3131] transition-all duration-200"
+						className="bg-danger text-accent-50 w-8 h-8 rounded-full hover:bg-[#be3131] transition-all duration-200"
 					>
 						<FontAwesomeIcon icon={faTrash} />
 					</button>

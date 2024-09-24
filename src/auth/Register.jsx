@@ -171,20 +171,19 @@ export default function Register({ user, setUser, usersList }) {
 	return (
 		<>
 			<div className="bg-primary-450 flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 lg:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-accent-500 lg:h-11/12">
-				<h2 className="text-white text-3xl md:text-[2rem]">
+				<h2 className="text-white text-2xl md:text-[2rem]">
 					Welcome to TaskHive!
 				</h2>
-				<p className="text-customBackground text-xs w-11/12 md:text-sm md:w-9/12 text-center">
-					Register now to create your account and start managing your tasks and
-					projects efficiently with TaskHive.
+				<p className="text-accent-50 text-xs w-11/12 md:text-sm md:w-9/12 text-center">
+					Start managing your tasks and projects efficiently.
 				</p>
 				<form
 					onSubmit={handleRegister}
-					className="w-11/12 md:w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
+					className="w-10/12 md:w-1/2 flex flex-col gap-4 [&>div]:bg-white [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
 					autoComplete="off"
 					noValidate
 				>
-					<div className="bg-customBackground flex items-center gap-2">
+					<div className=" flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faUser}
 							className="text-accent-500"
@@ -202,7 +201,7 @@ export default function Register({ user, setUser, usersList }) {
 							className="bg-transparent w-full"
 						/>
 					</div>
-					<div className="bg-customBackground flex items-center gap-2">
+					<div className=" flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faAt}
 							className="text-accent-500"
@@ -219,7 +218,7 @@ export default function Register({ user, setUser, usersList }) {
 						/>
 					</div>
 
-					<div className="bg-customBackground flex items-center gap-2">
+					<div className=" flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faEnvelope}
 							className="text-accent-500"
@@ -235,7 +234,7 @@ export default function Register({ user, setUser, usersList }) {
 							className="bg-transparent w-full"
 						/>
 					</div>
-					<div className="bg-customBackground text-neutral1 flex items-center gap-2">
+					<div className=" text-neutral1 flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faLock}
 							className="text-accent-500"

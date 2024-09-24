@@ -40,9 +40,9 @@ export default function Login({ setUser }) {
 
 	return (
 		<>
-			<div className="bg-primary-450 flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 lg:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-accent-500">
+			<div className="bg-primary-450 flex flex-col items-center h-11/12 justify-between gap-5 w-11/12 md:w-8/12 lg:w-5/12 mx-auto pt-16 pb-4 mt-6 rounded-lg text-accent-500">
 				<h2 className="text-white text-3xl md:text-[2rem]">Welcome Back</h2>
-				<p className="text-customBackground text-xs w-11/12 md:text-sm md:w-9/12 text-center">
+				<p className="text-xs w-11/12 md:text-sm md:w-9/12 text-center text-accent-50">
 					{"Don't have an account?"}{" "}
 					<a
 						href="/register"
@@ -55,7 +55,7 @@ export default function Login({ setUser }) {
 					onSubmit={handleLogin}
 					className="w-11/12 md:w-1/2 flex flex-col gap-4 [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
 				>
-					<div className="bg-customBackground flex items-center gap-2">
+					<div className="bg-white flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faEnvelope}
 							className="text-accent-500"
@@ -66,10 +66,10 @@ export default function Login({ setUser }) {
 							onChange={(e) => setEmail(e.target.value)}
 							placeholder="Email"
 							required
-							className="bg-customBackground w-full"
+							className=" w-full"
 						/>
 					</div>
-					<div className="bg-customBackground text-neutral1 flex items-center gap-2">
+					<div className="bg-white text-neutral1 flex items-center gap-2">
 						<FontAwesomeIcon
 							icon={faLock}
 							className="text-accent-500"
@@ -82,7 +82,7 @@ export default function Login({ setUser }) {
 							required
 							minLength={6}
 							maxLength={20}
-							className="bg-transparent w-9/12 md:w-4/5"
+							className="w-4/5 md:w-9/12"
 						/>
 						<button
 							type="button"
@@ -105,7 +105,7 @@ export default function Login({ setUser }) {
 					>
 						Login
 					</button>
-					<p className="text-customBackground text-xs md:text-sm text-center">
+					<p className="text-accent-50 text-xs md:text-sm text-center">
 						{`Forgot your password? `}
 						<a
 							href="/reset-password"

@@ -30,7 +30,7 @@ export default function Navbar({ user, toggleMenu }) {
 	}
 	useSignals();
 	return (
-		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 mb-8 bg-navy text-customText flex items-center">
+		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 mb-8 bg-navy text-customText flex items-center z-50">
 			<nav className="flex justify-between items-center w-full">
 				{user && (
 					<div
@@ -88,7 +88,7 @@ export default function Navbar({ user, toggleMenu }) {
 								<div
 									className={
 										toggleNavMenu
-											? "fixed top-0 left-0 z-100 w-screen h-screen bg-customBackground p-10"
+											? "fixed top-0 left-0 z-50 w-screen h-screen bg-gradient-to-br from-background1 via-background2 to-background3 p-10"
 											: "hidden md:flex"
 									}
 								>
@@ -105,13 +105,6 @@ export default function Navbar({ user, toggleMenu }) {
 												itemName="Home"
 												itemLink="/"
 												active={path == "/"}
-											/>
-										</li>
-										<li>
-											<NavItem
-												itemName="Features"
-												itemLink="/features"
-												active={path == "/features"}
 											/>
 										</li>
 										<li>
@@ -150,7 +143,7 @@ export default function Navbar({ user, toggleMenu }) {
 					<div
 						className={
 							toggleUserMenu && user
-								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-customBackground text-customText z-30"
+								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-gradient-to-b from-background1 to-background2 text-customText z-30"
 								: "hidden"
 						}
 					>
@@ -196,7 +189,7 @@ export default function Navbar({ user, toggleMenu }) {
 					</div>
 				</div>
 				{!user && path != "/login" && path != "/register" && (
-					<div className="hidden lg:flex gap-4">
+					<div className="hidden md:flex gap-4">
 						<button
 							className="text-accent-500 border-2 rounded-lg hover:bg-accent-500 border-accent-500 px-4 py-2 hover:text-white transition-all duration-300"
 							onClick={() => navigate("/login")}

@@ -2,7 +2,12 @@ import PropTypes from "prop-types";
 export default function NavItem({ itemName, itemLink, active }) {
 	return (
 		<div className="parent group">
-			<a href={`${itemLink}`}>{itemName.toUpperCase()}</a>
+			<a
+				className="md:text-sm lg:text-base"
+				href={`${itemLink}`}
+			>
+				{itemName.toUpperCase()}
+			</a>
 			<hr
 				className={
 					active

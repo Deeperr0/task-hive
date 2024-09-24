@@ -45,7 +45,7 @@ export default function ResetPassword() {
 	}, [message, navigate]);
 
 	return (
-		<div className="bg-primary-450 w-11/12 md:w-1/3 mx-auto mt-36 flex flex-col justify-center items-center py-10 gap-4 rounded-lg">
+		<div className="bg-primary-450 w-11/12 md:w-3/5 lg:w-1/3 mx-auto mt-36 flex flex-col justify-center items-center py-10 gap-8 rounded-lg">
 			<div className="flex items-center gap-2 justify-between">
 				<FontAwesomeIcon
 					icon={faArrowLeft}
@@ -68,7 +68,7 @@ export default function ResetPassword() {
 				/>
 				<button
 					type="submit"
-					className="p-2 bg-accent hover:bg-accentShade1 text-customBackground rounded-md"
+					className="p-2 bg-accent-500 hover:bg-accent-600 text-accent-50"
 				>
 					Send Reset Email
 				</button>

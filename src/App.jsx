@@ -157,14 +157,6 @@ function App() {
 											}
 										/>
 										<Route
-											path="/features"
-											element={
-												<Suspense fallback={<Loader />}>
-													<LazyFeatures />{" "}
-												</Suspense>
-											}
-										/>
-										<Route
 											path="/pricing"
 											element={
 												<Suspense fallback={<Loader />}>

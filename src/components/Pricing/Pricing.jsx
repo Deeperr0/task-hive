@@ -7,13 +7,13 @@ export default function Pricing() {
 	return (
 		<div>
 			<div className="flex flex-col items-center mt-16 pb-10">
-				<h2 className="text-5xl text-customText">
+				<h2 className="text-3xl md:text-4xl lg:text-5xl text-customText text-center">
 					Flexible Plans for Every Team
 				</h2>
 				<p className="text-base text-customText text-center mt-4">
 					{`This is just a placeholder for the pricing page. These prices are purely fictional`}
 				</p>
-				<div className="text-customBackground flex gap-4 items-center mt-4 bg-accent-900 p-1 rounded-xl relative">
+				<div className="text-accent-50 flex gap-4 items-center mt-4 bg-accent-900 p-1 rounded-xl relative">
 					<div
 						className={`w-[45.5%] h-5/6 absolute bg-accent-500 rounded-lg z-0 transition-all duration-300 ${
 							pricingType == 0
@@ -35,7 +35,7 @@ export default function Pricing() {
 						className={
 							pricingType == 1
 								? "rounded-md px-6 py-1 z-10 text-center"
-								: "border-0  rounded-md px-6 py-1 text-center"
+								: "border-0 rounded-md px-6 py-1 text-center"
 						}
 						onClick={() => setPricingType(1)}
 					>
@@ -47,9 +47,9 @@ export default function Pricing() {
 						packageName={"Basic"}
 						price={pricingType == 0 ? pricesMonthly[0] : pricesYearly[0]}
 						features={[
-							"500 GB of storage",
-							"2 Users Allowed",
-							"Send Up to 3 GB",
+							"Basic Task Management",
+							"Single Project Workspace",
+							"Community Support",
 						]}
 						buttonText={"LEARN MORE"}
 						mostPopular={false}
@@ -59,9 +59,10 @@ export default function Pricing() {
 						packageName={"Professional"}
 						price={pricingType == 0 ? pricesMonthly[1] : pricesYearly[1]}
 						features={[
-							"1 TB of storage",
-							"5 Users Allowed",
-							"Help center access",
+							"Advanced Task Management",
+							"Multiple Project Workspaces",
+							"Priority Support",
+							"Team Collaboration Tools",
 						]}
 						buttonText={"LEARN MORE"}
 						mostPopular={true}
@@ -71,9 +72,10 @@ export default function Pricing() {
 						packageName={"Master"}
 						price={pricingType == 0 ? pricesMonthly[2] : pricesYearly[2]}
 						features={[
-							"2 TB of storage",
-							"10 Users Allowed",
-							"Send up to 20 GB",
+							"Custom Workspaces",
+							"Unlimited Users & Projects",
+							"Dedicated Account Manager",
+							"Advanced Analytics & Reporting",
 						]}
 						buttonText={"LEARN MORE"}
 						mostPopular={false}

@@ -85,7 +85,6 @@ export default {
 				background2: "#302b63",
 				background3: "#24243e",
 				customText: "#fff",
-				customBackground: "#FFF2E6",
 				danger: "#e34d4d",
 				warning: "#FF9950",
 				subtleWarning: "#fbbd08",

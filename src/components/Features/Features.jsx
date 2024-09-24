@@ -4,35 +4,22 @@ import Card from "../Card";
 import Loader from "../Loader";
 
 export default function Features() {
-	const [isLoading, setIsLoading] = useState(true);
 	return (
 		<div>
-			<div className={`${!isLoading ? "hidden" : "block"}`}>
-				<Loader />
-			</div>
-			<div className={`py-10 ${isLoading ? "hidden" : "block"}`}>
+			<div className={`py-10 w-screen`}>
 				<div
 					id="hero-section"
-					className=" mx-4 md:mx-36 pb-36"
+					className=" mx-4 md:mx-36"
 				>
-					<div className="flex flex-col items-center lg:grid mt-[3rem] text-customText grid-cols-[44%,50%] gap-10 md:gap-24 text-center md:text-left">
-						<div>
-							<h1 className="text-4xl md:text-5.5xl !font-playfair font-normal leading-snug text-left">
+					<div className="flex flex-col items-center text-customText gap-10 text-center">
+						<div className="text-center">
+							<h1 className="text-3xl md:text-5xl !font-playfair font-normal leading-snug text-center">
 								{`Discover TaskHive's Powerful Features`}
 							</h1>
-							<p className="mt-[0.688rem] text-md md:text-lg font-light text-left">
+							<p className="mt-[0.688rem] text-md md:text-lg font-light">
 								Explore our robust features designed to transform the way you
 								manage projects.
 							</p>
-						</div>
-						<div>
-							<img
-								src="/features/features-hero.webp"
-								alt="2 people with their laptops discussing ideas on a piece of paper"
-								onLoad={() => {
-									setIsLoading(false);
-								}}
-							/>
 						</div>
 					</div>
 				</div>
@@ -40,10 +27,10 @@ export default function Features() {
 					id="features-overview"
 					className="mt-14"
 				>
-					<h2 className="text-3xl text-customText text-center mb-9">
+					<h2 className="text-3xl text-customText text-center mb-9 !font-helvetica">
 						Features Overview
 					</h2>
-					<div className="flex gap-4 items-center lg:justify-center overflow-x-scroll lg:overflow-hidden w-full px-5 no-scrollbar">
+					<div className="flex gap-4 items-center lg:justify-center overflow-x-scroll lg:overflow-hidden px-5 no-scrollbar">
 						<Card
 							cardTitle="Task Management"
 							cardText="Manage your tasks with ease. Add, edit, and delete tasks in one place."
@@ -62,7 +49,7 @@ export default function Features() {
 					id="benefits"
 					className="mt-14 w-full"
 				>
-					<h2 className="text-3xl text-customText text-center mb-9">
+					<h2 className="text-3xl text-customText text-center mb-9 !font-helvetica">
 						Benefits
 					</h2>
 					<div className="flex gap-4 items-center lg:justify-center overflow-x-scroll lg:overflow-hidden w-full px-5 no-scrollbar">
