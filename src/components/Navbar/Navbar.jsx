@@ -8,7 +8,7 @@ import {
 	faBars,
 	faClose,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
+import { startTransition, useContext, useState } from "react";
 import { UserDataContext } from "../../App";
 import NavItem from "../NavItem";
 import { useSignals } from "@preact/signals-react/runtime";
@@ -19,16 +19,27 @@ export default function Navbar({ user, toggleMenu }) {
 	const [toggleNavMenu, setToggleNavMenu] = useState(false);
 	const [toggleUserMenu, setToggleUserMenu] = useState(false);
 	const { userData } = useContext(UserDataContext);
+
 	async function handleLogout() {
 		try {
 			setToggleUserMenu(false);
 			await signOut(auth);
-			navigate("/");
+			startTransition(() => navigate("/")); // Use startTransition for non-urgent updates
 		} catch (error) {
 			console.error("Error logging out:", error);
 		}
 	}
-	useSignals();
+
+	// Event handler for the login button
+	function handleLogin() {
+		startTransition(() => navigate("/login"));
+	}
+
+	// Event handler for the sign-up button
+	function handleSignUp() {
+		startTransition(() => navigate("/register"));
+	}
+
 	return (
 		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 mb-8 bg-navy text-customText flex items-center z-50">
 			<nav className="flex justify-between items-center w-full">
@@ -62,7 +73,7 @@ export default function Navbar({ user, toggleMenu }) {
 									Change password
 								</a>
 								<button
-									onClick={handleLogout}
+									onClick={handleLogout} // Properly handled here
 									className="font-medium hover:text-danger transition-all duration-300"
 								>
 									Logout
@@ -167,19 +178,9 @@ export default function Navbar({ user, toggleMenu }) {
 									<h2>{`${userData?.firstName} ${userData?.lastName}`}</h2>
 								</div>
 								<hr />
-								<a
-									href="/profile"
-									className=""
-								>
-									Profile
-								</a>
+								<a href="/profile">Profile</a>
 								<hr />
-								<a
-									href="/change-password"
-									className=""
-								>
-									Change password
-								</a>
+								<a href="/change-password">Change password</a>
 								<hr />
 								<button onClick={handleLogout}>
 									<FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout
@@ -192,13 +193,13 @@ export default function Navbar({ user, toggleMenu }) {
 					<div className="hidden md:flex gap-4">
 						<button
 							className="text-accent-500 border-2 rounded-lg hover:bg-accent-500 border-accent-500 px-4 py-2 hover:text-white transition-all duration-300"
-							onClick={() => navigate("/login")}
+							onClick={handleLogin} // Moved to event handler
 						>
 							Login
 						</button>
 						<button
-							className="bg-accent-500 border-2 border-transparent rounded-lg hover:bg-transparent hover:border-accent-500 px-4 py-2 text-white transition-all duration-300"
-							onClick={() => navigate("/register")}
+							className="bg-accent-500 border-2 border-transparent rounded-lg hover:bg-transparent hover:border-accent-500 hover:text-accent-500 px-4 py-2 text-white transition-all duration-300"
+							onClick={handleSignUp} // Moved to event handler
 						>
 							Sign Up
 						</button>

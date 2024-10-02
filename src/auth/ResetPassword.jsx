@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { startTransition, useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -36,7 +36,7 @@ export default function ResetPassword() {
 				);
 				if (timerText === 0) {
 					clearInterval(timerInterval);
-					navigate("/login");
+					startTransition(() => navigate("/login"));
 				}
 			}, 1000);
 
@@ -50,7 +50,7 @@ export default function ResetPassword() {
 				<FontAwesomeIcon
 					icon={faArrowLeft}
 					className="text-xl"
-					onClick={() => navigate("/login")}
+					onClick={startTransition(() => navigate("/login"))}
 				/>
 				<h2 className="text-2xl">Reset Password</h2>
 			</div>

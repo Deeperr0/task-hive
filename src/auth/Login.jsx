@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 // import "./Login.css";
@@ -29,7 +29,7 @@ export default function Login({ setUser }) {
 			);
 			setTimeout(() => {
 				setUser(userCredential.user);
-				navigate("/");
+				startTransition(() => navigate("/"));
 			}, 2000);
 		} catch (error) {
 			const loginError = document.querySelector(".login-error");

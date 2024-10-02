@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { startTransition, useState, useEffect } from "react";
 import { auth } from "../firebase"; // Import your Firebase auth instance
 import { updatePassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -10,27 +10,38 @@ export default function ChangePassword() {
 	const [error, setError] = useState(null);
 	const navigate = useNavigate();
 
+	// Handle password change
 	async function handleChangePassword(event) {
 		event.preventDefault();
 		try {
 			await updatePassword(auth.currentUser, newPassword);
-			// Password updated successfully
 			console.log("Password updated successfully");
-			// Optionally, redirect user or show a success message
-			navigate("/");
+			startTransition(() => navigate("/")); // Start transition for smoother navigation
 		} catch (error) {
 			console.error("Error changing password:", error.message);
 			setError(error.message);
 		}
 	}
 
+	// Handle back button click inside useEffect
+	useEffect(() => {
+		const handleBackClick = () => {
+			startTransition(() => navigate("/")); // Use startTransition for smoother UI updates
+		};
+
+		// Return a cleanup function to prevent memory leaks
+		return () => {
+			// Optionally do cleanup here
+		};
+	}, [navigate]);
+
 	return (
-		<div className="bg-primary-450 w-fit py-10 px-10 mx-auto mt-36 flex flex-col justify-center items-center  gap-4 rounded-lg">
+		<div className="bg-primary-450 w-fit py-10 px-10 mx-auto mt-36 flex flex-col justify-center items-center gap-4 rounded-lg">
 			<div className="flex flex-col items-start gap-2 justify-between w-full">
 				<FontAwesomeIcon
 					icon={faArrowLeft}
 					className="text-xl hover:text-accent-500 transition-all duration-200"
-					onClick={() => navigate("/")}
+					onClick={() => startTransition(() => navigate("/"))} // No direct call in JSX
 				/>
 				<h2 className="text-2xl w-full text-center">Change Password</h2>
 			</div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { startTransition, useState } from "react";
 import { auth, db } from "../firebase";
 import {
 	createUserWithEmailAndPassword,
@@ -28,7 +28,7 @@ export default function Register({ user, setUser, usersList }) {
 	const navigate = useNavigate();
 
 	if (user !== null) {
-		navigate("/");
+		startTransition(() => navigate("/"));
 	}
 
 	async function handleRegister(event) {
@@ -96,7 +96,7 @@ export default function Register({ user, setUser, usersList }) {
 			if (!invitationCode) {
 				document.querySelector(".register-status").innerHTML =
 					"User added successfully. An email was sent with instructions to verify account and update password.";
-				navigate("/");
+				startTransition(() => navigate("/"));
 			} else {
 				const invitationDocRef = doc(db, "invitationCodes", invitationCode);
 				const invitationDoc = await getDoc(invitationDocRef);
@@ -112,7 +112,9 @@ export default function Register({ user, setUser, usersList }) {
 								the team.
 							</p>
 							<p>Thank you for using TaskHive.</p>
-							<button onClick={() => navigate("/")}>Go back</button>
+							<button onClick={startTransition(() => navigate("/"))}>
+								Go back
+							</button>
 						</div>;
 					} else {
 						const teamDocRef = doc(db, "teams", invitationData.teamId);
@@ -143,7 +145,10 @@ export default function Register({ user, setUser, usersList }) {
 							used: true,
 						});
 						setUser(newUser);
-						setTimeout(navigate("/"), 5000);
+						setTimeout(
+							startTransition(() => navigate("/")),
+							5000
+						);
 					}
 				} else {
 					console.log("Invitation document does not exist.");

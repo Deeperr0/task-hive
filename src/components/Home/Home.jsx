@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { lazy } from "react";
+import { lazy, startTransition } from "react";
 import { useSignals } from "@preact/signals-react/runtime";
 import Features from "../Features/Features";
 const LazyProject = lazy(() => import("../Project"));
@@ -10,6 +10,9 @@ const LazySideMenu = lazy(() => import("../SideMenu"));
 
 export default function Home({ user, userData, toggleMenu }) {
 	const navigate = useNavigate();
+	function handleRegisterRedirect() {
+		startTransition(() => navigate("/register"));
+	}
 	useSignals();
 	return (
 		<div className="h-full">
@@ -26,8 +29,10 @@ export default function Home({ user, userData, toggleMenu }) {
 								</p>
 								<div className="flex gap-4 items-center">
 									<button
-										className="font-semibold  bg-accent-500 hover:bg-transparent border-2 border-transparent hover:border-accent-500 rounded-md px-4 py-2 hover:bg-accent-600 text-white transition-all duration-300 ease-in-out w-fit"
-										onClick={() => navigate("/register")}
+										className="font-semibold  bg-accent-500 hover:bg-transparent border-2 border-transparent hover:border-accent-500 rounded-md px-4 py-2 hover:text-accent-500 text-white transition-all duration-300 ease-in-out w-fit"
+										onClick={() => {
+											handleRegisterRedirect();
+										}}
 									>
 										Get Started
 									</button>
