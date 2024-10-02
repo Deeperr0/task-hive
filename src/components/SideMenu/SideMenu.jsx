@@ -45,7 +45,7 @@ export default function SideMenu({ teams }) {
 		fetchTeams();
 	}, [currentWorkSpace, teams]);
 	return (
-		<div className="text-customBlack text-md h-full">
+		<div className="text-customBlack text-md">
 			{toggleAddTeam && <AddTeam setToggleAddTeam={setToggleAddTeam} />}
 			<ul className="flex flex-col gap-2 mb-4">
 				<li>
@@ -121,7 +121,7 @@ export default function SideMenu({ teams }) {
 					</button>
 				</div>
 				<button
-					className="bg-accentShade1 hover:bg-accentShade1Hover w-8 rounded-md transition-all duration-300"
+					className="bg-accent-500 hover:bg-accent-600 w-8 rounded-md transition-all duration-300"
 					onClick={() => setToggleAddTeam(true)}
 				>
 					<FontAwesomeIcon icon={faPlus} />
