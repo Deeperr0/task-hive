@@ -25,19 +25,19 @@ export default function ChangePassword() {
 	}
 
 	return (
-		<div className="bg-primary-450 w-11/12 md:w-1/3 mx-auto mt-36 flex flex-col justify-center items-center py-10 gap-4 rounded-lg">
-			<div className="flex items-center gap-2 justify-between">
+		<div className="bg-primary-450 w-fit py-10 px-10 mx-auto mt-36 flex flex-col justify-center items-center  gap-4 rounded-lg">
+			<div className="flex flex-col items-start gap-2 justify-between w-full">
 				<FontAwesomeIcon
 					icon={faArrowLeft}
-					className="text-xl"
+					className="text-xl hover:text-accent-500 transition-all duration-200"
 					onClick={() => navigate("/")}
 				/>
-				<h2 className="text-2xl">Change Password</h2>
+				<h2 className="text-2xl w-full text-center">Change Password</h2>
 			</div>
 
 			<form
 				onSubmit={handleChangePassword}
-				className="flex gap-2"
+				className="flex flex-col lg:flex-row gap-4"
 			>
 				<input
 					type="password"
@@ -47,11 +47,11 @@ export default function ChangePassword() {
 					required
 					minLength={6}
 					maxLength={20}
-					className="pl-2 text-customText"
+					className="p-2 text-customText"
 				/>
 				<button
 					type="submit"
-					className="bg-accent rounded-md px-4 py-2 hover:bg-accentShade1 transition-all duration-300"
+					className="bg-accent-500 rounded-md px-4 py-2 border-2 border-transparent hover:text-accent-500 hover:border-accent-500 hover:bg-transparent transition-all duration-300"
 				>
 					Change Password
 				</button>

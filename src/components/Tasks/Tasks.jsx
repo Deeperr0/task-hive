@@ -3,35 +3,35 @@ import PropTypes from "prop-types";
 
 export default function Tasks({ name, tasksList }) {
 	return (
-		<div className="bg-secondaryShade1 rounded-4 overflow-hidden w-screen">
+		<div className="bg-secondary-500/30 rounded-2xl overflow-hidden flex flex-col items-center lg:w-1/4">
 			<h3
 				className={
 					name === "Done"
 						? "text-success text-lg my-2 ml-2"
+						: name === "Stuck"
+						? "text-danger text-lg my-2 ml-2"
+						: name === "In progress"
+						? "text-warning text-lg my-2 ml-2"
 						: "text-info text-lg my-2 ml-2"
-				}>
+				}
+			>
 				{name}
 			</h3>
-			<div className="text-customText border-gray-900 rounded-lg pb-4 text-sm whitespace-nowrap overflow-scroll md:overflow-hidden w-screen">
+			<div className="text-customText border-gray-900 rounded-lg pb-4 text-sm w-full">
 				<div className="">
-					<div className="grid grid-cols-customGrid py-4 text-customText [&>*]:border-gray-900 w-[66rem]">
-						<div className="sticky left-0" />
-						<div className="text-customText sticky left-0 bg-secondaryShade1">
-							Task
-						</div>
-						<div>Owner</div>
-						<div>Status</div>
-						<div>Deadline</div>
-						<div>Priority</div>
-						<div>Notes</div>
-						<div></div>
-					</div>
 					<div>
-						{tasksList?.length != 0 && (
-							<div className="w-[66rem]">
+						{tasksList?.length != 0 ? (
+							<div className="w-full">
 								{tasksList?.map((task) => (
-									<TaskCard key={task.taskId} taskObj={task} />
+									<TaskCard
+										key={task.taskId}
+										taskObj={task}
+									/>
 								))}
+							</div>
+						) : (
+							<div className="flex justify-center items-center w-full h-full">
+								No tasks here yet :3
 							</div>
 						)}
 					</div>

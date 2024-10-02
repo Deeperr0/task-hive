@@ -71,11 +71,11 @@ export default function Navbar({ user, toggleMenu }) {
 									{userData?.firstName[0].toUpperCase()}
 								</h1>
 							</div>
-							<div className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center md:hidden">
-								<h1
-									className="md:hidden"
-									onClick={() => setToggleUserMenu(!toggleUserMenu)}
-								>
+							<div
+								className="bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center md:hidden"
+								onClick={() => setToggleUserMenu(!toggleUserMenu)}
+							>
+								<h1 className="md:hidden">
 									{userData?.firstName[0].toUpperCase()}
 								</h1>
 							</div>
@@ -156,7 +156,7 @@ export default function Navbar({ user, toggleMenu }) {
 							</div>
 							<div className="flex flex-col gap-4 items-center">
 								<div className="flex flex-col gap-4 items-center">
-									<div className="bg-secondary w-10 h-10 rounded-full flex justify-center items-center">
+									<div className="bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center">
 										<h1
 											className=""
 											onClick={() => setToggleUserMenu(!toggleUserMenu)}

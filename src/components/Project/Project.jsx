@@ -43,12 +43,12 @@ export default function Project({ user, userData }) {
 								setCurrentWorkSpace
 							)
 						}
-						className="bg-accentShade1 hover:bg-accentShade1Hover text-customBackground py-2 px-3 rounded-lg transition-all duration-300"
+						className="bg-accent-500 hover:bg-accent-600 text-customBackground py-2 px-3 rounded-lg transition-all duration-300"
 					>
 						New task
 					</button>
 					<button
-						className="bg-accentShade1 hover:bg-accentShade1Hover text-customBackground py-2 px-3 rounded-lg transition-all duration-300"
+						className="bg-accent-500 hover:bg-accent-600 text-customBackground py-2 px-3 rounded-lg transition-all duration-300"
 						onClick={() => setToggleAddUser(true)}
 					>
 						Add user
@@ -59,26 +59,36 @@ export default function Project({ user, userData }) {
 				setPriorityFilter={setPriorityFilter}
 				setStatusFilter={setStatusFilter}
 			/>
-			<Tasks
-				name="To do"
-				tasksList={
-					role === "admin"
-						? filteredTasks.filter((task) => task.status != "Done")
-						: filteredTasks
-								.filter((task) => task.status != "Done")
-								.filter((task) => task.ownerUid === user.uid)
-				}
-			/>
-			<Tasks
-				name="Done"
-				tasksList={
-					currentWorkSpace?.tasks
-						? filteredTasks
-								.filter((task) => task.status === "Done")
-								.filter((task) => task.ownerUid === user.uid)
-						: []
-				}
-			/>
+			<div className="flex flex-col lg:flex-row gap-4 w-full">
+				<Tasks
+					name="To do"
+					tasksList={
+						role === "admin"
+							? filteredTasks
+									.filter((task) => task.status == "Not started")
+									.filter((task) => task.ownerUid === user.uid)
+							: []
+					}
+				/>
+				<Tasks
+					name="In progress"
+					tasksList={filteredTasks
+						.filter((task) => task.status === "Working on it")
+						.filter((task) => task.ownerUid === user.uid)}
+				/>
+				<Tasks
+					name="Stuck"
+					tasksList={filteredTasks
+						.filter((task) => task.status === "Stuck")
+						.filter((task) => task.ownerUid === user.uid)}
+				/>
+				<Tasks
+					name="Done"
+					tasksList={filteredTasks
+						.filter((task) => task.status === "Done")
+						.filter((task) => task.ownerUid === user.uid)}
+				/>
+			</div>
 		</div>
 	);
 }

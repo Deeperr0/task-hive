@@ -102,7 +102,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 						/>
 						<select
 							onChange={(e) => setChosenRole(e.target.value)}
-							className="bg-accent-700"
+							className="bg-accent-600"
 						>
 							<option value="admin">Admin</option>
 							<option value="user">User</option>
@@ -110,7 +110,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 					</div>
 					<button
 						onClick={() => addUser(chosenRole)}
-						className="bg-accent-500 border-2 border-transparent hover:border-accent-500 hover:bg-transparent w-1/2 mx-auto h-9 rounded-md"
+						className="bg-accent-500 border-2 border-transparent hover:border-accent-500 hover:bg-transparent w-1/2 mx-auto h-9 rounded-md transition-all duration-300 "
 					>
 						Add
 					</button>

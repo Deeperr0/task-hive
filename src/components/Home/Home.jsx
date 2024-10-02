@@ -26,7 +26,7 @@ export default function Home({ user, userData, toggleMenu }) {
 								</p>
 								<div className="flex gap-4 items-center">
 									<button
-										className="font-semibold  bg-accent-500 hover:bg-transparent border-2 border-transparent hover:border-accent-500 rounded-md px-4 py-2 hover:bg-accentShade1Hover text-white transition-all duration-300 ease-in-out w-fit"
+										className="font-semibold  bg-accent-500 hover:bg-transparent border-2 border-transparent hover:border-accent-500 rounded-md px-4 py-2 hover:bg-accent-600 text-white transition-all duration-300 ease-in-out w-fit"
 										onClick={() => navigate("/register")}
 									>
 										Get Started
@@ -47,8 +47,8 @@ export default function Home({ user, userData, toggleMenu }) {
 						<div
 							className={
 								toggleMenu.value == "true"
-									? "flex flex-col gap-4 fixed top-0 left-0 px-10 md:px-5 pt-10 w-screen h-screen bg-gradient-to-br from-background1 via-background2 to-background3 text-customText z-30"
-									: "py-8 rounded-tr-xl border text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch hidden md:block bg-primaryShade3"
+									? "flex flex-col gap-4 fixed top-0 left-0 px-10 md:px-5 pt-10 w-screen h-screen bg-gradient-to-br from-background1 via-background2 to-background3 text-customText z-30 "
+									: "py-8 rounded-tr-xl text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch hidden md:block bg-gradient-to-b from-secondary-800/80 to-transparent"
 							}
 						>
 							<div className="text-customText  md:hidden">
@@ -65,7 +65,7 @@ export default function Home({ user, userData, toggleMenu }) {
 								teams={userData?.teams}
 							/>
 						</div>
-						<div className="shadow-secondaryCustom md:rounded-t-lg px-4 text-customText w-full bg-primaryShade3 h-full pb-10">
+						<div className="md:rounded-tl-2xl px-8 text-customText w-full py-10 bg-gradient-to-b from-secondary-800/80 to-transparent">
 							<LazyProject
 								user={user}
 								userData={userData}
