@@ -92,8 +92,6 @@ export default function Navbar({ user, toggleMenu }) {
 							</div>
 						</>
 					) : (
-						path != "/login" &&
-						path != "/register" &&
 						path != "/reset-password" && (
 							<nav className="flex justify-between items-center">
 								<div
@@ -139,6 +137,15 @@ export default function Navbar({ user, toggleMenu }) {
 												active={path == "/contact"}
 											/>
 										</li>
+
+										{toggleNavMenu && <>
+											<a href="/login">
+												<button className="bg-accent-500 px-4 py-2 rounded-lg border-2 hover:bg-transparent border-transparent hover:border-accent-500 transition-all duration-300">Login</button>
+											</a>
+											<a href="/register">
+												<button className="border-2 border-accent-500 px-4 py-2 rounded-lg hover:bg-accent-500 hover:border-transparent transition-all duration-300">Register</button>
+											</a>
+										</>}
 									</ul>
 								</div>
 

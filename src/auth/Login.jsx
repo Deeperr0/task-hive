@@ -66,7 +66,7 @@ export default function Login({ setUser }) {
 							onChange={(e) => setEmail(e.target.value)}
 							placeholder="Email"
 							required
-							className=" w-full"
+							className="w-full"
 						/>
 					</div>
 					<div className="bg-white text-neutral1 flex items-center gap-2">
