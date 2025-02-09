@@ -38,9 +38,6 @@ VITE_EMAIL_JS_USER_ID=-iPknfaLz5IzCyHZx
 
 - **User Authentication**: Secure user login and signup using Firebase Authentication. Supports email/password authentication and login link with email verification.
 
-- **Real-Time Collaboration**: Tasks and updates are synchronized in real-time, allowing team members to see changes instantly without refreshing the page.
-
-
 - **Responsive Design**: Fully responsive layout that works seamlessly across desktops, tablets, and mobile devices, ensuring accessibility for all users.
 
 ### Additional Features
