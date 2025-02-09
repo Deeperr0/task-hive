@@ -29,7 +29,7 @@ export default function Home({ user, userData, toggleMenu }) {
 								</p>
 								<div className="flex gap-4 items-center">
 									<button
-										className="font-semibold  bg-accent-500 hover:bg-transparent border-2 border-transparent hover:border-accent-500 rounded-md px-4 py-2 hover:text-accent-500 text-white transition-all duration-300 ease-in-out w-fit"
+										className="font-semibold bg-accent-500 hover:bg-transparent border-2 border-transparent hover:border-accent-500 rounded-md px-4 py-2 hover:text-accent-500 text-white transition-all duration-300 ease-in-out w-fit"
 										onClick={() => {
 											handleRegisterRedirect();
 										}}
