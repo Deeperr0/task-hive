@@ -92,7 +92,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 
 				<h2 className="text-center w-full">Add User</h2>
 				<div className="flex flex-col gap-4">
-					<div className="flex gap-4 h-10">
+					<div className="flex h-10">
 						<input
 							type="text"
 							placeholder="Enter user email"
@@ -102,7 +102,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 						/>
 						<select
 							onChange={(e) => setChosenRole(e.target.value)}
-							className="bg-accent-600">
+							className="bg-customText text-black">
 							<option value="admin">Admin</option>
 							<option value="user">User</option>
 						</select>

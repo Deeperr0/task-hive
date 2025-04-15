@@ -74,7 +74,7 @@ export default function AddTeam({ setToggleAddTeam }) {
 						type="text"
 						placeholder="Team Name"
 						onChange={(e) => setLocalTeamName(e.target.value)}
-						className="w-7/12 text-customText pl-2 h-full"
+						className="w-7/12 text-black pl-2 h-full"
 					/>
 					<button
 						onClick={handleAddTeam}
