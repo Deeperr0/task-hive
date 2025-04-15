@@ -76,11 +76,12 @@ export default function SideMenu({ teams }) {
 					{
 						// TODO Fix the bug where it sometimes shows the wrong team in the selection but the correct team is selected
 					}
-					{Object.keys(teams).map((teamId) => (
-						<option key={teamId} value={teamId} className="text-primary-900">
-							{teamsList[teamId]?.teamName}
-						</option>
-					))}
+					{teams &&
+						Object.keys(teams).map((teamId) => (
+							<option key={teamId} value={teamId} className="text-primary-900">
+								{teamsList[teamId]?.teamName}
+							</option>
+						))}
 				</select>
 				{
 					// TODO add a drop down menu for a list of actions that can be done on the current workspace
@@ -102,7 +103,7 @@ export default function SideMenu({ teams }) {
 					<FontAwesomeIcon icon={faPlus} />
 				</button>
 			</div>
-			{teams?.length != 0 && (
+			{teams && Object.keys(teams).length !== 0 && (
 				<div className="">
 					<div className="flex gap-1 items-center">
 						{expandWorkSpace ? (
