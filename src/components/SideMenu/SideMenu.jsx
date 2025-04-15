@@ -31,6 +31,8 @@ export default function SideMenu({ teams }) {
 	const [teamsList, setTeamsList] = useState({});
 	useEffect(() => {
 		async function fetchTeams() {
+			if (!teams) return; // ✅ early exit if teams is null/undefined
+
 			await Promise.all(
 				Object.keys(teams)?.map(async (teamId) => {
 					const teamData = await getTeam(teamId);
@@ -49,14 +51,8 @@ export default function SideMenu({ teams }) {
 			{toggleAddTeam && <AddTeam setToggleAddTeam={setToggleAddTeam} />}
 			<ul className="flex flex-col gap-2 mb-4">
 				<li>
-					<a
-						href="/"
-						className="flex gap-1 items-center"
-					>
-						<FontAwesomeIcon
-							icon={faHome}
-							className="w-5"
-						/>
+					<a href="/" className="flex gap-1 items-center">
+						<FontAwesomeIcon icon={faHome} className="w-5" />
 						Home
 					</a>
 				</li>
@@ -64,14 +60,8 @@ export default function SideMenu({ teams }) {
 					{
 						// TODO add a projects page that displays all the projects/teams of the user
 					}
-					<a
-						href="/"
-						className="flex gap-1 items-center"
-					>
-						<FontAwesomeIcon
-							icon={faCalendarCheck}
-							className="w-5"
-						/>
+					<a href="/" className="flex gap-1 items-center">
+						<FontAwesomeIcon icon={faCalendarCheck} className="w-5" />
 						Projects
 					</a>
 				</li>
@@ -82,17 +72,12 @@ export default function SideMenu({ teams }) {
 					className="bg-transparent w-9/12"
 					onChange={(e) => {
 						setCurrentWorkSpace(teamsList[e.target.value]);
-					}}
-				>
+					}}>
 					{
 						// TODO Fix the bug where it sometimes shows the wrong team in the selection but the correct team is selected
 					}
 					{Object.keys(teams).map((teamId) => (
-						<option
-							key={teamId}
-							value={teamId}
-							className="text-primary-900"
-						>
+						<option key={teamId} value={teamId} className="text-primary-900">
 							{teamsList[teamId]?.teamName}
 						</option>
 					))}
@@ -101,29 +86,19 @@ export default function SideMenu({ teams }) {
 					// TODO add a drop down menu for a list of actions that can be done on the current workspace
 				}
 				<button>
-					<FontAwesomeIcon
-						icon={faEllipsis}
-						className="mx-1"
-					/>
+					<FontAwesomeIcon icon={faEllipsis} className="mx-1" />
 				</button>
 			</div>
 			<div className="flex justify-between bg-transparent mb-4 gap-3">
 				<div className="border-black flex justify-between items-center border-2 w-36 bg-white overflow-hidden h-8">
-					<input
-						type="text"
-						className="w-full bg-transparent"
-					/>
+					<input type="text" className="w-full bg-transparent" />
 					<button>
-						<img
-							src={filterIcon}
-							className="w-5 text-customText mr-3"
-						/>
+						<img src={filterIcon} className="w-5 text-customText mr-3" />
 					</button>
 				</div>
 				<button
 					className="bg-accent-500 hover:bg-accent-600 w-8 rounded-md transition-all duration-300"
-					onClick={() => setToggleAddTeam(true)}
-				>
+					onClick={() => setToggleAddTeam(true)}>
 					<FontAwesomeIcon icon={faPlus} />
 				</button>
 			</div>
@@ -141,8 +116,7 @@ export default function SideMenu({ teams }) {
 								className={expandWorkSpace ? "active" : ""}
 								onClick={() => {
 									setExpandWorkSpace(!expandWorkSpace);
-								}}
-							>
+								}}>
 								{currentWorkSpace.teamName}
 							</div>
 						)}
