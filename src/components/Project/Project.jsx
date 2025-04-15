@@ -10,15 +10,10 @@ export default function Project({ user, userData }) {
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 	const [priorityFilter, setPriorityFilter] = useState("");
-	const [statusFilter, setStatusFilter] = useState("");
 	const [toggleAddUser, setToggleAddUser] = useState(false);
 	const { role } = useContext(RoleContext);
-	const filteredTasks = useFilterTasks(
-		priorityFilter,
-		statusFilter,
-		currentWorkSpace
-	);
-
+	const filteredTasks = useFilterTasks(priorityFilter, currentWorkSpace);
+	console.log(userData);
 	return (
 		<div className="flex flex-col items-start gap-4 pt-4">
 			{toggleAddUser && (
@@ -43,50 +38,59 @@ export default function Project({ user, userData }) {
 								setCurrentWorkSpace
 							)
 						}
-						className="bg-accent-500 hover:bg-accent-600 text-customBackground py-2 px-3 rounded-lg transition-all duration-300"
-					>
+						className="bg-accent-500 hover:bg-accent-600 text-customBackground py-2 px-3 rounded-lg transition-all duration-300">
 						New task
 					</button>
 					<button
 						className="bg-accent-500 hover:bg-accent-600 text-customBackground py-2 px-3 rounded-lg transition-all duration-300"
-						onClick={() => setToggleAddUser(true)}
-					>
+						onClick={() => setToggleAddUser(true)}>
 						Add user
 					</button>
 				</div>
 			)}
 			<Filters
 				setPriorityFilter={setPriorityFilter}
-				setStatusFilter={setStatusFilter}
 			/>
 			<div className="flex flex-col lg:flex-row gap-4 w-full">
 				<Tasks
 					name="To do"
 					tasksList={
 						role === "admin"
-							? filteredTasks
+							? filteredTasks.filter((task) => task.status == "Not started")
+							: filteredTasks
 									.filter((task) => task.status == "Not started")
-									.filter((task) => task.ownerUid === user.uid)
-							: []
+									.filter((task) => task.owner === userData.username)
 					}
 				/>
 				<Tasks
 					name="In progress"
-					tasksList={filteredTasks
-						.filter((task) => task.status === "Working on it")
-						.filter((task) => task.ownerUid === user.uid)}
+					tasksList={
+						role === "admin"
+							? filteredTasks.filter((task) => task.status === "Working on it")
+							: filteredTasks
+									.filter((task) => task.status === "Working on it")
+									.filter((task) => task.owner === userData.username)
+					}
 				/>
 				<Tasks
 					name="Stuck"
-					tasksList={filteredTasks
-						.filter((task) => task.status === "Stuck")
-						.filter((task) => task.ownerUid === user.uid)}
+					tasksList={
+						role === "admin"
+							? filteredTasks.filter((task) => task.status === "Stuck")
+							: filteredTasks
+									.filter((task) => task.status === "Stuck")
+									.filter((task) => task.owner === userData.username)
+					}
 				/>
 				<Tasks
 					name="Done"
-					tasksList={filteredTasks
-						.filter((task) => task.status === "Done")
-						.filter((task) => task.ownerUid === user.uid)}
+					tasksList={
+						role === "admin"
+							? filteredTasks.filter((task) => task.status === "Done")
+							: filteredTasks
+									.filter((task) => task.status === "Done")
+									.filter((task) => task.owner === userData.username)
+					}
 				/>
 			</div>
 		</div>

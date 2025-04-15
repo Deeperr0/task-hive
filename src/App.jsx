@@ -116,15 +116,11 @@ function App() {
 						value={{
 							currentWorkSpace,
 							setCurrentWorkSpace,
-						}}
-					>
+						}}>
 						<ErrorBoundary>
 							<Router>
 								<div className="w-full bg-opacity-10 h-full">
-									<Navbar
-										user={user}
-										toggleMenu={toggleMenu}
-									/>
+									<Navbar user={user} toggleMenu={toggleMenu} />
 									<Routes>
 										<Route
 											path="/register"

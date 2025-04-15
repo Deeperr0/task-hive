@@ -16,6 +16,7 @@ import {
 	faLock,
 	faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Register({ user, setUser, usersList }) {
 	const [registrationDetails, setRegistrationDetails] = useState({
@@ -86,17 +87,35 @@ export default function Register({ user, setUser, usersList }) {
 			const newUserRef = doc(db, "users", newUser.uid);
 			const firstName = registrationDetails.fullName.split(" ")[0];
 			const lastName = registrationDetails.fullName.split(" ")[1];
-			await setDoc(newUserRef, {
-				username: registrationDetails.username,
-				firstName,
-				lastName,
-				email: registrationDetails.email,
-				teams: [],
-			});
+			const teamId = uuidv4();
+			const newTeam = {
+				teamName: "My Team",
+				teamId,
+				teamMembers: [
+					{
+						username: registrationDetails,
+						uid: newUser.uid,
+						email: registrationDetails.email,
+					},
+				],
+				tasks: [],
+				lastUpdated: new Date().toISOString(),
+				created: new Date().toISOString(),
+				createdById: newUser.uid,
+				subWorkspaces: [{}],
+			};
 			if (!invitationCode) {
 				document.querySelector(".register-status").innerHTML =
 					"User added successfully. An email was sent with instructions to verify account and update password.";
 				startTransition(() => navigate("/"));
+				await setDoc(newUserRef, {
+					username: registrationDetails.username,
+					firstName,
+					lastName,
+					email: registrationDetails.email,
+					teams: { [teamId]: { role: "admin" } },
+				});
+				await setDoc(doc(db, "teams", teamId), newTeam);
 			} else {
 				const invitationDocRef = doc(db, "invitationCodes", invitationCode);
 				const invitationDoc = await getDoc(invitationDocRef);
@@ -186,13 +205,9 @@ export default function Register({ user, setUser, usersList }) {
 					onSubmit={handleRegister}
 					className="w-10/12 md:w-1/2 flex flex-col gap-4 [&>div]:bg-white [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
 					autoComplete="off"
-					noValidate
-				>
+					noValidate>
 					<div className=" flex items-center gap-2">
-						<FontAwesomeIcon
-							icon={faUser}
-							className="text-accent-500"
-						/>
+						<FontAwesomeIcon icon={faUser} className="text-accent-500" />
 						<input
 							name="fullName"
 							type="text"
@@ -207,10 +222,7 @@ export default function Register({ user, setUser, usersList }) {
 						/>
 					</div>
 					<div className=" flex items-center gap-2">
-						<FontAwesomeIcon
-							icon={faAt}
-							className="text-accent-500"
-						/>
+						<FontAwesomeIcon icon={faAt} className="text-accent-500" />
 						<input
 							name="username"
 							type="text"
@@ -224,10 +236,7 @@ export default function Register({ user, setUser, usersList }) {
 					</div>
 
 					<div className=" flex items-center gap-2">
-						<FontAwesomeIcon
-							icon={faEnvelope}
-							className="text-accent-500"
-						/>
+						<FontAwesomeIcon icon={faEnvelope} className="text-accent-500" />
 						<input
 							name="email"
 							type="email"
@@ -240,10 +249,7 @@ export default function Register({ user, setUser, usersList }) {
 						/>
 					</div>
 					<div className=" text-neutral1 flex items-center gap-2">
-						<FontAwesomeIcon
-							icon={faLock}
-							className="text-accent-500"
-						/>
+						<FontAwesomeIcon icon={faLock} className="text-accent-500" />
 						<input
 							name="password"
 							type={showPassword ? "text" : "password"}
@@ -261,8 +267,7 @@ export default function Register({ user, setUser, usersList }) {
 							onClick={(e) => {
 								e.preventDefault();
 								setShowPassword(!showPassword);
-							}}
-						>
+							}}>
 							{showPassword ? (
 								<FontAwesomeIcon icon={faEye} />
 							) : (
@@ -272,8 +277,7 @@ export default function Register({ user, setUser, usersList }) {
 					</div>
 					<button
 						type="submit"
-						className="bg-accent-500 border-2 border-transparent rounded-md hover:bg-transparent hover:border-accent-500 px-4 py-2 w-full text-xl text-white transition-all duration-300"
-					>
+						className="bg-accent-500 border-2 border-transparent rounded-md hover:bg-transparent hover:border-accent-500 px-4 py-2 w-full text-xl text-white transition-all duration-300">
 						Create Account
 					</button>
 				</form>
@@ -281,8 +285,7 @@ export default function Register({ user, setUser, usersList }) {
 					Already have an account?{" "}
 					<a
 						href="/login"
-						className="text-accent-500 hover:text-white transition-all duration-200"
-					>
+						className="text-accent-500 hover:text-white transition-all duration-200">
 						Login
 					</a>
 				</p>

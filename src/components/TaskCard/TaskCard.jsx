@@ -85,15 +85,34 @@ export default function TaskCard({ taskObj }) {
 
 	function handleUpdate() {
 		const now = new Date().toISOString();
-		const updates = {
-			content: localTaskObj.content,
-			deadline: localTaskObj.deadline,
-			priority: localTaskObj.priority,
-			owner: localTaskObj.owner,
-			notes: localTaskObj.notes,
-			lastUpdated: now,
-		};
-		updateTask(taskObj.taskId, updates, currentWorkSpace, setCurrentWorkSpace);
+		if (role === "admin") {
+			const updates = {
+				content: localTaskObj.content,
+				deadline: localTaskObj.deadline,
+				priority: localTaskObj.priority,
+				owner: localTaskObj.owner,
+				notes: localTaskObj.notes,
+				lastUpdated: now,
+			};
+			updateTask(
+				taskObj.taskId,
+				updates,
+				currentWorkSpace,
+				setCurrentWorkSpace
+			);
+		} else {
+			const updates = {
+				notes: localTaskObj.notes,
+				lastUpdated: now,
+			};
+			updateTask(
+				taskObj.taskId,
+				updates,
+				currentWorkSpace,
+				setCurrentWorkSpace
+			);
+		}
+
 		setIsChanged(false);
 	}
 
@@ -115,8 +134,7 @@ export default function TaskCard({ taskObj }) {
 					<p>Are you sure you want to delete this task?</p>
 					<button
 						onClick={handleDelete}
-						className="bg-danger text-accent-50 rounded-lg p-2"
-					>
+						className="bg-danger text-accent-50 rounded-lg p-2">
 						Delete
 					</button>
 					<button onClick={() => setConfirmDeletion(false)}>Cancel</button>
@@ -134,8 +152,7 @@ export default function TaskCard({ taskObj }) {
 							: localTaskObj.status === "Stuck"
 							? "bg-danger"
 							: ""
-					}`}
-				></div>
+					}`}></div>
 				<div
 					className={`flex flex-col 
 					items-start text-sm w-full 
@@ -147,8 +164,7 @@ export default function TaskCard({ taskObj }) {
 					[&_select]:bg-transparent
 					[&_input]:bg-transparent [&_textarea]:bg-transparent
 					[&_select]:text-white
-					[&_input]:text-white [&_textarea]:text-white`}
-				>
+					[&_input]:text-white [&_textarea]:text-white`}>
 					{role === "admin" ? (
 						<div className="flex gap-2 w-9/12">
 							<p className="w-16 shrink-0">Task:</p>
@@ -161,41 +177,35 @@ export default function TaskCard({ taskObj }) {
 							/>
 						</div>
 					) : (
-						<p className="border-gray-900 border-1 h-full">
-							{localTaskObj.content}
-						</p>
+						<div className="flex gap-2 w-9/12">
+							<p className="w-16 shrink-0">Task:</p>
+							<p className="border-gray-900 border-1 h-full">
+								{localTaskObj.content}
+							</p>
+						</div>
 					)}
 
-					{role === "admin" ? (
+					{role === "admin" && (
 						<div className="flex gap-2 w-9/12">
 							<p className="w-16 shrink-0">Owner:</p>
 							<select
 								value={localTaskObj.owner}
 								onChange={handleOwnerChange}
-								className="w-full border-gray-900 border-1 h-full  "
-							>
+								className="w-full border-gray-900 border-1 h-full  ">
 								{currentWorkSpace.teamMembers.map((user) => (
-									<option
-										key={user.uid}
-										value={user.username}
-									>
+									<option key={user.uid} value={user.username}>
 										{user.username}
 									</option>
 								))}
 							</select>
 						</div>
-					) : (
-						<p className="border-gray-900 border-1 h-full">
-							{localTaskObj.owner}
-						</p>
 					)}
 					<div className="flex gap-2 w-9/12">
 						<p className="w-16 shrink-0">Status:</p>
 						<select
 							onChange={(e) => changeSelection(e)}
 							value={localTaskObj.status}
-							className={`  border-gray-900 border-1 h-full [&_option]:text-primary-900`}
-						>
+							className={`  border-gray-900 border-1 h-full [&_option]:text-primary-900`}>
 							<option value="Done">Done</option>
 							<option value="Working on it">Working on it</option>
 							<option value="Stuck">Stuck</option>
@@ -213,7 +223,10 @@ export default function TaskCard({ taskObj }) {
 							/>
 						</div>
 					) : (
-						<p className=" ">{formatDateToDisplay(localTaskObj.deadline)}</p>
+						<div className="flex gap-2 w-9/12">
+							<p className="w-16 shrink-0">Deadline:</p>
+							<p className=" ">{formatDateToDisplay(localTaskObj.deadline)}</p>
+						</div>
 					)}
 					{role === "admin" ? (
 						<div className="flex gap-2 w-9/12">
@@ -221,8 +234,7 @@ export default function TaskCard({ taskObj }) {
 							<select
 								value={localTaskObj.priority}
 								onChange={handlePriorityChange}
-								className={`w-full border-gray-900 border-1 h-full [&_option]:text-primary-900`}
-							>
+								className={`w-full border-gray-900 border-1 h-full [&_option]:text-primary-900`}>
 								<option value="Low">Low</option>
 								<option value="Medium">Medium</option>
 								<option value="High">High</option>
@@ -230,9 +242,12 @@ export default function TaskCard({ taskObj }) {
 							</select>
 						</div>
 					) : (
-						<p className={`border-gray-900 border-1 h-full`}>
-							{localTaskObj.priority}
-						</p>
+						<div className="flex gap-2 w-9/12">
+							<p className="w-16 shrink-0">Priority:</p>
+							<p className={`border-gray-900 border-1 h-full`}>
+								{localTaskObj.priority}
+							</p>
+						</div>
 					)}
 					<div className="flex gap-2 w-9/12">
 						<p className="w-16 shrink-0">Notes:</p>
@@ -247,15 +262,13 @@ export default function TaskCard({ taskObj }) {
 						<button
 							onClick={handleUpdate}
 							className="bg-success text-accent-50 w-8 h-8 rounded-full disabled:bg-gray-500 hover:bg-successHover transition-all duration-300"
-							disabled={!isChanged}
-						>
+							disabled={!isChanged}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						{role === "admin" && (
 							<button
 								onClick={() => setConfirmDeletion(true)}
-								className="bg-danger text-accent-50 w-8 h-8 rounded-full hover:bg-[#be3131] transition-all duration-200"
-							>
+								className="bg-danger text-accent-50 w-8 h-8 rounded-full hover:bg-[#be3131] transition-all duration-200">
 								<FontAwesomeIcon icon={faTrash} />
 							</button>
 						)}

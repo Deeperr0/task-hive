@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-export function Filters({ setPriorityFilter, setStatusFilter }) {
+export function Filters({ setPriorityFilter }) {
 	return (
 		<div className="text-customText items-center gap-4">
 			<h2>Filters: </h2>
@@ -8,25 +8,12 @@ export function Filters({ setPriorityFilter, setStatusFilter }) {
 					<p>Priority</p>
 					<select
 						onChange={(e) => setPriorityFilter(e.target.value)}
-						className="text-primary-900"
-					>
+						className="text-primary-900">
 						<option value="">All</option>
 						<option value="Low">Low</option>
 						<option value="Medium">Medium</option>
 						<option value="High">High</option>
 						<option value="Critical">Critical</option>
-					</select>
-				</div>
-				<div>
-					<p>Status</p>
-					<select
-						onChange={(e) => setStatusFilter(e.target.value)}
-						className="text-primary-900"
-					>
-						<option value="">All</option>
-						<option value="Not started">Not started</option>
-						<option value="Working on it">Working on it</option>
-						<option value="Stuck">Stuck</option>
 					</select>
 				</div>
 			</div>
@@ -38,5 +25,4 @@ export default Filters;
 
 Filters.propTypes = {
 	setPriorityFilter: PropTypes.func.isRequired,
-	setStatusFilter: PropTypes.func.isRequired,
 };

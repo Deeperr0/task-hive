@@ -66,8 +66,7 @@ export default function AddTeam({ setToggleAddTeam }) {
 			<div className="flex flex-col items-start gap-2">
 				<button
 					onClick={() => setToggleAddTeam(false)}
-					className="text-customText text-left"
-				>
+					className="text-customText text-left">
 					<FontAwesomeIcon icon={faArrowLeft} />
 				</button>
 				<div className="flex gap-2 h-10 items-center">
@@ -79,8 +78,7 @@ export default function AddTeam({ setToggleAddTeam }) {
 					/>
 					<button
 						onClick={handleAddTeam}
-						className="bg-accent hover:bg-accent-500 transition-all duration-300 rounded-md px-4 py-2"
-					>
+						className="bg-accent-500 hover:bg-accent-600 transition-all duration-300 rounded-md px-4 py-2">
 						Add Team
 					</button>
 				</div>
