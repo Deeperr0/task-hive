@@ -6,8 +6,8 @@ import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 // Optional: Enable debug mode for localhost
 if (import.meta.env.DEV) {
 	self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+	console.log("App Check debug token enabled!");
 }
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
 	apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

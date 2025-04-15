@@ -93,7 +93,7 @@ export default function Register({ user, setUser, usersList }) {
 				teamId,
 				teamMembers: [
 					{
-						username: registrationDetails,
+						username: registrationDetails.username,
 						uid: newUser.uid,
 						email: registrationDetails.email,
 					},
@@ -107,7 +107,6 @@ export default function Register({ user, setUser, usersList }) {
 			if (!invitationCode) {
 				document.querySelector(".register-status").innerHTML =
 					"User added successfully. An email was sent with instructions to verify account and update password.";
-				startTransition(() => navigate("/"));
 				await setDoc(newUserRef, {
 					username: registrationDetails.username,
 					firstName,
@@ -116,6 +115,9 @@ export default function Register({ user, setUser, usersList }) {
 					teams: { [teamId]: { role: "admin" } },
 				});
 				await setDoc(doc(db, "teams", teamId), newTeam);
+				setTimeout(() => {
+					startTransition(() => navigate("/"));
+				}, 3000);
 			} else {
 				const invitationDocRef = doc(db, "invitationCodes", invitationCode);
 				const invitationDoc = await getDoc(invitationDocRef);
