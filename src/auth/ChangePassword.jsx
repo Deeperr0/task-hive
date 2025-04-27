@@ -1,13 +1,17 @@
 import { startTransition, useState, useEffect } from "react";
-import { auth } from "../firebase"; // Import your Firebase auth instance
+import { auth } from "../firebase";
 import { updatePassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function ChangePassword() {
+	// State to keep track of password so that it can be updated
+	// It is better than using e.target.value because it is a controlled component now making it easier to sync the UI and the logic
 	const [newPassword, setNewPassword] = useState("");
+	// State to keep track of error to display it
 	const [error, setError] = useState(null);
+	// useNavigate hooks returns a navigate function that allows you to navigate to a different route when using react router
 	const navigate = useNavigate();
 
 	// Handle password change
