@@ -1,26 +1,32 @@
 import React from "react";
-import Loader from "./components/Loader";
+import Loader from "./components/ui/Loader";
 import { createContext, useState, useEffect, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { auth, db } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import Home from "./components/Home";
+import Home from "./components/layout/Home";
 import ErrorBoundary from "./utils/ErrorBoundary";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 export const WorkSpaceContext = createContext({});
 export const CurrentUserContext = createContext({});
 export const UserDataContext = createContext({});
 export const RoleContext = createContext("");
-const LazyLogin = React.lazy(() => import("./auth/Login"));
-const LazyRegister = React.lazy(() => import("./auth/Register"));
-const LazyResetPassword = React.lazy(() => import("./auth/ResetPassword"));
-const LazyChangePassword = React.lazy(() => import("./auth/ChangePassword"));
-const LazyFeatures = React.lazy(() => import("./components/Features/Features"));
-const LazyAboutUs = React.lazy(() => import("./components/AboutUs"));
-const LazyContactUs = React.lazy(() => import("./components/ContactUs"));
-const LazyPricing = React.lazy(() => import("./components/Pricing"));
-import { toggleMenu } from "./signals/toggleMenu";
+const LazyLogin = React.lazy(() => import("./features/auth/Login"));
+const LazyRegister = React.lazy(() => import("./features/auth/Register"));
+const LazyResetPassword = React.lazy(() =>
+	import("./features/auth/ResetPassword")
+);
+const LazyChangePassword = React.lazy(() =>
+	import("./features/auth/ChangePassword")
+);
+const LazyFeatures = React.lazy(() =>
+	import("./components/layout/Features/Features")
+);
+const LazyAboutUs = React.lazy(() => import("./components/layout/AboutUs"));
+const LazyContactUs = React.lazy(() => import("./components/layout/ContactUs"));
+const LazyPricing = React.lazy(() => import("./components/layout/Pricing"));
+import { toggleMenu } from "./utils/signals/toggleMenu";
 import { useSignals } from "@preact/signals-react/runtime";
 import { getLatestUpdated } from "./utils/getLatestUpdated";
 import fetchTeamsByIds from "./utils/fetchTeamsByIds";
@@ -81,13 +87,14 @@ function App() {
 
 					// Fetch only the teams for the current user
 					const teams = await fetchTeamsByIds(teamIds);
-
+					// TODO Make it show the last accessed team not the last updated
 					const lastUpdatedTeamId = getLatestUpdated(teams);
 					if (lastUpdatedTeamId) {
 						const teamDocRef = doc(db, "teams", lastUpdatedTeamId);
 						const teamDoc = await getDoc(teamDocRef);
 						if (teamDoc.exists()) {
 							setCurrentWorkSpace(teamDoc.data());
+							console.log(teamDoc.data());
 						}
 					}
 					setUserData(data);
