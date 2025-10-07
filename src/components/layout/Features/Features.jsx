@@ -1,59 +1,66 @@
 import PropTypes from "prop-types";
 import Card from "../../ui/Card";
+import { faListUl, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 export default function Features() {
 	return (
 		<div>
 			<div className={`py-10 w-screen`}>
 				<div id="hero-section" className=" mx-4 md:mx-36">
-					<div className="flex flex-col items-center text-customText gap-10 text-center">
-						<div className="text-center">
-							<h1 className="text-3xl md:text-5xl !font-playfair font-normal leading-snug text-center">
-								{`Discover TaskHive's Powerful Features`}
-							</h1>
-							<p className="mt-[0.688rem] text-md md:text-lg font-light">
-								Explore our robust features designed to transform the way you
-								manage projects.
+					<div className="flex flex-col items-center text-black gap-10 text-center">
+						<div className="text-center mt-10">
+							<h2 className="font-semibold">Key Features</h2>
+							<p className="text-customText">
+								TaskHive offers a comprehensive suite of tools designed to
+								enhance team productivity and project management
 							</p>
 						</div>
 					</div>
 				</div>
-				<div id="features-overview" className="mt-14">
-					<h2 className="text-3xl text-customText text-center mb-9 !font-helvetica">
-						Features Overview
-					</h2>
-					<div className="flex gap-4 items-center lg:justify-center overflow-x-scroll lg:overflow-hidden px-5 no-scrollbar">
+				<div id="features-overview" className="mt-14 mb-20">
+					<div className="grid grid-cols-3 gap-12 px-20">
 						<Card
-							cardTitle="Task Management"
-							cardText="Manage your tasks with ease. Add, edit, and delete tasks in one place."
+							cardIcon={faUserGroup}
+							cardTitle="Team Management"
+							cardText="Easily create and manage multiple teams with different user roles (admin/user)"
 						/>
 						<Card
-							cardTitle="Collaboration"
-							cardText="Collaborate with others in real-time. Share tasks, files, and notes with your team."
+							cardIcon={faListUl}
+							cardTitle="Task Organization"
+							cardText="Organize tasks with lists, boards, and calendars for clear project oversight"
 						/>
 						<Card
+							cardIcon={faClock}
 							cardTitle="Time Tracking"
 							cardText="Track your time efficiently. Set goals, track time, and stay on top of your work."
 						/>
 					</div>
 				</div>
-				<div id="benefits" className="mt-14 w-full">
-					<h2 className="text-3xl text-customText text-center mb-9 !font-helvetica">
-						Benefits
-					</h2>
-					<div className="flex gap-4 items-center lg:justify-center overflow-x-scroll lg:overflow-hidden w-full px-5 no-scrollbar">
-						<Card
-							cardTitle="Boost Efficiency"
-							cardText="Streamline your workflow. Track time, set goals, and stay on top of your work with ease."
-						/>
-						<Card
-							cardTitle="Stay Organized"
-							cardText="Keep all your projects and tasks in one place for easy tracking and management"
-						/>
-						<Card
-							cardTitle="Progress Tracking"
-							cardText="Monitor the status of your projects with real-time progress updates"
-						/>
+				<div className="text-black mt-20">
+					<h2 className="text-center">Visualize Your Workflow</h2>
+					<p className="text-center mt-6 mb-14 text-xl">
+						Gain a clear understanding of project progress and team workload
+						with intuitive visualizations.
+					</p>
+					<div className="grid grid-cols-2 h-[30rem] px-20 gap-10">
+						<div className="flex flex-col">
+							<div className="mb-6 shadow-lg shadow-black/40 h-5/6 overflow-hidden bg-[url('/about-us/about-us.webp')] bg-cover bg-center w-full rounded-xl"></div>
+							<h5 className="mb-2">Project dashboards</h5>
+							<p>
+								Monitor project timelines, task completion rates, and team
+								performance at a glance
+							</p>
+						</div>
+						<div className="flex flex-col">
+							<div className="mb-6 shadow-lg shadow-black/40 h-5/6 overflow-hidden bg-[url('/home/hero-banner.webp')] bg-cover bg-center w-full rounded-xl"></div>
+							<h5 className="mb-2">Team collaboration</h5>
+							<p>
+								Facilitate seamless collaboration with real-time updates,
+								comments, and file sharing
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { RoleContext, WorkSpaceContext } from "../../../App";
 import useFilterTasks from "../../../hooks/useFilterTasks";
 import { addTask } from "../../../utils/manageTasks";
+import DeleteTeam from "../../teams/DeleteTeam";
 export default function Project({ user, userData }) {
 	// Stores the current work space of the logged in user
 	const { currentWorkSpace, setCurrentWorkSpace } =
@@ -52,6 +53,7 @@ export default function Project({ user, userData }) {
 						onClick={() => setToggleAddUser(true)}>
 						Add user
 					</button>
+					<DeleteTeam />
 				</div>
 			)}
 			<Filters setPriorityFilter={setPriorityFilter} />

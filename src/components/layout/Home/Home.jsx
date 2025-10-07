@@ -13,30 +13,23 @@ export default function Home({ user, userData, toggleMenu }) {
 		<div className="h-full">
 			{!user ? (
 				<>
-					<div className="p-5 lg:px-14 md:py-5 md:px-32">
-						<div className="flex flex-col items-center mt-[3rem] text-customText gap-12 md:gap-24 text-center">
-							<div className="flex flex-col justify-center h-full items-center lg:w-7/12 gap-7">
-								<h2 className="text-3xl md:text-4xl lg:text-5xl !font-playfair font-semibold !leading-snug">
-									Streamline Your Workflow. Empower Your Team.
-								</h2>
-								<p className="md:text-lg lg:text-xl font-light w-10/12 text-purpleText ">
-									TaskHive makes team management effortless and efficient.
-								</p>
-								<div className="flex gap-4 items-center">
-									<a href="/register">
-										<button className="font-semibold bg-accent-500 hover:bg-transparent border-2 border-transparent hover:border-accent-500 rounded-md px-4 py-2 hover:text-accent-500 text-white transition-all duration-300 ease-in-out w-fit">
-											Get Started
-										</button>
-									</a>
-									<button className="font-semibold rounded-md px-4 py-2 text-accent-500 hover:text-white hover:bg-accent-500 transition-all duration-300 ease-in-out w-fit border-2 border-accent-500">
-										See how it works
-									</button>
-								</div>
-							</div>
-							<Features />
-							<div className="md:rounded-lg border-0 overflow-hidden"></div>
+					<div className="h-[calc(100vh-6rem)] overflow-hidden bg-[url('/home/hero-banner.webp')] bg-cover bg-center relative">
+						<div className="relative z-10 flex flex-col items-center justify-center gap-6 text-white w-10/12 h-full mx-auto text-center">
+							<h1 className="font-bold  text-7xl">
+								Streamline Teamwork with TaskHive
+							</h1>
+							<h5 className="w-2/3 text-[#c4c3c2]">
+								Manage projects, assign tasks, and track progress effortlessly.
+								TaskHive adapts to your team's needs, whether you're a small
+								team or a large organization.
+							</h5>
+							<button className="bg-[#137fec] px-6 py-3 rounded-xl text-xl hover:bg-[#126fea] transition-all duration-300">
+								Get started for free
+							</button>
 						</div>
+						<div className="absolute w-full h-full bg-gradient-to-t from-black/80 to-black/10 top-0 left-0"></div>
 					</div>
+					<Features />
 				</>
 			) : (
 				<>

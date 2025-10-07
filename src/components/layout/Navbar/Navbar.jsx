@@ -30,7 +30,7 @@ export default function Navbar({ user, toggleMenu }) {
 	}
 
 	return (
-		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 mb-8 bg-navy text-customText flex items-center z-50">
+		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 bg-navy text-customText flex items-center z-50">
 			<nav className="flex justify-between items-center w-full">
 				{user && (
 					<div
@@ -45,7 +45,7 @@ export default function Navbar({ user, toggleMenu }) {
 				)}
 				<div className="">
 					<a href="/">
-						<h1 className="text-customText text-2xl leading-10 font-normal hover:text-accent-500 transition duration-300">
+						<h1 className="text-black text-2xl leading-10 font-normal hover:text-[#137fec] transition duration-300">
 							TaskHive
 						</h1>
 					</a>
@@ -85,7 +85,7 @@ export default function Navbar({ user, toggleMenu }) {
 											? "fixed top-0 left-0 z-50 w-screen h-screen p-10"
 											: "hidden md:flex"
 									}>
-									<ul className="text-customText gap-4 md:items-center md:flex flex flex-col md:flex-row">
+									<ul className="text-[#4a5568] gap-4 md:items-center md:flex flex flex-col md:flex-row  md:text-center">
 										<li>
 											<FontAwesomeIcon
 												icon={faClose}
@@ -109,13 +109,6 @@ export default function Navbar({ user, toggleMenu }) {
 										</li>
 										<li>
 											<NavItem
-												itemName="About us"
-												itemLink="/about-us"
-												active={path == "/about-us"}
-											/>
-										</li>
-										<li>
-											<NavItem
 												itemName="Contact"
 												itemLink="/contact"
 												active={path == "/contact"}
@@ -125,12 +118,12 @@ export default function Navbar({ user, toggleMenu }) {
 										{toggleNavMenu && (
 											<>
 												<a href="/login">
-													<button className="bg-accent-500 px-4 py-2 rounded-lg border-2 hover:bg-transparent border-transparent hover:border-accent-500 transition-all duration-300">
+													<button className="bg-[#dfebf6] px-4 py-2 rounded-lg border-2 hover:bg-[#d9e4ef] transition-all duration-300">
 														Login
 													</button>
 												</a>
 												<a href="/register">
-													<button className="border-2 border-accent-500 px-4 py-2 rounded-lg hover:bg-accent-500 hover:border-transparent transition-all duration-300">
+													<button className="border-2 border-[#137fec] px-4 py-2 rounded-lg hover:bg-accent-500 hover:border-transparent transition-all duration-300">
 														Register
 													</button>
 												</a>
@@ -187,13 +180,13 @@ export default function Navbar({ user, toggleMenu }) {
 				{!user && path != "/login" && path != "/register" && (
 					<div className="hidden md:flex gap-4">
 						<a href="/login">
-							<button className="text-accent-500 border-2 rounded-lg hover:bg-accent-500 border-accent-500 px-4 py-2 hover:text-white transition-all duration-300">
+							<button className="bg-[#dfebf6] px-4 py-2 rounded-lg hover:bg-[#d1dce7] transition-all duration-300 text-[#137fec]">
 								Login
 							</button>
 						</a>
 						<a href="/register">
-							<button className="bg-accent-500 border-2 border-transparent rounded-lg hover:bg-transparent hover:border-accent-500 hover:text-accent-500 px-4 py-2 text-white transition-all duration-300">
-								Sign Up
+							<button className="bg-[#137fec] hover:bg-[#137fec]/80 px-4 py-2 rounded-lg text-white hover:border-transparent transition-all duration-300">
+								Register
 							</button>
 						</a>
 					</div>
