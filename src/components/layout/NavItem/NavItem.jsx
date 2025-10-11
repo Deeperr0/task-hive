@@ -1,23 +1,23 @@
 import PropTypes from "prop-types";
 export default function NavItem({ itemName, itemLink, active }) {
-	return (
-		<div className="parent group">
-			<a className="md:text-sm lg:text-base font-medium" href={`${itemLink}`}>
-				{itemName}
-			</a>
-			<hr
-				className={
-					active
-						? "opacity-100 border-1 border-[#137fec] md:w-1/3 w-4"
-						: "opacity-0 transition-all duration-300 group-hover:opacity-100 border-1 border-[#137fec] md:w-1/3 w-4"
-				}
-			/>
-		</div>
-	);
+  return (
+    <div className="parent group">
+      <a className="font-medium text-xl" href={`${itemLink}`}>
+        {itemName}
+      </a>
+      <hr
+        className={
+          active
+            ? "opacity-100 border-1 border-accent-500 md:w-1/3 w-4"
+            : "opacity-0 transition-all duration-300 group-hover:opacity-100 border-1 border-accent-500 md:w-1/3 w-4"
+        }
+      />
+    </div>
+  );
 }
 
 NavItem.propTypes = {
-	itemName: PropTypes.string.isRequired,
-	itemLink: PropTypes.string.isRequired,
-	active: PropTypes.bool.isRequired,
+  itemName: PropTypes.string.isRequired,
+  itemLink: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
 };

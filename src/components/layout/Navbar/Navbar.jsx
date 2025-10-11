@@ -4,199 +4,206 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-	faArrowRightFromBracket,
-	faBars,
-	faClose,
+  faArrowRightFromBracket,
+  faBars,
+  faClose,
 } from "@fortawesome/free-solid-svg-icons";
 import { startTransition, useContext, useState } from "react";
 import { UserDataContext } from "../../../App";
 import NavItem from "../NavItem";
 
 export default function Navbar({ user, toggleMenu }) {
-	const path = window.location.pathname;
-	const navigate = useNavigate();
-	const [toggleNavMenu, setToggleNavMenu] = useState(false);
-	const [toggleUserMenu, setToggleUserMenu] = useState(false);
-	const { userData } = useContext(UserDataContext);
+  const path = window.location.pathname;
+  const navigate = useNavigate();
+  const [toggleNavMenu, setToggleNavMenu] = useState(false);
+  const [toggleUserMenu, setToggleUserMenu] = useState(false);
+  const { userData } = useContext(UserDataContext);
 
-	async function handleLogout() {
-		try {
-			setToggleUserMenu(false);
-			await signOut(auth);
-			startTransition(() => navigate("/"));
-		} catch (error) {
-			console.error("Error logging out:", error);
-		}
-	}
+  async function handleLogout() {
+    try {
+      setToggleUserMenu(false);
+      await signOut(auth);
+      startTransition(() => navigate("/"));
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  }
 
-	return (
-		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 bg-navy text-custom-text flex items-center z-50">
-			<nav className="flex justify-between items-center w-full">
-				{user && (
-					<div
-						className="md:hidden"
-						onClick={() => {
-							toggleMenu.value = "true";
-						}}>
-						<div className="block md:hidden text-xl">
-							<FontAwesomeIcon icon={faBars} />
-						</div>
-					</div>
-				)}
-				<div className="">
-					<a href="/">
-						<h1 className="text-black text-2xl leading-10 font-normal hover:text-[#137fec] transition duration-300">
-							TaskHive
-						</h1>
-					</a>
-				</div>
-				<div className="text-customBlack text-base flex gap-4 items-center">
-					{user ? (
-						<>
-							<div className="hidden md:flex justify-between items-center gap-4">
-								<a
-									href="/change-password"
-									className="font-medium hover:text-accentShade1 transition-all duration-300">
-									Change password
-								</a>
-								<button
-									onClick={handleLogout} // Properly handled here
-									className="font-medium hover:text-danger transition-all duration-300">
-									Logout
-								</button>
-								<h1 className="bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center text-lg text-Shark">
-									{userData?.firstName[0].toUpperCase()}
-								</h1>
-							</div>
-							<div
-								className="bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center md:hidden"
-								onClick={() => setToggleUserMenu(!toggleUserMenu)}>
-								<h1 className="md:hidden">
-									{userData?.firstName[0].toUpperCase()}
-								</h1>
-							</div>
-						</>
-					) : (
-						path != "/reset-password" && (
-							<nav className="flex justify-between items-center">
-								<div
-									className={
-										toggleNavMenu
-											? "fixed top-0 left-0 z-50 w-screen h-screen p-10"
-											: "hidden md:flex"
-									}>
-									<ul className="text-[#4a5568] gap-4 md:items-center flex flex-col md:flex-row  md:text-center">
-										<li className="md:hidden">
-											<FontAwesomeIcon
-												icon={faClose}
-												onClick={() => setToggleNavMenu(false)}
-												className="text-2xl"
-											/>
-										</li>
-										<li>
-											<NavItem
-												itemName="Home"
-												itemLink="/"
-												active={path == "/"}
-											/>
-										</li>
-										<li>
-											<NavItem
-												itemName="Pricing"
-												itemLink="/pricing"
-												active={path == "/pricing"}
-											/>
-										</li>
-										<li>
-											<NavItem
-												itemName="Contact"
-												itemLink="/contact"
-												active={path == "/contact"}
-											/>
-										</li>
+  return (
+    <div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 bg-navy  flex items-center z-50">
+      <nav className="flex justify-between items-center w-full">
+        {user && (
+          <div
+            className="md:hidden"
+            onClick={() => {
+              toggleMenu.value = "true";
+            }}
+          >
+            <div className="block md:hidden text-xl">
+              <FontAwesomeIcon icon={faBars} />
+            </div>
+          </div>
+        )}
+        <div className="">
+          <a href="/">
+            <h1 className="text-black !text-4xl leading-10 font-medium hover:text-accent-500 transition duration-300">
+              TaskHive
+            </h1>
+          </a>
+        </div>
+        <div className="text-black text-base flex gap-4 items-center">
+          {user ? (
+            <>
+              <div className="hidden md:flex justify-between items-center gap-4">
+                <a
+                  href="/change-password"
+                  className="font-medium hover:text-accentShade1 transition-all duration-300"
+                >
+                  Change password
+                </a>
+                <button
+                  onClick={handleLogout} // Properly handled here
+                  className="font-medium hover:text-danger transition-all duration-300"
+                >
+                  Logout
+                </button>
+                <p className="text-black bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center text-lg">
+                  {userData?.firstName[0].toUpperCase()}
+                </p>
+              </div>
+              <div
+                className="bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center md:hidden"
+                onClick={() => setToggleUserMenu(!toggleUserMenu)}
+              >
+                <h1 className="md:hidden">
+                  {userData?.firstName[0].toUpperCase()}
+                </h1>
+              </div>
+            </>
+          ) : (
+            path != "/reset-password" && (
+              <nav className="flex justify-between items-center">
+                <div
+                  className={
+                    toggleNavMenu
+                      ? "fixed top-0 left-0 z-50 w-screen h-screen p-10"
+                      : "hidden md:flex"
+                  }
+                >
+                  <ul className="text-neutral-600 gap-4 md:items-center flex flex-col md:flex-row  md:text-center">
+                    <li className="md:hidden">
+                      <FontAwesomeIcon
+                        icon={faClose}
+                        onClick={() => setToggleNavMenu(false)}
+                        className="text-2xl"
+                      />
+                    </li>
+                    <li>
+                      <NavItem
+                        itemName="Home"
+                        itemLink="/"
+                        active={path == "/"}
+                      />
+                    </li>
+                    <li>
+                      <NavItem
+                        itemName="Pricing"
+                        itemLink="/pricing"
+                        active={path == "/pricing"}
+                      />
+                    </li>
+                    <li>
+                      <NavItem
+                        itemName="Contact"
+                        itemLink="/contact"
+                        active={path == "/contact"}
+                      />
+                    </li>
 
-										{toggleNavMenu && (
-											<>
-												<a href="/login">
-													<button className="bg-[#dfebf6] px-4 py-2 rounded-lg border-2 hover:bg-[#d9e4ef] transition-all duration-300">
-														Login
-													</button>
-												</a>
-												<a href="/register">
-													<button className="border-2 border-[#137fec] px-4 py-2 rounded-lg hover:bg-accent-500 hover:border-transparent transition-all duration-300">
-														Register
-													</button>
-												</a>
-											</>
-										)}
-									</ul>
-								</div>
+                    {toggleNavMenu && (
+                      <>
+                        <a href="/login">
+                          <button className="bg-neutral-100 px-4 py-2 rounded-lg border-2 hover:bg-neutral-150 transition-all duration-300">
+                            Login
+                          </button>
+                        </a>
+                        <a href="/register">
+                          <button className="border-2 border-accent-500 px-4 py-2 rounded-lg hover:bg-accent-500 hover:border-transparent transition-all duration-300">
+                            Register
+                          </button>
+                        </a>
+                      </>
+                    )}
+                  </ul>
+                </div>
 
-								<div className="md:hidden text-custom-text aspect-square text-xl">
-									<FontAwesomeIcon
-										icon={faBars}
-										onClick={() => setToggleNavMenu(true)}
-									/>
-								</div>
-							</nav>
-						)
-					)}
-					<div
-						className={
-							toggleUserMenu && user
-								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-linear-to-b from-background1 to-background2 text-custom-text z-30"
-								: "hidden"
-						}>
-						<div className="md:hidden px-5">
-							<div className="text-xl">
-								<FontAwesomeIcon
-									icon={faClose}
-									onClick={() => setToggleUserMenu(false)}
-								/>
-							</div>
-							<div className="flex flex-col gap-4 items-center">
-								<div className="flex flex-col gap-4 items-center">
-									<div className="bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center">
-										<h1
-											className=""
-											onClick={() => setToggleUserMenu(!toggleUserMenu)}>
-											{userData?.firstName[0].toUpperCase()}
-										</h1>
-									</div>
-									<h2>{`${userData?.firstName} ${userData?.lastName}`}</h2>
-								</div>
-								<hr />
-								<a href="/profile">Profile</a>
-								<hr />
-								<a href="/change-password">Change password</a>
-								<hr />
-								<button onClick={handleLogout}>
-									<FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				{!user && path != "/login" && path != "/register" && (
-					<div className="hidden md:flex gap-4">
-						<a href="/login">
-							<button className="bg-[#dfebf6] px-4 py-2 rounded-lg hover:bg-[#d1dce7] transition-all duration-300 text-[#137fec]">
-								Login
-							</button>
-						</a>
-						<a href="/register">
-							<button className="bg-[#137fec] hover:bg-[#137fec]/80 px-4 py-2 rounded-lg text-white hover:border-transparent transition-all duration-300">
-								Register
-							</button>
-						</a>
-					</div>
-				)}
-			</nav>
-		</div>
-	);
+                <div className="md:hidden  aspect-square text-xl">
+                  <FontAwesomeIcon
+                    icon={faBars}
+                    onClick={() => setToggleNavMenu(true)}
+                  />
+                </div>
+              </nav>
+            )
+          )}
+          <div
+            className={
+              toggleUserMenu && user
+                ? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-linear-to-b from-background1 to-background2  z-30"
+                : "hidden"
+            }
+          >
+            <div className="md:hidden px-5">
+              <div className="text-xl">
+                <FontAwesomeIcon
+                  icon={faClose}
+                  onClick={() => setToggleUserMenu(false)}
+                />
+              </div>
+              <div className="flex flex-col gap-4 items-center">
+                <div className="flex flex-col gap-4 items-center">
+                  <div className="bg-accent-500 w-10 h-10 rounded-full flex justify-center items-center">
+                    <h1
+                      className=""
+                      onClick={() => setToggleUserMenu(!toggleUserMenu)}
+                    >
+                      {userData?.firstName[0].toUpperCase()}
+                    </h1>
+                  </div>
+                  <h2>{`${userData?.firstName} ${userData?.lastName}`}</h2>
+                </div>
+                <hr />
+                <a href="/profile">Profile</a>
+                <hr />
+                <a href="/change-password">Change password</a>
+                <hr />
+                <button onClick={handleLogout}>
+                  <FontAwesomeIcon icon={faArrowRightFromBracket} /> Logout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {!user && path != "/login" && path != "/register" && (
+          <div className="hidden md:flex gap-4">
+            <a href="/login">
+              <button className="text-lg bg-neutral-100 px-4 py-2 rounded-lg hover:bg-neutral-200 transition-all duration-300 text-accent-500">
+                Login
+              </button>
+            </a>
+            <a href="/register">
+              <button className="text-lg bg-accent-500 hover:bg-accent-500/80 px-4 py-2 rounded-lg text-white hover:border-transparent transition-all duration-300">
+                Register
+              </button>
+            </a>
+          </div>
+        )}
+      </nav>
+    </div>
+  );
 }
 
 Navbar.propTypes = {
-	user: PropTypes.object,
-	toggleMenu: PropTypes.object,
+  user: PropTypes.object,
+  toggleMenu: PropTypes.object,
 };
