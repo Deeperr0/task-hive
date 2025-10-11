@@ -17,7 +17,7 @@ export default function AboutUs() {
 	return (
 		<div className="pt-4 pb-16 px-8 md:px-20 lg:px-36">
 			<div className="max-w-7xl mx-auto">
-				<h1 className="text-2xl md:text-3xl lg:text-4xl font-normal text-left text-accent-300 mb-8 !font-playfair ml-10">
+				<h1 className="text-2xl md:text-3xl lg:text-4xl font-normal text-left text-accent-300 mb-8 font-playfair! ml-10">
 					Empowering Teams. <br /> Achieving More Together.
 				</h1>
 				<div className="gap-12 relative">
@@ -80,7 +80,7 @@ export default function AboutUs() {
 					</div>
 					<div>
 						<div className="space-y-4 md:ml-[55%] lg:md:ml-[60%] mt-12 md:mt-16 lg:pr-16 text-center md:text-left">
-							<h2 className="text-2xl lg:text-3xl font-semibold text-accent-300 !font-playfair ">
+							<h2 className="text-2xl lg:text-3xl font-semibold text-accent-300 font-playfair! ">
 								Helping You <br />
 								Succeed at Every Step.
 							</h2>

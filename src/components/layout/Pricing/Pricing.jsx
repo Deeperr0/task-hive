@@ -7,10 +7,10 @@ export default function Pricing() {
 	return (
 		<div>
 			<div className="flex flex-col items-center mt-16 pb-10">
-				<h2 className="text-3xl md:text-4xl lg:text-5xl text-customText text-center">
+				<h2 className="text-3xl md:text-4xl lg:text-5xl text-custom-text text-center">
 					Flexible Plans for Every Team
 				</h2>
-				<p className="text-base text-customText text-center mt-4">
+				<p className="text-base text-custom-text text-center mt-4">
 					{`This is just a placeholder for the pricing page. These prices are purely fictional`}
 				</p>
 				<div className="text-accent-50 flex gap-4 items-center mt-4 bg-accent-900 p-1 rounded-xl relative">

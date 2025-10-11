@@ -205,7 +205,7 @@ export default function Register({ user, setUser, usersList }) {
 				</p>
 				<form
 					onSubmit={handleRegister}
-					className="w-10/12 md:w-1/2 flex flex-col gap-4 [&>div]:bg-white [&>*]:h-12 [&>*]:pl-3 [&>*]:rounded-4"
+					className="w-10/12 md:w-1/2 flex flex-col gap-4 [&>div]:bg-white *:h-12 *:pl-3 *:rounded-4"
 					autoComplete="off"
 					noValidate>
 					<div className=" flex items-center gap-2">

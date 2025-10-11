@@ -11,10 +11,10 @@ export default function PricingCard({
 }) {
 	return (
 		<div
-			className={`w-80 md:w-96 h-[32rem] text-customText flex flex-col items-center justify-center gap-10 rounded-xl ${
+			className={`w-80 md:w-96 h-128 text-custom-text flex flex-col items-center justify-center gap-10 rounded-xl ${
 				mostPopular
-					? "bg-gradient-to-tr from-primary-400/20 to-primary-600/50 h-[34rem] lg:-translate-y-4 shadow-2xl"
-					: "bg-gradient-to-bl from-accent-750/40 to-accent-500/40"
+					? "bg-linear-to-tr from-primary-400/20 to-primary-600/50 h-136 lg:-translate-y-4 shadow-2xl"
+					: "bg-linear-to-bl from-accent-750/40 to-accent-500/40"
 			}`}
 		>
 			<h2 className="text-xl">{packageName}</h2>

@@ -16,7 +16,7 @@ export default function Tasks({ name, tasksList }) {
 				}>
 				{name}
 			</h3>
-			<div className="text-customText border-gray-900 rounded-lg pb-4 text-sm w-full">
+			<div className="text-custom-text border-gray-900 rounded-lg pb-4 text-sm w-full">
 				<div className="">
 					<div>
 						{tasksList?.length != 0 ? (

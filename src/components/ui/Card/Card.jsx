@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 export default function Card({ cardIcon, cardTitle, cardText }) {
 	return (
-		<div className="flex flex-col items-start gap-3 w-full h-full text-black border border-black/20 rounded-xl p-8">
+		<div className="flex flex-col items-start justify-between gap-3 w-full h-full text-black border border-black/20 rounded-xl p-8">
 			<FontAwesomeIcon
 				icon={cardIcon}
 				className="text-2xl mb-3 text-[#137fec]"

@@ -27,7 +27,7 @@ export default function Home({ user, userData, toggleMenu }) {
 								Get started for free
 							</button>
 						</div>
-						<div className="absolute w-full h-full bg-gradient-to-t from-black/80 to-black/10 top-0 left-0"></div>
+						<div className="absolute w-full h-full bg-linear-to-t from-black/80 to-black/10 top-0 left-0"></div>
 					</div>
 					<Features />
 				</>
@@ -37,10 +37,10 @@ export default function Home({ user, userData, toggleMenu }) {
 						<div
 							className={
 								toggleMenu.value == "true"
-									? "flex flex-col gap-4 fixed top-0 left-0 px-10 md:px-5 pt-10 w-screen h-screen text-customText z-30 "
-									: "py-8 rounded-tr-xl text-customText shadow-secondaryCustom !w-64 px-8 text-base self-stretch hidden md:block bg-gradient-to-b from-secondary-800/80 to-transparent"
+									? "flex flex-col gap-4 fixed top-0 left-0 px-10 md:px-5 pt-10 w-screen h-screen text-custom-text z-30 "
+									: "py-8 rounded-tr-xl text-custom-text shadow-secondary-custom w-64! px-8 text-base self-stretch hidden md:block bg-linear-to-b from-secondary-800/80 to-transparent"
 							}>
-							<div className="text-customText  md:hidden">
+							<div className="text-custom-text  md:hidden">
 								<FontAwesomeIcon
 									icon={faClose}
 									className="text-xl"
@@ -51,7 +51,7 @@ export default function Home({ user, userData, toggleMenu }) {
 							</div>
 							<LazySideMenu user={user} teams={userData?.teams} />
 						</div>
-						<div className="md:rounded-tl-2xl px-8 text-customText w-full py-10 bg-gradient-to-b from-secondary-800/80 to-transparent">
+						<div className="md:rounded-tl-2xl px-8 text-custom-text w-full py-10 bg-linear-to-b from-secondary-800/80 to-transparent">
 							<LazyProject user={user} userData={userData} />
 						</div>
 					</div>

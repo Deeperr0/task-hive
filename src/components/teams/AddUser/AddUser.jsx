@@ -104,7 +104,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 						/>
 						<select
 							onChange={(e) => setChosenRole(e.target.value)}
-							className="bg-customText text-black">
+							className="bg-custom-text text-black">
 							<option value="admin">Admin</option>
 							<option value="user">User</option>
 						</select>
@@ -114,7 +114,7 @@ export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 						className="bg-accent-500 border-2 border-transparent hover:border-accent-500 hover:bg-transparent w-1/2 mx-auto h-9 rounded-md transition-all duration-300 ">
 						Add
 					</button>
-					<div className="text-customText" id="add-error"></div>
+					<div className="text-custom-text" id="add-error"></div>
 				</div>
 			</div>
 		</Overlay>

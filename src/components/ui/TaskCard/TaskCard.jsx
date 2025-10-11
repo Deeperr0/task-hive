@@ -261,7 +261,7 @@ export default function TaskCard({ taskObj }) {
 					<div className="flex justify-center   border-gray-900 gap-4 px-4 text-sm w-full mt-4">
 						<button
 							onClick={handleUpdate}
-							className="bg-success text-accent-50 w-8 h-8 rounded-full disabled:bg-gray-500 hover:bg-successHover transition-all duration-300"
+							className="bg-success text-accent-50 w-8 h-8 rounded-full disabled:bg-gray-500 hover:bg-success-hover transition-all duration-300"
 							disabled={!isChanged}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>

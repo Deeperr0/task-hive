@@ -30,7 +30,7 @@ export default function Navbar({ user, toggleMenu }) {
 	}
 
 	return (
-		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 bg-navy text-customText flex items-center z-50">
+		<div className="border-solid border-0 shadow-custom px-8 md:py-12 md:px-14 h-20 bg-navy text-custom-text flex items-center z-50">
 			<nav className="flex justify-between items-center w-full">
 				{user && (
 					<div
@@ -85,12 +85,12 @@ export default function Navbar({ user, toggleMenu }) {
 											? "fixed top-0 left-0 z-50 w-screen h-screen p-10"
 											: "hidden md:flex"
 									}>
-									<ul className="text-[#4a5568] gap-4 md:items-center md:flex flex flex-col md:flex-row  md:text-center">
-										<li>
+									<ul className="text-[#4a5568] gap-4 md:items-center flex flex-col md:flex-row  md:text-center">
+										<li className="md:hidden">
 											<FontAwesomeIcon
 												icon={faClose}
 												onClick={() => setToggleNavMenu(false)}
-												className="text-2xl md:hidden"
+												className="text-2xl"
 											/>
 										</li>
 										<li>
@@ -132,7 +132,7 @@ export default function Navbar({ user, toggleMenu }) {
 									</ul>
 								</div>
 
-								<div className="md:hidden text-customText aspect-square text-xl">
+								<div className="md:hidden text-custom-text aspect-square text-xl">
 									<FontAwesomeIcon
 										icon={faBars}
 										onClick={() => setToggleNavMenu(true)}
@@ -144,7 +144,7 @@ export default function Navbar({ user, toggleMenu }) {
 					<div
 						className={
 							toggleUserMenu && user
-								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-gradient-to-b from-background1 to-background2 text-customText z-30"
+								? "flex flex-col gap-4 fixed top-0 left-0 px-5 pt-10 w-screen h-screen bg-linear-to-b from-background1 to-background2 text-custom-text z-30"
 								: "hidden"
 						}>
 						<div className="md:hidden px-5">

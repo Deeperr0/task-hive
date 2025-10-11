@@ -21,10 +21,10 @@ class ErrorBoundary extends React.Component {
 			// You can render any custom fallback UI
 			return (
 				<div className="flex flex-col justify-center items-center h-full gap-8">
-					<h1 className="text-customText text-5xl text-center">
+					<h1 className="text-custom-text text-5xl text-center">
 						Something went wrong.
 					</h1>
-					<p className="text-customText text-xl">
+					<p className="text-custom-text text-xl">
 						Please reload or try again later.
 					</p>
 				</div>

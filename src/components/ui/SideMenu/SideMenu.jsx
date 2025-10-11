@@ -96,7 +96,7 @@ export default function SideMenu({ teams }) {
 				<div className="border-black flex justify-between items-center border-2 w-36 bg-white overflow-hidden h-8">
 					<input type="text" className="w-full bg-transparent" />
 					<button>
-						<img src={filterIcon} className="w-5 text-customText mr-3" />
+						<img src={filterIcon} className="w-5 text-custom-text mr-3" />
 					</button>
 				</div>
 				<button

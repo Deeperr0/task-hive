@@ -56,7 +56,7 @@ export default function ResetPassword() {
 			</div>
 			<form
 				onSubmit={handleResetPassword}
-				className="flex flex-col gap-4 text-customText [&>*]:w-full">
+				className="flex flex-col gap-4 text-custom-text *:w-full">
 				<input
 					type="email"
 					value={email}

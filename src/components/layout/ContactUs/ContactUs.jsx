@@ -38,7 +38,7 @@ export default function ContactUs() {
 	return (
 		<div className="flex flex-col lg:flex-row py-16 gap-16 lg:justify-between w-11/12 md:w-9/12 mx-auto">
 			<div className="lg:w-1/3">
-				<h1 className="text-4xl md:text-5xl font-semibold text-left text-accent-400 mb-8 !font-playfair">
+				<h1 className="text-4xl md:text-5xl font-semibold text-left text-accent-400 mb-8 font-playfair!">
 					Contact Us
 				</h1>
 				<div>
@@ -48,10 +48,10 @@ export default function ContactUs() {
 					</p>
 				</div>
 				<div className="flex flex-col gap-4 my-4">
-					<p className="text-accent-300 font-medium !font-helvetica">
+					<p className="text-accent-300 font-medium font-helvetica!">
 						info@taskhive.com
 					</p>
-					<p className="text-accent-300 font-medium !font-helvetica">
+					<p className="text-accent-300 font-medium font-helvetica!">
 						+1 (123) 456-7890
 					</p>
 					<div>
@@ -65,7 +65,7 @@ export default function ContactUs() {
 				<div className="flex">
 					<div className="space-y-8">
 						<div className="space-y-4">
-							<h2 className="text-2xl font-semibold text-accent-400 !font-playfair">
+							<h2 className="text-2xl font-semibold text-accent-400 font-playfair!">
 								Customer Support
 							</h2>
 							<p className="text-accent-50">
@@ -75,7 +75,7 @@ export default function ContactUs() {
 						</div>
 
 						<div className="space-y-4">
-							<h2 className="text-2xl font-semibold text-accent-400 !font-playfair">
+							<h2 className="text-2xl font-semibold text-accent-400 font-playfair!">
 								Feedback & Suggestions
 							</h2>
 							<p className="text-accent-50">
@@ -98,7 +98,7 @@ export default function ContactUs() {
 						<input
 							id="firstName"
 							type="text"
-							className="border border-accent-50 p-3 rounded-md focus:outline-none focus:border-indigo-500"
+							className="border border-accent-50 p-3 rounded-md focus:outline-hidden focus:border-indigo-500"
 							placeholder=" Jin-Wu"
 							name="firstName"
 							value={formData.firstName}
@@ -113,7 +113,7 @@ export default function ContactUs() {
 						<input
 							id="lastName"
 							type="text"
-							className="border border-accent-50 p-3 rounded-md focus:outline-none focus:border-indigo-500"
+							className="border border-accent-50 p-3 rounded-md focus:outline-hidden focus:border-indigo-500"
 							placeholder="Seong"
 							name="lastName"
 							value={formData.lastName}
@@ -128,7 +128,7 @@ export default function ContactUs() {
 						<input
 							id="email"
 							type="email"
-							className="border border-accent-50 p-3 rounded-md focus:outline-none focus:border-indigo-500"
+							className="border border-accent-50 p-3 rounded-md focus:outline-hidden focus:border-indigo-500"
 							placeholder="you@example.com"
 							value={formData.email}
 							onChange={handleChange}
@@ -143,7 +143,7 @@ export default function ContactUs() {
 						<input
 							id="phone"
 							type="tel"
-							className="border border-accent-50 p-3 rounded-md focus:outline-none focus:border-accent-500"
+							className="border border-accent-50 p-3 rounded-md focus:outline-hidden focus:border-accent-500"
 							placeholder="+1 (123) 456-7890"
 							value={formData.phone}
 							onChange={handleChange}
@@ -157,7 +157,7 @@ export default function ContactUs() {
 						</label>
 						<textarea
 							id="message"
-							className="border border-accent-50 p-3 rounded-md focus:outline-none focus:border-accent-500"
+							className="border border-accent-50 p-3 rounded-md focus:outline-hidden focus:border-accent-500"
 							rows="4"
 							placeholder="Tell us more about how we can help you..."
 							value={formData.message}

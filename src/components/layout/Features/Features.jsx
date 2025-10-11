@@ -12,7 +12,7 @@ export default function Features() {
 					<div className="flex flex-col items-center text-black gap-10 text-center">
 						<div className="text-center mt-10">
 							<h2 className="font-semibold">Key Features</h2>
-							<p className="text-customText">
+							<p className="text-custom-text">
 								TaskHive offers a comprehensive suite of tools designed to
 								enhance team productivity and project management
 							</p>
@@ -20,7 +20,7 @@ export default function Features() {
 					</div>
 				</div>
 				<div id="features-overview" className="mt-14 mb-20">
-					<div className="grid grid-cols-3 gap-12 px-20">
+					<div className="grid grid-cols-3 gap-12 px-20 h-80">
 						<Card
 							cardIcon={faUserGroup}
 							cardTitle="Team Management"
@@ -44,7 +44,7 @@ export default function Features() {
 						Gain a clear understanding of project progress and team workload
 						with intuitive visualizations.
 					</p>
-					<div className="grid grid-cols-2 h-[30rem] px-20 gap-10">
+					<div className="grid grid-cols-2 h-120 px-20 gap-10">
 						<div className="flex flex-col">
 							<div className="mb-6 shadow-lg shadow-black/40 h-5/6 overflow-hidden bg-[url('/about-us/about-us.webp')] bg-cover bg-center w-full rounded-xl"></div>
 							<h5 className="mb-2">Project dashboards</h5>

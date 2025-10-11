@@ -51,7 +51,7 @@ export default function ChangePassword() {
 					required
 					minLength={6}
 					maxLength={20}
-					className="p-2 text-customText"
+					className="p-2 text-custom-text"
 				/>
 				<button
 					type="submit"
