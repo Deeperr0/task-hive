@@ -1,6 +1,6 @@
 import AddUser from "../../teams/AddUser";
 import Filters from "../../ui/Filters";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Tasks from "../Tasks";
 import PropTypes from "prop-types";
 import { RoleContext, WorkSpaceContext } from "../../../App";
@@ -9,6 +9,7 @@ import { addTask } from "../../../utils/manageTasks";
 import DeleteTeam from "../../teams/DeleteTeam";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import Tab from "../../ui/Tab/Tab";
 export default function Project({ user, userData }) {
   // Stores the current work space of the logged in user
   const { currentWorkSpace, setCurrentWorkSpace } =
@@ -21,6 +22,8 @@ export default function Project({ user, userData }) {
   const { role } = useContext(RoleContext);
   // Filters the tasks based on the priority
   const filteredTasks = useFilterTasks(priorityFilter, currentWorkSpace);
+
+  const [activeTab, setActiveTab] = useState(0);
 
   return (
     <div className="flex flex-col items-start gap-4 pt-4">
@@ -58,6 +61,65 @@ export default function Project({ user, userData }) {
           </button>
         )}
       </div>
+      <div className="flex w-full border-b border-neutral-500/50 [&>div]:cursor-pointer">
+        <Tab
+          tab={0}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabText={"To do"}
+        />
+        <Tab
+          tab={1}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabText={"In Progress"}
+        />
+        <Tab
+          tab={2}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabText={"Stuck"}
+        />
+        <Tab
+          tab={3}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabText={"Done"}
+        />
+      </div>
+      {activeTab == 0 ? (
+        <>
+          <Tasks
+            tasksList={currentWorkSpace.tasks.filter(
+              (task) => task.status === "Not started"
+            )}
+          />
+        </>
+      ) : activeTab == 1 ? (
+        <>
+          <Tasks
+            tasksList={currentWorkSpace.tasks.filter(
+              (task) => task.status === "Working on it"
+            )}
+          />
+        </>
+      ) : activeTab == 2 ? (
+        <>
+          <Tasks
+            tasksList={currentWorkSpace.tasks.filter(
+              (task) => task.status === "Stuck"
+            )}
+          />
+        </>
+      ) : (
+        <>
+          <Tasks
+            tasksList={currentWorkSpace.tasks.filter(
+              (task) => task.status === "Done"
+            )}
+          />
+        </>
+      )}
       {/* Admins can add new tasks and add new Users
       {role === "admin" && (
         <div className="flex gap-4 w-fit">

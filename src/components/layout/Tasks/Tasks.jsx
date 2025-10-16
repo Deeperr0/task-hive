@@ -1,40 +1,63 @@
-import TaskCard from "../../ui/TaskCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 export default function Tasks({ name, tasksList }) {
   return (
-    <div className="bg-secondary-500/30 rounded-2xl overflow-hidden flex flex-col items-center lg:w-1/4">
-      <h3
-        className={
-          name === "Done"
-            ? "text-success text-lg my-2 ml-2"
-            : name === "Stuck"
-            ? "text-danger text-lg my-2 ml-2"
-            : name === "In progress"
-            ? "text-warning text-lg my-2 ml-2"
-            : "text-info text-lg my-2 ml-2"
-        }
-      >
-        {name}
-      </h3>
-      <div className=" border-gray-900 rounded-lg pb-4 text-sm w-full">
-        <div className="">
-          <div>
-            {tasksList?.length != 0 ? (
-              <div className="w-full">
-                {tasksList?.map((task) => (
-                  <TaskCard key={task.taskId} taskObj={task} />
-                ))}
-              </div>
-            ) : (
-              <div className="flex justify-center items-center w-full h-full">
-                No tasks here yet :3
-              </div>
-            )}
-          </div>
+    <>
+      {tasksList.length > 0 ? (
+        <div className="w-full rounded-2xl border border-neutral-500/30 overflow-hidden">
+          <table className="w-full">
+            <tr className="bg-neutral-500/20 [&>th]:py-2">
+              <th>Task</th>
+              <th>Assignee</th>
+              <th>Due Date</th>
+              <th>Priority</th>
+              <th>Notes</th>
+              <th>Actions</th>
+            </tr>
+            {tasksList.map((task) => (
+              <tr className="text-center border border-neutral-500/20">
+                <td>{task.content}</td>
+                <td className="text-neutral-500">{task.owner}</td>
+                <td
+                  className={`text-neutral-500 ${
+                    task.deadline >= Date.now()
+                      ? "text-red-700"
+                      : task.priority === "medium"
+                      ? "text-yellow-700"
+                      : "text-green-700"
+                  }`}
+                >
+                  {task.deadline}
+                </td>
+                <td className="py-4 flex items-center justify-center">
+                  <p
+                    className={`px-4 rounded-full ${
+                      task.priority === "high"
+                        ? "text-red-700 bg-red-200"
+                        : task.priority === "medium"
+                        ? "text-yellow-700 bg-yellow-200"
+                        : "text-green-700 bg-green-200"
+                    }`}
+                  >
+                    {task.priority}
+                  </p>
+                </td>
+                <td className="text-neutral-500">{task.notes || "Notes..."}</td>
+                <td className="text-neutral-500 cursor-pointer">
+                  <FontAwesomeIcon icon={faPenToSquare} />
+                </td>
+              </tr>
+            ))}
+          </table>
         </div>
-      </div>
-    </div>
+      ) : (
+        <>
+          <p>There are no tasks here yet..</p>
+        </>
+      )}
+    </>
   );
 }
 

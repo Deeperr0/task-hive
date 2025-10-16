@@ -30,6 +30,7 @@ import { toggleMenu } from "./utils/signals/toggleMenu";
 import { useSignals } from "@preact/signals-react/runtime";
 import { getLatestUpdated } from "./utils/getLatestUpdated";
 import fetchTeamsByIds from "./utils/fetchTeamsByIds";
+import NotFound from "./components/layout/NotFound";
 
 function App() {
   useSignals();
@@ -204,6 +205,14 @@ function App() {
                         <Suspense fallback={<Loader />}>
                           <Navbar user={user} toggleMenu={toggleMenu} />
                           <LazyLogin setUser={setUser} />
+                        </Suspense>
+                      }
+                    />
+                    <Route
+                      path="/*"
+                      element={
+                        <Suspense fallback={<Loader />}>
+                          <NotFound />
                         </Suspense>
                       }
                     />
