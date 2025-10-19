@@ -31,6 +31,7 @@ import { useSignals } from "@preact/signals-react/runtime";
 import { getLatestUpdated } from "./utils/getLatestUpdated";
 import fetchTeamsByIds from "./utils/fetchTeamsByIds";
 import NotFound from "./components/layout/NotFound";
+import TaskDetail from "./components/layout/TaskDetail";
 
 function App() {
   useSignals();
@@ -68,6 +69,8 @@ function App() {
 
   // Stores the role of the logged in user
   const [role, setRole] = useState(null);
+
+  const [currentTab, setCurrentTab] = useState("home");
 
   useEffect(() => {
     async function getUsersList() {
@@ -156,6 +159,8 @@ function App() {
                       path="/"
                       element={
                         <Home
+                          currentTab={currentTab}
+                          setCurrentTab={setCurrentTab}
                           user={user}
                           userData={userData}
                           toggleMenu={toggleMenu}
@@ -214,6 +219,20 @@ function App() {
                         <Suspense fallback={<Loader />}>
                           <NotFound />
                         </Suspense>
+                      }
+                    />
+                    <Route
+                      path="/tasks/:taskId"
+                      element={
+                        <>
+                          <TaskDetail
+                            currentTab={currentTab}
+                            setCurrentTab={setCurrentTab}
+                            user={user}
+                            userData={userData}
+                            toggleMenu={toggleMenu}
+                          />
+                        </>
                       }
                     />
                   </Routes>

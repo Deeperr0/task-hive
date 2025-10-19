@@ -1,11 +1,7 @@
-import { faCalendarCheck } from "@fortawesome/free-regular-svg-icons";
 import {
   faAngleDown,
   faAngleUp,
-  faCaretDown,
-  faCaretRight,
   faChartLine,
-  faEllipsis,
   faGear,
   faHome,
   faListCheck,
@@ -15,7 +11,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import filterIcon from "../../../Filter-outline.svg";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserDataContext, WorkSpaceContext } from "../../../App";
@@ -33,7 +28,6 @@ async function getTeam(teamId) {
 
 export default function SideMenu({ teams, currentTab, setCurrentTab }) {
   const [toggleAddTeam, setToggleAddTeam] = useState(false);
-  const [expandWorkSpace, setExpandWorkSpace] = useState(false);
   const { currentWorkSpace, setCurrentWorkSpace } =
     useContext(WorkSpaceContext);
   const [teamsList, setTeamsList] = useState({});

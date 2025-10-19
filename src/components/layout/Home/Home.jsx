@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faClose } from "@fortawesome/free-solid-svg-icons";
-import { lazy, useState } from "react";
+import { lazy } from "react";
 import { useSignals } from "@preact/signals-react/runtime";
 import Features from "../Features";
 const LazyProject = lazy(() => import("../Project"));
@@ -9,9 +9,14 @@ const LazySideMenu = lazy(() => import("../../ui/SideMenu"));
 import Footer from "../../ui/Footer";
 import Navbar from "../Navbar";
 
-export default function Home({ user, userData, toggleMenu }) {
+export default function Home({
+  currentTab,
+  setCurrentTab,
+  user,
+  userData,
+  toggleMenu,
+}) {
   useSignals();
-  const [currentTab, setCurrentTab] = useState("home");
   return (
     <div className="h-full">
       {!user ? (

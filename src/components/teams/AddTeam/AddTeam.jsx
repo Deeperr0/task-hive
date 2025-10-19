@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Overlay from "../../ui/Overlay";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import {
   CurrentUserContext,
@@ -80,23 +80,43 @@ export default function AddTeam({ setToggleAddTeam }) {
   }
   return (
     <Overlay>
-      <div className="flex flex-col items-start gap-2">
-        <button onClick={() => setToggleAddTeam(false)} className=" text-left">
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </button>
-        <div className="flex gap-2 h-10 items-center">
-          <input
-            type="text"
-            placeholder="Team Name"
-            onChange={(e) => setLocalTeamName(e.target.value)}
-            className="w-7/12 text-black pl-2 h-full"
-          />
+      <div className="flex flex-col items-start gap-2 py-4 w-full">
+        <div className="flex justify-between w-full border-b border-neutral-500/30 py-4 px-8">
+          <h6 className="font-semibold">Create a new team</h6>
           <button
-            onClick={handleAddTeam}
-            className="bg-accent-500 hover:bg-accent-600 transition-all duration-300 rounded-md px-4 py-2"
+            onClick={() => setToggleAddTeam(false)}
+            className="text-neutral-500 text-xl font-thin"
           >
-            Add Team
+            <FontAwesomeIcon icon={faClose} />
           </button>
+        </div>
+        <div className="flex flex-col gap-2 px-8 w-full">
+          <div className="flex flex-col gap-2 py-8">
+            <label htmlFor="team-name" className="w-full font-semibold">
+              Team Name
+            </label>
+            <input
+              type="text"
+              id="team-name"
+              placeholder="e.g. Marketing Q4 Campaign"
+              onChange={(e) => setLocalTeamName(e.target.value)}
+              className="text-black p-2 border outline-none rounded-md placeholder:text-neutral-500/30 border-neutral-500/30"
+            />
+          </div>
+          <div className="w-1/2 self-end flex justify-between">
+            <button
+              onClick={() => setToggleAddTeam(false)}
+              className="bg-neutral-500/20 hover:bg-neutral-500/30 px-4 rounded-md transition-all duration-300"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleAddTeam}
+              className="bg-accent-500 hover:bg-accent-600 transition-all duration-300 rounded-md px-4 py-2 text-white"
+            >
+              Add Team
+            </button>
+          </div>
         </div>
       </div>
     </Overlay>

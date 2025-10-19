@@ -1,8 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 export default function Tasks({ name, tasksList }) {
+  const navigate = useNavigate();
+
   return (
     <>
       {tasksList.length > 0 ? (
@@ -17,7 +20,10 @@ export default function Tasks({ name, tasksList }) {
               <th>Actions</th>
             </tr>
             {tasksList.map((task) => (
-              <tr className="text-center border border-neutral-500/20">
+              <tr
+                className="text-center border border-neutral-500/20 cursor-pointer"
+                onClick={() => navigate(`/tasks/${task.taskId}`)}
+              >
                 <td>{task.content}</td>
                 <td className="text-neutral-500">{task.owner}</td>
                 <td
