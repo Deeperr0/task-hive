@@ -78,7 +78,7 @@ export default function TaskDetail({
             setCurrentTab={setCurrentTab}
           />
         </div>
-        <div className="py-20 px-10">
+        <div className="py-20 px-10 w-full">
           <div className="flex gap-5">
             <div
               className="text-black text-2xl pt-4 cursor-pointer"
@@ -96,14 +96,11 @@ export default function TaskDetail({
               </p>
             </div>
           </div>
-          <div className="flex gap-10 pt-10">
-            <div className="bg-white rounded-xl shadow-xs px-10 py-5 flex flex-col max-w-8/12 shrink-0 h-fit">
+          <div className="flex gap-10 pt-10 w-full">
+            <div className="bg-white rounded-xl shadow-xs px-10 py-5 flex flex-col min-w-8/12 shrink-0 h-fit">
               <h5 className="text-black font-semibold">Description</h5>
               <p className="text-neutral-500 border-b-2 border-neutral-300/20 py-4">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptatibus maiores voluptatem magnam harum iusto eum aut
-                labore illum quos, doloremque quo consequatur asperiores
-                inventore, ducimus blanditiis natus sit quaerat fuga.
+                {currentTask.notes}
               </p>
               <div className="flex text-black [&_h6]:text-neutral-350 [&_h6]:text-sm! [&_h6]:mb-1 justify-between [&>div]:flex [&>div]:flex-col [&>div]:gap-4 pt-8">
                 <div>

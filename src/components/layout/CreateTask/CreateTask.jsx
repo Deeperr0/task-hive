@@ -18,7 +18,7 @@ export default function CreateTask({ user }) {
   const { currentWorkSpace, setCurrentWorkSpace } =
     useContext(WorkSpaceContext);
   const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
+  const [notes, setNotes] = useState("");
   const [assignees, setAssignees] = useState([]);
   const [dueDate, setDueDate] = useState(new Date(2023, 9, 5)); // Oct 5, 2023
   const [priority, setPriority] = useState("Medium");
@@ -55,7 +55,7 @@ export default function CreateTask({ user }) {
     const payload = {
       taskId: `task-${Date.now()}`,
       content: title,
-      description: desc,
+      notes,
       owner,
       ownerUid,
       deadline: dueDate ? Timestamp.fromDate(dueDate) : null,
@@ -158,14 +158,14 @@ export default function CreateTask({ user }) {
           />
 
           <label className="text-sm font-semibold text-neutral-600 mt-2">
-            Description
+            Notes
           </label>
           <textarea
             rows={7}
             className="w-full min-h-[140px] rounded-xl border border-neutral-200 bg-white px-4 py-3 focus:outline-none "
             placeholder="Add a detailed description"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
           />
 
           <label className="text-sm font-semibold text-neutral-600 mt-2">
