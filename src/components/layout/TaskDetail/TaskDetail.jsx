@@ -3,6 +3,8 @@ import { lazy, useContext, useEffect, useMemo } from "react";
 import { WorkSpaceContext } from "../../../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { fmtDate } from "../Tasks/Tasks";
+import { Timestamp } from "firebase/firestore";
 const LazySideMenu = lazy(() => import("../../ui/SideMenu"));
 
 export default function TaskDetail({
@@ -19,10 +21,32 @@ export default function TaskDetail({
     return currentWorkSpace?.tasks?.find((task) => task.taskId == taskId);
   }, [currentWorkSpace?.tasks, taskId]);
 
-  function timeAgo(dateString) {
-    const timestamp = new Date(dateString).getTime();
+  /**
+   * Converts any supported timestamp format to milliseconds since epoch.
+   */
+  function toMillis(val) {
+    if (!val) return null;
+    if (val instanceof Date) return val.getTime();
+    if (val instanceof Timestamp) return val.toMillis();
+    if (typeof val.toDate === "function") return val.toDate().getTime();
+    if (typeof val === "number") return val; // already ms
+    if (typeof val === "string") return new Date(val).getTime();
+    if (typeof val.seconds === "number") {
+      return val.seconds * 1000 + Math.floor((val.nanoseconds ?? 0) / 1e6);
+    }
+    return null;
+  }
+
+  /**
+   * Returns a human-readable "time ago" string for Firestore Timestamps,
+   * Date objects, ISO strings, or numeric epoch times.
+   */
+  function timeAgo(timestamp) {
+    const ms = toMillis(timestamp);
+    if (!ms) return "—";
+
     const now = Date.now();
-    const diffMs = now - timestamp;
+    const diffMs = now - ms;
 
     const seconds = Math.floor(diffMs / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -33,11 +57,11 @@ export default function TaskDetail({
     const years = Math.floor(days / 365);
 
     if (seconds < 5) return "Just now";
-    if (seconds < 60) return `${seconds} seconds ago`;
+    if (seconds < 60) return `${seconds} second${seconds === 1 ? "" : "s"} ago`;
     if (minutes < 60) return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
     if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
     if (days === 1) return "Yesterday";
-    if (days < 7) return `${days} days ago`;
+    if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
     if (weeks < 5) return `${weeks} week${weeks === 1 ? "" : "s"} ago`;
     if (months < 12) return `${months} month${months === 1 ? "" : "s"} ago`;
     return `${years} year${years === 1 ? "" : "s"} ago`;
@@ -100,9 +124,9 @@ export default function TaskDetail({
                     <h6>Priority</h6>
                     <p
                       className={`px-4 rounded-full text-center w-fit ${
-                        currentTask.priority === "high"
+                        currentTask.priority == "High"
                           ? "text-red-700 bg-red-200"
-                          : currentTask.priority === "medium"
+                          : currentTask.priority == "Medium"
                           ? "text-yellow-700 bg-yellow-200"
                           : "text-green-700 bg-green-200"
                       }`}
@@ -114,7 +138,7 @@ export default function TaskDetail({
                 <div>
                   <div>
                     <h6>Due Date</h6>
-                    <p>{currentTask.deadline}</p>
+                    <p>{fmtDate(currentTask.deadline)}</p>
                   </div>
                   <div>
                     <h6>Status</h6>
@@ -151,7 +175,7 @@ export default function TaskDetail({
                     task.
                   </p>
                   <p className="text-sm text-neutral-400">
-                    {timeAgo(currentTask.lastUpdated)}
+                    {timeAgo(currentTask.updatedAt)}
                   </p>
                 </div>
               </div>

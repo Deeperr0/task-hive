@@ -169,7 +169,7 @@ export default function Project({ teams, user, userData }) {
 				<>
 					<Tasks
 						tasksList={currentWorkSpace.tasks.filter(
-							(task) => task.status === "Not started"
+							(task) => task.status === "To Do"
 						)}
 					/>
 				</>
@@ -177,7 +177,7 @@ export default function Project({ teams, user, userData }) {
 				<>
 					<Tasks
 						tasksList={currentWorkSpace.tasks.filter(
-							(task) => task.status === "Working on it"
+							(task) => task.status === "In Progress"
 						)}
 					/>
 				</>
