@@ -4,13 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { doc, serverTimestamp, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 
-const ASSIGNEE_OPTIONS = [
-  "Alex Johnson",
-  "Maria Garcia",
-  "Chen Wei",
-  "Fatima Al-Fassi",
-];
-
 const STATUS_OPTIONS = ["To Do", "In Progress", "Stuck", "Done"];
 
 export default function CreateTask({ user }) {
@@ -61,7 +54,6 @@ export default function CreateTask({ user }) {
       deadline: dueDate ? Timestamp.fromDate(dueDate) : null,
       priority,
       status,
-      notes: "",
       attachments: files.map((f) => f.name), // consistent naming
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),

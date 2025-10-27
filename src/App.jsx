@@ -23,7 +23,6 @@ const LazyChangePassword = React.lazy(() =>
 const LazyFeatures = React.lazy(() =>
 	import("./components/layout/Features/Features")
 );
-const LazyAboutUs = React.lazy(() => import("./components/layout/AboutUs"));
 const LazyContactUs = React.lazy(() => import("./components/layout/ContactUs"));
 const LazyPricing = React.lazy(() => import("./components/layout/Pricing"));
 import { toggleMenu } from "./utils/signals/toggleMenu";
@@ -174,15 +173,6 @@ function App() {
 												<Suspense fallback={<Loader />}>
 													<Navbar user={user} toggleMenu={toggleMenu} />
 													<LazyPricing />
-												</Suspense>
-											}
-										/>
-										<Route
-											path="/about-us"
-											element={
-												<Suspense fallback={<Loader />}>
-													<Navbar user={user} toggleMenu={toggleMenu} />
-													<LazyAboutUs />
 												</Suspense>
 											}
 										/>

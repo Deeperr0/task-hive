@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import Card from "../../ui/Card";
 import { faListUl, faUserGroup } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 export default function Features() {

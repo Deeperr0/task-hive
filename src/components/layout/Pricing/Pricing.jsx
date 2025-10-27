@@ -3,15 +3,15 @@ import PricingCard from "../../ui/PricingCard";
 import Footer from "../../ui/Footer";
 export default function Pricing() {
   const [pricingType, setPricingType] = useState(0); // 0 for monthly, 1 for annually
-  const pricesYearly = [199.99, 249.99, 399.99];
-  const pricesMonthly = [19.99, 24.99, 39.99];
+  const pricesYearly = [90.00, 180.00];
+  const pricesMonthly = [9.99, 15.99];
   return (
     <div>
       <div className="flex flex-col items-center my-16 pb-10">
         <h2 className="text-3xl md:text-4xl lg:text-5xl text-black text-center">
           Flexible Plans for Every Team
         </h2>
-        <p className="text-base  text-center mt-4">
+        <p className="text-lg text-neutral-500 text-center mt-4">
           {`This is just a placeholder for the pricing page. These prices are purely fictional`}
         </p>
         <div className="text-accent-50 flex gap-4 items-center mt-4 bg-accent-900 p-1 rounded-xl relative">
@@ -59,7 +59,7 @@ export default function Pricing() {
           />
           <PricingCard
             packageName={"Professional"}
-            price={pricingType == 0 ? pricesMonthly[1] : pricesYearly[1]}
+            price={pricingType == 0 ? pricesMonthly[0] : pricesYearly[0]}
             features={[
               "Advanced Task Management",
               "Multiple Project Workspaces",
@@ -73,7 +73,7 @@ export default function Pricing() {
           />
           <PricingCard
             packageName={"Master"}
-            price={pricingType == 0 ? pricesMonthly[2] : pricesYearly[2]}
+            price={pricingType == 0 ? pricesMonthly[1] : pricesYearly[1]}
             features={[
               "Custom Workspaces",
               "Unlimited Users & Projects",
