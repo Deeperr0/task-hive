@@ -3,8 +3,8 @@ import { lazy, useContext, useEffect, useMemo } from "react";
 import { WorkSpaceContext } from "../../../App";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { fmtDate } from "../Tasks/Tasks";
 import { Timestamp } from "firebase/firestore";
+import { fmtDate } from "../../../utils/manageDates";
 const LazySideMenu = lazy(() => import("../../ui/SideMenu"));
 
 export default function TaskDetail({

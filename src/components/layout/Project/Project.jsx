@@ -13,41 +13,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Tab from "../../ui/Tab/Tab";
 import { useNavigate } from "react-router-dom";
-export default function Project({ teams, user, userData }) {
+export default function Project({ teamsList, user, userData, setTeamsList }) {
 	const navigate = useNavigate();
-	const [teamsList, setTeamsList] = useState({});
-	async function getTeam(teamId) {
-		const teamDocRef = doc(db, "teams", teamId);
-		const teamDoc = await getDoc(teamDocRef);
-		const data = teamDoc?.data();
-		return data ? { ...data, teamId } : null;
-	}
+
 
 	// Stores the current work space of the logged in user
 	const { currentWorkSpace, setCurrentWorkSpace } =
 		useContext(WorkSpaceContext);
 
-	useEffect(() => {
-		async function fetchTeams() {
-			if (!teams) return;
 
-			const entries = await Promise.all(
-				Object.keys(teams).map(async (teamId) => {
-					const teamData = await getTeam(teamId);
-					return [teamId, teamData];
-				})
-			);
-
-			const mapObj = entries.reduce((acc, [id, data]) => {
-				if (data) acc[id] = data;
-				return acc;
-			}, {});
-
-			setTeamsList(mapObj);
-		}
-
-		fetchTeams();
-	}, [teams]);
 
 	const selectRef = useRef(null);
 
@@ -125,8 +99,8 @@ export default function Project({ teams, user, userData }) {
 									await handleTeamChange(e);
 								}}
 								onClick={(e) => e.stopPropagation()}>
-								{teams &&
-									Object.keys(teams).map((teamId) => (
+								{teamsList &&
+									Object.keys(teamsList).map((teamId) => (
 										<option
 											key={teamId}
 											value={teamId}
