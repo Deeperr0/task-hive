@@ -11,7 +11,6 @@ import Navbar from "./components/layout/Navbar";
 export const WorkSpaceContext = createContext({});
 export const CurrentUserContext = createContext({});
 export const UserDataContext = createContext({});
-export const RoleContext = createContext("");
 const LazyLogin = React.lazy(() => import("./features/auth/Login"));
 const LazyRegister = React.lazy(() => import("./features/auth/Register"));
 const LazyResetPassword = React.lazy(() =>
@@ -20,14 +19,11 @@ const LazyResetPassword = React.lazy(() =>
 const LazyChangePassword = React.lazy(() =>
 	import("./features/auth/ChangePassword")
 );
-const LazyFeatures = React.lazy(() =>
-	import("./components/layout/Features/Features")
-);
 const LazyContactUs = React.lazy(() => import("./components/layout/ContactUs"));
 const LazyPricing = React.lazy(() => import("./components/layout/Pricing"));
 import { toggleMenu } from "./utils/signals/toggleMenu";
 import { useSignals } from "@preact/signals-react/runtime";
-import { getLatestUpdated } from "./utils/getLatestUpdated";
+import { getLatestAccessed } from "./utils/getLatestAccessed";
 import fetchTeamsByIds from "./utils/fetchTeamsByIds";
 import NotFound from "./components/layout/NotFound";
 import TaskDetail from "./components/layout/TaskDetail";
@@ -65,23 +61,12 @@ function App() {
 		}
 	]
 	 */
-	// Fetches the list of users
-	const [usersList, setUsersList] = useState([]);
-
-	// Stores the role of the logged in user
-	const [role, setRole] = useState(null);
 
 	const [currentTab, setCurrentTab] = useState("home");
 
 	useEffect(() => {
-		async function getUsersList() {
-			const querySnapshot = await getDocs(collection(db, "users"));
-			const users = querySnapshot.docs.map((doc) => doc.data());
-			setUsersList(users);
-		}
-		getUsersList();
 		// Check if user is authenticated
-		const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+		const subscribe = onAuthStateChanged(auth, async (currentUser) => {
 			// If user is authenticated, fetch user data
 			if (currentUser) {
 				const userDocRef = doc(db, "users", currentUser.uid);
@@ -92,10 +77,9 @@ function App() {
 
 					// Fetch only the teams for the current user
 					const teams = await fetchTeamsByIds(teamIds);
-					// TODO Make it show the last accessed team not the last updated
-					const lastUpdatedTeamId = getLatestUpdated(teams);
-					if (lastUpdatedTeamId) {
-						const teamDocRef = doc(db, "teams", lastUpdatedTeamId);
+					const lastAccessedTeamId = getLatestAccessed(teams);
+					if (lastAccessedTeamId) {
+						const teamDocRef = doc(db, "teams", lastAccessedTeamId);
 						const teamDoc = await getDoc(teamDocRef);
 						if (teamDoc.exists()) {
 							setCurrentWorkSpace(teamDoc.data());
@@ -103,7 +87,6 @@ function App() {
 						}
 					}
 					setUserData(data);
-					setRole(data.teams[lastUpdatedTeamId].role);
 				} else {
 					setUserData(null);
 				}
@@ -114,148 +97,142 @@ function App() {
 			setLoading(false);
 		});
 
-		return () => unsubscribe();
+		return () => subscribe();
 	}, []);
 
 	if (loading) {
 		return <Loader />;
 	}
 	return (
-		<RoleContext.Provider value={{ role, setRole }}>
-			<UserDataContext.Provider value={{ userData, setUserData }}>
-				<CurrentUserContext.Provider value={{ user, userData }}>
-					<WorkSpaceContext.Provider
-						value={{
-							currentWorkSpace,
-							setCurrentWorkSpace,
-						}}>
-						<ErrorBoundary>
-							<Router>
-								<div className="w-full bg-opacity-10 h-full">
-									<Routes>
-										<Route
-											path="/register"
-											element={
-												<Suspense fallback={<Loader />}>
-													<Navbar user={user} toggleMenu={toggleMenu} />
-													<LazyRegister
-														user={user}
-														setUser={setUser}
-														usersList={usersList}
-													/>
-												</Suspense>
-											}
-										/>
-										<Route
-											path="/reset-password"
-											element={
-												<Suspense fallback={<Loader />}>
-													<Navbar user={user} toggleMenu={toggleMenu} />
-													<LazyResetPassword />
-												</Suspense>
-											}
-										/>
-										<Route
-											path="/"
-											element={
-												<Home
+		<UserDataContext.Provider value={{ userData, setUserData }}>
+			<CurrentUserContext.Provider value={{ user, userData }}>
+				<WorkSpaceContext.Provider
+					value={{
+						currentWorkSpace,
+						setCurrentWorkSpace,
+					}}>
+					<ErrorBoundary>
+						<Router>
+							<div className="w-full bg-opacity-10 h-full">
+								<Routes>
+									<Route
+										path="/register"
+										element={
+											<Suspense fallback={<Loader />}>
+												<Navbar user={user} toggleMenu={toggleMenu} />
+												<LazyRegister user={user} setUser={setUser} />
+											</Suspense>
+										}
+									/>
+									<Route
+										path="/reset-password"
+										element={
+											<Suspense fallback={<Loader />}>
+												<Navbar user={user} toggleMenu={toggleMenu} />
+												<LazyResetPassword />
+											</Suspense>
+										}
+									/>
+									<Route
+										path="/"
+										element={
+											<Home
+												currentTab={currentTab}
+												setCurrentTab={setCurrentTab}
+												user={user}
+												userData={userData}
+												toggleMenu={toggleMenu}
+											/>
+										}
+									/>
+									<Route
+										path="/pricing"
+										element={
+											<Suspense fallback={<Loader />}>
+												<Navbar user={user} toggleMenu={toggleMenu} />
+												<LazyPricing />
+											</Suspense>
+										}
+									/>
+									<Route
+										path="/contact"
+										element={
+											<Suspense fallback={<Loader />}>
+												<Navbar user={user} toggleMenu={toggleMenu} />
+												<LazyContactUs />
+											</Suspense>
+										}
+									/>
+									<Route
+										path="/change-password"
+										element={
+											<Suspense fallback={<Loader />}>
+												<Navbar user={user} toggleMenu={toggleMenu} />
+												<LazyChangePassword />
+											</Suspense>
+										}
+									/>
+
+									<Route
+										path="/login"
+										element={
+											<Suspense fallback={<Loader />}>
+												<Navbar user={user} toggleMenu={toggleMenu} />
+												<LazyLogin setUser={setUser} />
+											</Suspense>
+										}
+									/>
+									<Route
+										path="/*"
+										element={
+											<Suspense fallback={<Loader />}>
+												<NotFound />
+											</Suspense>
+										}
+									/>
+									<Route
+										path="/tasks/:taskId"
+										element={
+											<>
+												<TaskDetail
 													currentTab={currentTab}
 													setCurrentTab={setCurrentTab}
 													user={user}
 													userData={userData}
 													toggleMenu={toggleMenu}
 												/>
-											}
-										/>
-										<Route
-											path="/pricing"
-											element={
-												<Suspense fallback={<Loader />}>
-													<Navbar user={user} toggleMenu={toggleMenu} />
-													<LazyPricing />
-												</Suspense>
-											}
-										/>
-										<Route
-											path="/contact"
-											element={
-												<Suspense fallback={<Loader />}>
-													<Navbar user={user} toggleMenu={toggleMenu} />
-													<LazyContactUs />
-												</Suspense>
-											}
-										/>
-										<Route
-											path="/change-password"
-											element={
-												<Suspense fallback={<Loader />}>
-													<Navbar user={user} toggleMenu={toggleMenu} />
-													<LazyChangePassword />
-												</Suspense>
-											}
-										/>
-
-										<Route
-											path="/login"
-											element={
-												<Suspense fallback={<Loader />}>
-													<Navbar user={user} toggleMenu={toggleMenu} />
-													<LazyLogin setUser={setUser} />
-												</Suspense>
-											}
-										/>
-										<Route
-											path="/*"
-											element={
-												<Suspense fallback={<Loader />}>
-													<NotFound />
-												</Suspense>
-											}
-										/>
-										<Route
-											path="/tasks/:taskId"
-											element={
-												<>
-													<TaskDetail
-														currentTab={currentTab}
-														setCurrentTab={setCurrentTab}
-														user={user}
-														userData={userData}
-														toggleMenu={toggleMenu}
-													/>
-												</>
-											}
-										/>
-										<Route
-											path="/add-task"
-											element={
-												<>
-													<CreateTask user={user} />
-												</>
-											}
-										/>
-										<Route
-											path="/tasks/edit-task/:taskId"
-											element={
-												<>
-													<EditTask
-														currentTab={currentTab}
-														setCurrentTab={setCurrentTab}
-														user={user}
-														userData={userData}
-														toggleMenu={toggleMenu}
-													/>
-												</>
-											}
-										/>
-									</Routes>
-								</div>
-							</Router>
-						</ErrorBoundary>
-					</WorkSpaceContext.Provider>
-				</CurrentUserContext.Provider>
-			</UserDataContext.Provider>
-		</RoleContext.Provider>
+											</>
+										}
+									/>
+									<Route
+										path="/add-task"
+										element={
+											<>
+												<CreateTask user={user} />
+											</>
+										}
+									/>
+									<Route
+										path="/tasks/edit-task/:taskId"
+										element={
+											<>
+												<EditTask
+													currentTab={currentTab}
+													setCurrentTab={setCurrentTab}
+													user={user}
+													userData={userData}
+													toggleMenu={toggleMenu}
+												/>
+											</>
+										}
+									/>
+								</Routes>
+							</div>
+						</Router>
+					</ErrorBoundary>
+				</WorkSpaceContext.Provider>
+			</CurrentUserContext.Provider>
+		</UserDataContext.Provider>
 	);
 }
 

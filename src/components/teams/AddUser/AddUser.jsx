@@ -32,20 +32,21 @@ function sendEmail(email, invitationCode) {
 	);
 }
 
-// TODO Make it not possible to add a user if the user was already added
 export default function AddUser({ setToggleAddUser, user, currentWorkSpace }) {
 	const [chosenRole, setChosenRole] = useState("admin");
 	const [userToAdd, setUserToAdd] = useState("");
 	async function addUser(chosenRole) {
 		const errorDiv = document.getElementById("add-error");
-		if (
-			currentWorkSpace.teamMembers.filter((member) => {
-				member.email === userToAdd;
-			}).length > 0
-		) {
-			errorDiv.innerText = "User already exists";
+		if (userToAdd === "") {
+			errorDiv.innerText = "Please enter an email";
 			return;
 		}
+		currentWorkSpace.teamMembers.map((member) => {
+			if (member.email === userToAdd) {
+				errorDiv.innerText = "User already exists";
+				return;
+			}
+		});
 		const teamDocRef = doc(db, "teams", currentWorkSpace.teamId);
 		const q = query(collection(db, "users"), where("email", "==", userToAdd));
 		const querySnapshot = await getDocs(q);

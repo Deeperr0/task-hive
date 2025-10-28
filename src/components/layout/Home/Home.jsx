@@ -8,8 +8,6 @@ const LazyProject = lazy(() => import("../Project"));
 const LazySideMenu = lazy(() => import("../../ui/SideMenu"));
 import Footer from "../../ui/Footer";
 import Navbar from "../Navbar";
-import { signOut } from "firebase/auth";
-import { auth } from "../../../firebase";
 import AddTeam from "../../teams/AddTeam";
 
 export default function Home({
@@ -22,13 +20,6 @@ export default function Home({
 	useSignals();
 	const [toggleAddTeam, setToggleAddTeam] = useState(false);
 
-	async function handleLogout() {
-		try {
-			await signOut(auth);
-		} catch (error) {
-			console.error("Error logging out:", error);
-		}
-	}
 	return (
 		<div className="h-full">
 			{!user ? (

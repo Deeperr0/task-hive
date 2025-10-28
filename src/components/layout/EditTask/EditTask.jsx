@@ -113,7 +113,6 @@ export default function EditTask({
           setCurrentTab={setCurrentTab}
         />
       </div>
-
       <div className="w-full rounded-xl bg-white py-10">
         {/* Header */}
         <div className="border-b-2 border-neutral-300/30 px-6 py-4">

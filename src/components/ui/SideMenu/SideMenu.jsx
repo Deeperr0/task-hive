@@ -1,6 +1,4 @@
 import {
-	faAngleDown,
-	faAngleUp,
 	faArrowRightFromBracket,
 	faChartLine,
 	faGear,
@@ -8,14 +6,12 @@ import {
 	faListCheck,
 	faPeopleGroup,
 	faPlus,
-	faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserDataContext, WorkSpaceContext } from "../../../App";
-import AddTeam from "../../teams/AddTeam";
 
 import SideMenuTab from "../SideMenuTab";
 import { signOut } from "firebase/auth";
@@ -27,10 +23,6 @@ export default function SideMenu({
 	currentTab,
 	setCurrentTab,
 }) {
-	const { currentWorkSpace, setCurrentWorkSpace } =
-		useContext(WorkSpaceContext);
-	const { userData } = useContext(UserDataContext);
-
 	const navigate = useNavigate();
 	async function handleLogout() {
 		try {
